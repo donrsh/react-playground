@@ -1,0 +1,13 @@
+{
+  "javascript.validate.enable": false,
+  "path-autocomplete.pathMappings": {
+    "actions": "${workspace}/src/actions",
+    "reducers": "${workspace}/src/reducers",
+    "reduxStates": "${workspace}/src/reduxStates",
+    "helpers": "${workspace}/src/helpers",
+    "constants": "${workspace}/src/constants",
+    "components": "${workspace}/src/components",
+    "routeComponents": "${workspace}/src/routeComponents",
+  },
+  "standard.enable": false
+}
