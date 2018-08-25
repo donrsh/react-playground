@@ -22,7 +22,10 @@ export function observe(o) {
 
   observer = o;
 
-  const unobserve = () => { observer = null }
+  const unobserve = () => { 
+    observer = null 
+    initKnightPosition.called = false
+  }
   return unobserve
 }
 
