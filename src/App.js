@@ -8,12 +8,18 @@ import 'normalize.css'
 import { Tabs, Tab } from '@material-ui/core'
 
 import DownShiftExamples from './routeComponents/DownShiftExamples'
+import DnDExamples from './routeComponents/DnDExamples'
 
 const paths = {
   downshiftExamples: {
     name: 'downshiftExamples',
     displayText: 'downshift examples',
     path: '/downshift-examples'
+  },
+  DnDExamples: {
+    name: 'DnDExamples',
+    displayText: 'DnD examples',
+    path: '/dnd-examples'
   }
 }
 
@@ -68,6 +74,10 @@ class App extends Component {
 
           <Route path={paths.downshiftExamples.path}
             component={DownShiftExamples}
+          />
+
+          <Route path={paths.DnDExamples.path}
+            component={DnDExamples}
           />
         </div>
       </BrowserRouter>
