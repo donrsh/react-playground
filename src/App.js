@@ -9,6 +9,7 @@ import { Tabs, Tab } from '@material-ui/core'
 
 import DownShiftExamples from './routeComponents/DownShiftExamples'
 import DnDExamples from './routeComponents/DnDExamples'
+import FinalFormByConfig from './routeComponents/FinalFormByConfig'
 
 const paths = {
   downshiftExamples: {
@@ -20,6 +21,11 @@ const paths = {
     name: 'DnDExamples',
     displayText: 'DnD examples',
     path: '/dnd-examples'
+  },
+  FinalFormByConfigs: {
+    name: 'FinalFormByConfigs',
+    displayText: 'Final Form By Configs',
+    path: '/final-form-by-configs'
   }
 }
 
@@ -78,6 +84,10 @@ class App extends Component {
 
           <Route path={paths.DnDExamples.path}
             component={DnDExamples}
+          />
+
+          <Route path={paths.FinalFormByConfigs.path}
+            component={FinalFormByConfig}
           />
         </div>
       </BrowserRouter>
