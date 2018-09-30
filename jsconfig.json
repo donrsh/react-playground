@@ -1,0 +1,13 @@
+{
+  "exclude": [
+    "node_modules",
+    "build"
+  ],
+    "include": [
+      "src"
+    ],
+      "compilerOptions": {
+    "baseUrl": "src",
+      "allowSyntheticDefaultImports": true
+  }
+}
