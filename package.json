@@ -7,6 +7,7 @@
     "@material-ui/icons": "^3.0.1",
     "downshift": "^2.0.16",
     "final-form": "^4.10.0",
+    "invariant": "^2.2.4",
     "normalize.css": "^8.0.0",
     "polished": "^1.9.3",
     "prop-types": "^15.6.2",
