@@ -3,11 +3,11 @@
     "node_modules",
     "build"
   ],
-    "include": [
-      "src"
-    ],
-      "compilerOptions": {
+  "include": [
+    "src"
+  ],
+  "compilerOptions": {
     "baseUrl": "src",
-      "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true
   }
 }
