@@ -17,6 +17,7 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.0.17",
+    "recompose": "^0.30.0",
     "reduce-reducers": "^0.1.2",
     "redux": "^3.7.2",
     "redux-actions": "^2.2.1",
