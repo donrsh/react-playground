@@ -5414,6 +5414,10 @@ rafl@~1.2.1:
   dependencies:
     global "~4.3.0"
 
+ramda-adjunct@^2.10.0:
+  version "2.10.0"
+  resolved "https://registry.yarnpkg.com/ramda-adjunct/-/ramda-adjunct-2.10.0.tgz#94fbb3377a6ef01e6be869a0c2c236ba66393708"
+
 ramda@^0.25.0:
   version "0.25.0"
   resolved "https://registry.yarnpkg.com/ramda/-/ramda-0.25.0.tgz#8fdf68231cffa90bc2f9460390a0cb74a29b29a9"

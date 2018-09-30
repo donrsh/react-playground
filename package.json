@@ -10,6 +10,7 @@
     "polished": "^1.9.3",
     "prop-types": "^15.6.2",
     "ramda": "^0.25.0",
+    "ramda-adjunct": "^2.10.0",
     "react": "^16.2.0",
     "react-dnd": "^5.0.0",
     "react-dnd-html5-backend": "^5.0.1",
