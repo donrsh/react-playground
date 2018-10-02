@@ -65,6 +65,20 @@ const lastNameField = {
   }
 }
 
+const passwordField = {
+  form: formConfig.name,
+  name: 'pasoword',
+  type: 'password',
+  label: 'Password',
+  MUIProps: {
+    TextField: {
+      placeholder: 'password',
+      ...fieldMUIProps
+    },
+    
+  }
+}
+
 const employedField = {
   form: formConfig.name,
   name: 'employed',
@@ -297,6 +311,7 @@ const SimpleExample = (props) => {
       <form onSubmit={handleSubmit}>
         {renderFFMUIComponent(firstNameField)}
         {renderFFMUIComponent(lastNameField)}
+        {renderFFMUIComponent(passwordField)}
         {renderFFMUIComponent(employedField)}
         {renderFFMUIComponent(favoriteColorField)}
         {renderFFMUIComponent(toppingsField)}

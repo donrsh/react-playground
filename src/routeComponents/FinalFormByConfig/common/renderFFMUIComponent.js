@@ -86,7 +86,8 @@ export const renderFFMUIComponent = (fieldConfig) => {
   const { type } = fieldConfig
 
   switch (type) {
-    case 'text': {
+    case 'text': 
+    case 'password': {
       return (
         <Field
           {...getFFFieldProps(fieldConfig)}
