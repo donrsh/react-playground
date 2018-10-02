@@ -25,13 +25,18 @@ export default class extends React.Component {
       console.groupEnd()
     }
 
+
     return (
       <TextField
         label={label}
         type={type}
         {...getMUIComponentProps('Root', this.props)}
         {...getMUIComponentProps('TextField', this.props)}
-        inputProps={restInputProps}
+        inputProps={{
+          ...restInputProps,
+          'data-form': form,
+          'data-field': name
+        }}
         value={value}
         name={name}
         onChange={onChange}

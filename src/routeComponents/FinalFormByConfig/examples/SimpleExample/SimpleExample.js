@@ -59,6 +59,7 @@ const firstNameField = {
   type: 'text',
   label: 'First Name',
   // disabled: true,
+  // debug: true,
   validate: pipeValidatorsAndGetHead(
     isRequired,
   ),
@@ -158,8 +159,8 @@ const toppingsField = {
   validate: pipeValidatorsAndGetHead(
     isRequiredForMultipleSelect,
   ),
-  disabled: true,
-  debug: true,
+  // disabled: true,
+  // debug: true,
   options: [
     { value: "chicken", display: "🐓 Chicken" },
     { value: "ham", display: "🐷 Ham" },
@@ -290,7 +291,7 @@ const notesField = {
   type: 'text',
   label: 'Notes',
   disabled: true,
-  debug: true,
+  // debug: true,
   MUIProps: {
     TextField: {
       ...fieldMUIProps,

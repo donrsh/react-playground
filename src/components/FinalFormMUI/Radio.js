@@ -35,7 +35,11 @@ export default class extends React.Component {
             {...getMUIComponentProps(
               'Radio', this.props
             )}
-            inputProps={restInputProps}
+            inputProps={{
+              ...restInputProps,
+              'data-form': form,
+              'data-field': name
+            }}
             checked={checked}
             name={name}
             type={type}
