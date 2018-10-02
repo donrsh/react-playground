@@ -29,6 +29,7 @@ export default class extends React.Component {
       <TextField
         label={label}
         type={type}
+        {...getMUIComponentProps('Root', this.props)}
         {...getMUIComponentProps('TextField', this.props)}
         inputProps={restInputProps}
         value={value}

@@ -45,7 +45,12 @@ const getMUIProps = (
   const base = {
     ...R.pick(['type', 'label', 'form', 'debug'], fieldConfig),
     ...fieldRenderProps,
-    MUIProps
+    MUIProps: {
+      ...MUIProps,
+      Root: {
+        disabled: fieldConfig.disabled
+      }
+    }
   }
 
   switch (type) {

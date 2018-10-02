@@ -58,7 +58,7 @@ const firstNameField = {
   name: 'firstName',
   type: 'text',
   label: 'First Name',
-  placeholder: 'First Name',
+  // disabled: true,
   validate: pipeValidatorsAndGetHead(
     isRequired,
   ),
@@ -103,6 +103,8 @@ const employedField = {
   name: 'employed',
   type: 'checkbox',
   label: 'Employed',
+  // disabled: true,
+  // debug: true,
   MUIProps: {
     FormControlLabel: {
       labelPlacement: 'start'
@@ -118,6 +120,8 @@ const favoriteColorField = {
   validate: pipeValidatorsAndGetHead(
     isRequired,
   ),
+  // disabled: true,
+  // debug: true,
   options: [
     { value: "#ff0000", display: "❤️ Red" },
     { value: "#00ff00", display: "💚 Green" },
@@ -154,6 +158,8 @@ const toppingsField = {
   validate: pipeValidatorsAndGetHead(
     isRequiredForMultipleSelect,
   ),
+  disabled: true,
+  debug: true,
   options: [
     { value: "chicken", display: "🐓 Chicken" },
     { value: "ham", display: "🐷 Ham" },
@@ -202,7 +208,9 @@ const saucesField = {
       type: 'checkbox',
       label: 'Ketchup',
       value: 'ketchup',
-      MUIProps: {}
+      MUIProps: {},
+      // disabled: true,
+      // debug: true,
     },
     mustard: {
       form: formConfig.name,
@@ -236,7 +244,7 @@ const stoogeField = {
   name: 'stooge',
   type: 'selectByRadio',
   label: 'Best Stooge',
-  debug: true,
+  // debug: true,
   validate: pipeValidatorsAndGetHead(
     (value, allValues, props, name) => {
       if (value === 'moe') {
@@ -261,7 +269,7 @@ const stoogeField = {
       type: 'radio',
       label: 'Moe',
       value: 'moe',
-      MUIProps: {}
+      MUIProps: {},
     },
     curly: {
       form: formConfig.name,
@@ -269,7 +277,9 @@ const stoogeField = {
       type: 'radio',
       label: 'Curly',
       value: 'curly',
-      MUIProps: {}
+      MUIProps: {},
+      // disabled: true,
+      // debug: true,
     },
   }
 }
@@ -279,6 +289,8 @@ const notesField = {
   name: 'notes',
   type: 'text',
   label: 'Notes',
+  disabled: true,
+  debug: true,
   MUIProps: {
     TextField: {
       ...fieldMUIProps,

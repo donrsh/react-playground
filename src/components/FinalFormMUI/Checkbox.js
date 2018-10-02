@@ -28,6 +28,9 @@ export default class extends React.Component {
       <FormControlLabel
         label={label}
         {...getMUIComponentProps(
+          'Root', this.props
+        )}
+        {...getMUIComponentProps(
           'FormControlLabel', this.props
         )}
         control={
