@@ -29,7 +29,7 @@ const getFFFieldProps = (fieldConfig) => {
       'label',
       'validate',
       'validateFields',
-      'value'
+      'value',
     ])(fieldConfig),
     
     ...FFFieldProps
@@ -42,7 +42,7 @@ const getMUIProps = (
   const { MUIProps = {} } = fieldConfig
   
   return {
-    ...R.pick(['type', 'label'], fieldConfig),
+    ...R.pick(['type', 'label', 'form', 'debug'], fieldConfig),
     ...fieldRenderProps,
     MUIProps
   }

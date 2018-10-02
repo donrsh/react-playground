@@ -12,14 +12,18 @@ export default class extends React.Component {
   }
 
   render() {
-    console.group(this.constructor.displayName)
-    console.log('props', this.props)
-    console.groupEnd()
-
     const {
-      label, type, children,
+      form, label, type, debug, children,
       input: { name, onChange, value, ...restInputProps }
     } = this.props
+
+    if (debug) {
+      console.group(`🏁 [${form}]${name} @TextField`)
+      console.log('input', this.props.input)
+      console.log('meta', this.props.meta)
+      console.log('MUIProps', this.props.MUIProps)
+      console.groupEnd()
+    }
 
     return (
       <TextField
@@ -29,7 +33,7 @@ export default class extends React.Component {
         inputProps={restInputProps}
         value={value}
         name={name}
-        onChange={e => console.log(e) || onChange(e)}
+        onChange={onChange}
         error={this.showError}
         children={children}
       />

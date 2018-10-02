@@ -17,7 +17,7 @@ import { renderFFMUIComponent } from '../../common/renderFFMUIComponent'
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 const formConfig = {
-  name: 'simpleExample',
+  name: 'SimpleExample',
 
   onSubmit: async values => {
     await sleep(300)
@@ -51,7 +51,6 @@ const firstNameField = {
     TextField: {
       ...fieldMUIProps,
     },
-    
   }
 }
 
@@ -286,7 +285,7 @@ const SimpleExample = (props) => {
   const { 
     handleSubmit, submitting, pristine, form,
     values
-  } = props.simpleExample
+  } = props[formConfig.name]
   
   return (
     <Styles>

@@ -8,15 +8,18 @@ export default class extends React.Component {
   static displayName = 'C(FinalFormNUI/Radio)'
 
   render() {
-    console.group(this.constructor.displayName)
-    console.log('props', this.props)
-    console.groupEnd()
-
     const {
-      label, type,
+      form, label, type, debug,
       input: { name, onChange, checked, ...restInputProps },
     } = this.props
 
+    if (debug) {
+      console.group(`🏁 [${form}]${name}(${this.props.input.value})) @Checkbox`)
+      console.log('input', this.props.input)
+      console.log('meta', this.props.meta)
+      console.log('MUIProps', this.props.MUIProps)
+      console.groupEnd()
+    }
 
     return (
       <FormControlLabel
