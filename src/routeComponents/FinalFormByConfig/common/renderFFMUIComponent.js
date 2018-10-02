@@ -10,8 +10,9 @@ import {
 import FFMUITextField from 'components/FinalFormMUI/TextField'
 import FFMUICheckbox from 'components/FinalFormMUI/Checkbox'
 import FFMUIRadio from 'components/FinalFormMUI/Radio'
+import FFFormHelperText from 'components/FinalFormMUI/FormHelperText'
 
-import { moreThanNChars, lessThanNChars } from '../helpers/fieldValidators'
+import { isMoreThanNChars, isLessThanNChars } from '../helpers/fieldValidators'
 
 /* 
   See final-form FieldProps:
@@ -39,25 +40,40 @@ const getFFFieldProps = (fieldConfig) => {
 const getMUIProps = (
   fieldConfig, fieldRenderProps
 ) => {
-  const { MUIProps = {} } = fieldConfig
+  const { MUIProps = {}, type } = fieldConfig
   
-  return {
+  const base = {
     ...R.pick(['type', 'label', 'form', 'debug'], fieldConfig),
     ...fieldRenderProps,
     MUIProps
   }
+
+  switch (type) {
+    case 'text':
+    case 'password':
+    case 'select':
+      return R.applyTo(base)(R.pipe(
+        R.assocPath(
+          ['MUIProps', 'TextField', 'helperText'],
+          getHelperTextContent(fieldConfig, fieldRenderProps)
+        )
+      ))
+  
+    default:
+      return base
+  }
 }
 
-const renderHelperText = (fieldConfig, fieldRenderProps) => {
+const getHelperTextContent = (fieldConfig, fieldRenderProps) => {
   const { minLength, maxLength } = fieldConfig
   const { 
     input: { value }, 
     meta: { error, touched } 
   } = fieldRenderProps
-  
+
   /* error first */
   if (Boolean(touched && error)) {
-    if(!R.contains(error.validatedBy, [moreThanNChars, lessThanNChars])) {
+    if (!R.contains(error.validatedBy, [isMoreThanNChars, isLessThanNChars])) {
       return error.msg || 'unknow error'
     }
   }
@@ -82,6 +98,32 @@ const renderHelperText = (fieldConfig, fieldRenderProps) => {
   return null
 }
 
+export const renderFFHelperText = (
+  fieldConfig, 
+  FormHelperTextProps = {}
+) => {
+  return (
+    <Field
+      {...getFFFieldProps(fieldConfig)}
+      render={fieldRenderProps => (
+        <FFFormHelperText
+          {...fieldRenderProps}
+          {...R.pick(
+            ['type', 'label', 'form', 'debug'], 
+            fieldConfig
+          )}
+          MUIProps={{
+            FormHelperText: {
+              ...FormHelperTextProps,
+              children: getHelperTextContent(fieldRenderProps, fieldRenderProps)
+            }
+          }}
+        />
+      )}
+    />
+  )
+}
+
 export const renderFFMUIComponent = (fieldConfig) => {
   const { type } = fieldConfig
 
@@ -94,7 +136,6 @@ export const renderFFMUIComponent = (fieldConfig) => {
           render={fieldRenderProps => (
             <FFMUITextField
               {...getMUIProps(fieldConfig, fieldRenderProps)}
-              helperText={renderHelperText(fieldConfig, fieldRenderProps)}
             />
           )}
         />
@@ -126,7 +167,6 @@ export const renderFFMUIComponent = (fieldConfig) => {
           render={fieldRenderProps => (
             <FFMUITextField
               {...getMUIProps(fieldConfig, fieldRenderProps)}
-              helperText={renderHelperText(fieldConfig, fieldRenderProps)}
               children={options.map(option => 
                 <OptionComponent {...getOptionProps(option)} />
               )}

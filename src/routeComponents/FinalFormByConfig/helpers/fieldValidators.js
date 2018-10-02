@@ -3,6 +3,23 @@ import * as RA from 'ramda-adjunct'
 
 const t = x => x
 
+export const pipeValidatorsAndGetHead = (...validators) =>
+  (...valueArgs) => {
+    return R.pipe(
+      (...x) => R.map(validator => validator(...x), validators),
+      RA.compact,
+      R.head
+    )(...valueArgs)
+  }
+
+export const pipeValidatorsAndGetAll = (...validators) =>
+  (...valueArgs) => {
+    return R.pipe(
+      R.converge(R.identity, validators),
+      RA.compact,
+    )(...valueArgs)
+  }
+
 export const alwaysPass = R.always(undefined)
 
 export const isRequired = (value, allValues, props, name) => {
@@ -10,6 +27,13 @@ export const isRequired = (value, allValues, props, name) => {
     validatedBy: isRequired,
     msg: t('error.required')
   }
+}
+
+export const isRequiredForMultipleSelect = (value, allValues, props, name) => {
+  return (RA.isEmptyArray(value) || RA.isNilOrEmpty(value)) ? {
+    validatedBy: isRequiredForMultipleSelect,
+    msg: t('error.isRequiredForMultipleSelect')
+  } : undefined
 }
 
 export const isNumber = R.pipe(
@@ -108,20 +132,20 @@ export const isLessThanOrEqualTo = (larger) => R.pipe(
   )
 )
 
-export const moreThanNChars = (n) => R.ifElse(
+export const isMoreThanNChars = (n) => R.ifElse(
   x => `${x}`.length >= n,
   R.always(undefined),
   () => ({
-    validatedBy: moreThanNChars,
+    validatedBy: isMoreThanNChars,
     msg: t('error.shouldBeMoreThanNChars', { n })
   })
 )
 
-export const lessThanNChars = (n) => R.ifElse(
+export const isLessThanNChars = (n) => R.ifElse(
   x => `${x}`.length <= n,
   R.always(undefined),
   () => ({
-    validatedBy: lessThanNChars,
+    validatedBy: isMoreThanNChars,
     msg: t('error.shouldBeLessThanNChars', { n })
   })
 )

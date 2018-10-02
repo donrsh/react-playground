@@ -57,6 +57,7 @@ export default styled.div`
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
     border-radius: 3px;
 
+    ${'' /* 
     & > div {
       display: flex;
       flex-flow: row nowrap;
@@ -91,6 +92,8 @@ export default styled.div`
         }
       }
     }
+    */}
+    
     & > .buttons {
       display: flex;
       flex-flow: row nowrap;

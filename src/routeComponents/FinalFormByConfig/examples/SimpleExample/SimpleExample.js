@@ -3,8 +3,9 @@
 import React from 'react'
 import Styles from './Styles'
 import { compose } from 'recompose'
-import { Form /* , Field */ } from 'react-final-form'
+import { Form } from 'react-final-form'
 import * as R from 'ramda'
+import * as RA from 'ramda-adjunct'
 
 import {
   InputAdornment, FormLabel, Grid, Button
@@ -12,7 +13,17 @@ import {
 
 import { fromRenderProps } from 'HOCs/fromRenderProps'
 
-import { renderFFMUIComponent } from '../../common/renderFFMUIComponent'
+import {
+  pipeValidatorsAndGetHead,
+  isRequired,
+  isRequiredForMultipleSelect,
+  isMoreThanNChars
+} from '../../helpers/fieldValidators'
+
+import { 
+  renderFFMUIComponent,
+  renderFFHelperText
+} from '../../common/renderFFMUIComponent'
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -25,7 +36,8 @@ const formConfig = {
   },
 
   initialValues: { 
-    stooge: 'larry', employed: false,
+    stooge: 'moe',
+    employed: false,
     // favoriteColor: '#00ff00',
     toppings: []
   },
@@ -47,6 +59,9 @@ const firstNameField = {
   type: 'text',
   label: 'First Name',
   placeholder: 'First Name',
+  validate: pipeValidatorsAndGetHead(
+    isRequired,
+  ),
   MUIProps: {
     TextField: {
       ...fieldMUIProps,
@@ -68,6 +83,11 @@ const lastNameField = {
 const passwordField = {
   form: formConfig.name,
   name: 'pasoword',
+  validate: pipeValidatorsAndGetHead(
+    isRequired,
+    isMoreThanNChars(8)
+  ),
+  minLength: 8,
   type: 'password',
   label: 'Password',
   MUIProps: {
@@ -75,7 +95,6 @@ const passwordField = {
       placeholder: 'password',
       ...fieldMUIProps
     },
-    
   }
 }
 
@@ -96,6 +115,9 @@ const favoriteColorField = {
   name: 'favoriteColor',
   type: 'select',
   label: 'Favorite Color',
+  validate: pipeValidatorsAndGetHead(
+    isRequired,
+  ),
   options: [
     { value: "#ff0000", display: "❤️ Red" },
     { value: "#00ff00", display: "💚 Green" },
@@ -129,6 +151,9 @@ const toppingsField = {
   name: 'toppings',
   type: 'select',
   label: 'Toppings',
+  validate: pipeValidatorsAndGetHead(
+    isRequiredForMultipleSelect,
+  ),
   options: [
     { value: "chicken", display: "🐓 Chicken" },
     { value: "ham", display: "🐷 Ham" },
@@ -159,30 +184,17 @@ const saucesField = {
   name: 'sauces',
   type: 'selectBycheckbox',
   label: 'Sauces',
-  /* 
-  options: [
-    {
-      label: 'Ketchup',
-      value: 'ketchup',
-      MUIProps: {}
-    },
-    {
-      label: 'Mustard',
-      value: 'mustard',
-      MUIProps: {}
-    },
-    {
-      label: 'Mayonnaise',
-      value: 'mayonnaise',
-      MUIProps: {}
-    },
-    {
-      label: 'Guacamole',
-      value: 'guacamole',
-      MUIProps: {}
+  validate: pipeValidatorsAndGetHead(
+    isRequiredForMultipleSelect,
+    (value, allValues, props, name) => {
+      if (RA.isArray(value) && value.length > 2) {
+        return {
+          msg: `Neh, I don't think more than 2 sauces would be a good idea...`
+        }
+      }
     }
-  ],
-  */
+  ),
+  // debug: true,
   subFields: {
     ketchup: {
       form: formConfig.name,
@@ -224,30 +236,16 @@ const stoogeField = {
   name: 'stooge',
   type: 'selectByRadio',
   label: 'Best Stooge',
-  /* 
-  options: [
-    {
-      label: 'Ketchup',
-      value: 'ketchup',
-      MUIProps: {}
-    },
-    {
-      label: 'Mustard',
-      value: 'mustard',
-      MUIProps: {}
-    },
-    {
-      label: 'Mayonnaise',
-      value: 'mayonnaise',
-      MUIProps: {}
-    },
-    {
-      label: 'Guacamole',
-      value: 'guacamole',
-      MUIProps: {}
+  debug: true,
+  validate: pipeValidatorsAndGetHead(
+    (value, allValues, props, name) => {
+      if (value === 'moe') {
+        return {
+          msg: `Moe? Are you sure?`
+        }
+      }
     }
-  ],
-  */
+  ),
   subFields: {
     larry: {
       form: formConfig.name,
@@ -317,7 +315,7 @@ const SimpleExample = (props) => {
         {renderFFMUIComponent(toppingsField)}
 
         {/* sauces field */}
-        <Grid container>
+        <Grid container style={{ marginBottom: 20 }}>
           <Grid item xs={3}>
             <FormLabel
               style={{ position: 'relative', top: 16 }}
@@ -339,11 +337,12 @@ const SimpleExample = (props) => {
                 ))
               )(saucesField.subFields)
             }
+            {renderFFHelperText(saucesField)}
           </Grid>
         </Grid>
   
         {/* stooge field */}
-        <Grid container>
+        <Grid container style={{ marginBottom: 20 }}>
           <Grid item xs={3}>
             <FormLabel
               style={{ position: 'relative', top: 16 }}
@@ -352,24 +351,22 @@ const SimpleExample = (props) => {
             </FormLabel>
           </Grid>
 
-          <Grid item xs={9}
-            style={{ 
-              display: 'flex',
-              justifyContent: 'flex-start' 
-            }}
-          >
-            {
-              R.pipe(
-                R.values,
-                R.map(field => (
-                  <div style={{ display: 'inline-flex' }}
-                    key={field.value}
-                  >
-                    {renderFFMUIComponent(field)}
-                  </div>
-                ))
-              )(stoogeField.subFields)
-            }
+          <Grid item xs={9}>
+            <Grid container>
+              {
+                R.pipe(
+                  R.values,
+                  R.map(field => (
+                    <div style={{ display: 'inline-flex' }}
+                      key={field.value}
+                    >
+                      {renderFFMUIComponent(field)}
+                    </div>
+                  ))
+                )(stoogeField.subFields)
+              }
+            </Grid>
+            {renderFFHelperText(stoogeField)}
           </Grid>
         </Grid>
             
