@@ -5,313 +5,41 @@ import Styles from './Styles'
 import { compose } from 'recompose'
 import { Form } from 'react-final-form'
 import * as R from 'ramda'
-import * as RA from 'ramda-adjunct'
 
 import {
-  InputAdornment, FormLabel, Grid, Button
+  FormLabel, Grid, Button
 } from '@material-ui/core'
 
 import { fromRenderProps } from 'HOCs/fromRenderProps'
-
-import {
-  pipeValidatorsAndGetHead,
-  isRequired,
-  isRequiredForMultipleSelect,
-  isMoreThanNChars
-} from '../../helpers/fieldValidators'
 
 import { 
   renderFFMUIComponent,
   renderFFHelperText
 } from '../../common/renderFFMUIComponent'
 
-const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
-
-const formConfig = {
-  name: 'SimpleExample',
-
-  onSubmit: async values => {
-    await sleep(300)
-    window.alert(JSON.stringify(values, 0, 2))
-  },
-
-  initialValues: { 
-    stooge: 'moe',
-    employed: false,
-    // favoriteColor: '#00ff00',
-    toppings: []
-  },
-
-  nonAPI: 123
-}
-
-const fieldMUIProps = {
-  fullWidth: true,
-  InputLabelProps: { shrink: true },
-  style: {
-    marginBottom: 20
-  },
-}
-
-const firstNameField = {
-  form: formConfig.name,
-  name: 'firstName',
-  type: 'text',
-  label: 'First Name',
-  // disabled: true,
-  // debug: true,
-  validate: pipeValidatorsAndGetHead(
-    isRequired,
-  ),
-  MUIProps: {
-    TextField: {
-      ...fieldMUIProps,
-    },
-  }
-}
-
-const lastNameField = {
-  form: formConfig.name,
-  name: 'lastName',
-  type: 'text',
-  label: 'Last Name',
-  placeholder: 'Last Name',
-  MUIProps: {
-    TextField: fieldMUIProps
-  }
-}
-
-const passwordField = {
-  form: formConfig.name,
-  name: 'password',
-  validate: pipeValidatorsAndGetHead(
-    isRequired,
-    isMoreThanNChars(8)
-  ),
-  minLength: 8,
-  type: 'password',
-  label: 'Password',
-  MUIProps: {
-    TextField: {
-      placeholder: 'password',
-      ...fieldMUIProps
-    },
-  }
-}
-
-const employedField = {
-  form: formConfig.name,
-  name: 'employed',
-  type: 'checkbox',
-  label: 'Employed',
-  // disabled: true,
-  // debug: true,
-  MUIProps: {
-    FormControlLabel: {
-      labelPlacement: 'start'
-    }
-  }
-}
-
-const favoriteColorField = {
-  form: formConfig.name,
-  name: 'favoriteColor',
-  type: 'select',
-  label: 'Favorite Color',
-  validate: pipeValidatorsAndGetHead(
-    isRequired,
-  ),
-  // disabled: true,
-  // debug: true,
-  options: [
-    { value: "#ff0000", display: "❤️ Red" },
-    { value: "#00ff00", display: "💚 Green" },
-    { value: "#0000ff", display: "💙 Blue" },
-  ],
-  getOptionProps: ({ value, display }) => ({
-    key: value,
-    value,
-    children: display
-  }),
-  MUIProps: {
-    TextField: {
-      ...fieldMUIProps,
-      select: true,
-      SelectProps: {
-        native: false
-      },
-      InputProps: {
-        startAdornment: (
-          <InputAdornment variant="filled" position="start">
-            Color
-          </InputAdornment>
-        ),
-      }
-    }
-  }
-}
-
-const toppingsField = {
-  form: formConfig.name,
-  name: 'toppings',
-  type: 'select',
-  label: 'Toppings',
-  validate: pipeValidatorsAndGetHead(
-    isRequiredForMultipleSelect,
-  ),
-  // disabled: true,
-  // debug: true,
-  options: [
-    { value: "chicken", display: "🐓 Chicken" },
-    { value: "ham", display: "🐷 Ham" },
-    { value: "mushrooms", display: "🍄 Mushrooms" },
-    { value: "cheese", display: "🧀 Cheese" },
-    { value: "tuna", display: "🐟 Tuna" },
-    { value: "pineapple", display: "🍍 Pineapple" }
-  ],
-  getOptionProps: ({ value, display }) => ({
-    key: value,
-    value,
-    children: display
-  }),
-  MUIProps: {
-    TextField: {
-      ...fieldMUIProps,
-      select: true,
-      SelectProps: {
-        multiple: true,
-        // native: true
-      },
-    }
-  }
-}
-
-const saucesField = {
-  form: formConfig.name,
-  name: 'sauces',
-  type: 'selectBycheckbox',
-  label: 'Sauces',
-  validate: pipeValidatorsAndGetHead(
-    isRequiredForMultipleSelect,
-    (value, allValues, props, name) => {
-      if (RA.isArray(value) && value.length > 2) {
-        return {
-          msg: `Neh, I don't think more than 2 sauces would be a good idea...`
-        }
-      }
-    }
-  ),
-  // debug: true,
-  subFields: {
-    ketchup: {
-      form: formConfig.name,
-      name: 'sauces',
-      type: 'checkbox',
-      label: 'Ketchup',
-      value: 'ketchup',
-      MUIProps: {},
-      // disabled: true,
-      // debug: true,
-    },
-    mustard: {
-      form: formConfig.name,
-      name: 'sauces',
-      type: 'checkbox',
-      label: 'Mustard',
-      value: 'mustard',
-      MUIProps: {}
-    },
-    mayonnaise: {
-      form: formConfig.name,
-      name: 'sauces',
-      type: 'checkbox',
-      label: 'Mayonnaise',
-      value: 'mayonnaise',
-      MUIProps: {}
-    },
-    guacamole: {
-      form: formConfig.name,
-      name: 'sauces',
-      type: 'checkbox',
-      label: 'Guacamole',
-      value: 'guacamole',
-      MUIProps: {}
-    }
-  }
-}
-
-const stoogeField = {
-  form: formConfig.name,
-  name: 'stooge',
-  type: 'selectByRadio',
-  label: 'Best Stooge',
-  // debug: true,
-  validate: pipeValidatorsAndGetHead(
-    (value, allValues, props, name) => {
-      if (value === 'moe') {
-        return {
-          msg: `Moe? Are you sure?`
-        }
-      }
-    }
-  ),
-  subFields: {
-    larry: {
-      form: formConfig.name,
-      name: 'stooge',
-      type: 'radio',
-      label: 'Larry',
-      value: 'larry',
-      MUIProps: {}
-    },
-    moe: {
-      form: formConfig.name,
-      name: 'stooge',
-      type: 'radio',
-      label: 'Moe',
-      value: 'moe',
-      MUIProps: {},
-    },
-    curly: {
-      form: formConfig.name,
-      name: 'stooge',
-      type: 'radio',
-      label: 'Curly',
-      value: 'curly',
-      MUIProps: {},
-      // disabled: true,
-      // debug: true,
-    },
-  }
-}
-
-const notesField = {
-  form: formConfig.name,
-  name: 'notes',
-  type: 'text',
-  label: 'Notes',
-  disabled: true,
-  // debug: true,
-  MUIProps: {
-    TextField: {
-      ...fieldMUIProps,
-      multiline: true,
-      rows: 2,
-      placeholder: 'Write some things...',
-    },
-  }
-}
+import {
+  simpleExampleForm,
+  firstNameField,
+  lastNameField,
+  passwordField,
+  employedField,
+  favoriteColorField,
+  toppingsField,
+  saucesField,
+  stoogeField,
+  notesField
+} from './formConfig'
 
 class SimpleExample extends React.Component {
   componentDidMount () {
-    const v = `update${formConfig.name}`
+    const v = `update${simpleExampleForm.name}`
     
     window[v] = (nextValues) => {
 
       R.pipe(
         Object.entries,
         R.forEach(x => 
-          this.props[formConfig.name].form.change(...x)
+          this.props[simpleExampleForm.name].form.change(...x)
         )
       )(nextValues)
       
@@ -336,7 +64,7 @@ class SimpleExample extends React.Component {
     const {
       handleSubmit, submitting, pristine, form,
       values
-    } = this.props[formConfig.name]
+    } = this.props[simpleExampleForm.name]
 
     return (
       <Styles>
@@ -442,12 +170,12 @@ const enhancer = compose(
   fromRenderProps(
     ({ children }) => (
       <Form 
-        {...formConfig}
+        {...simpleExampleForm}
         children={children}
       />
     ),
     (formRenderProps) => ({
-      [formConfig.name]: formRenderProps
+      [simpleExampleForm.name]: formRenderProps
     }),
   )
 )
