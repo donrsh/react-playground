@@ -7,10 +7,15 @@ import { Form } from 'react-final-form'
 import * as R from 'ramda'
 
 import {
-  FormLabel, Grid, Button
+  FormLabel, Grid, Button, Collapse,
 } from '@material-ui/core'
 
+import {
+  ArrowDropDown, ArrowDropUp
+} from '@material-ui/icons'
+
 import { fromRenderProps } from 'HOCs/fromRenderProps'
+import { withTogglers } from 'HOCs/withTogglers'
 
 import { 
   renderFFMUIComponent,
@@ -60,6 +65,7 @@ class SimpleExample extends React.Component {
     // console.group('Final Form - SimpleExample')
     // console.log(this.props)
     // console.groupEnd()
+    const { collapseToggler } = this.props
 
     const {
       handleSubmit, submitting, pristine, form,
@@ -68,105 +74,118 @@ class SimpleExample extends React.Component {
 
     return (
       <Styles>
-        <h1>🏁 React Final Form - Simple Example</h1>
-        <a href="https://codesandbox.io/s/ww40y2m595">
-          See source
-      </a>
+        <h1 onClick={() => collapseToggler.toggle()}>
+          🏁 React Final Form - Simple Example
+          { 
+            collapseToggler.isOpen ?
+            <ArrowDropUp /> :
+            <ArrowDropDown />
+          }
+        </h1>
 
-        <form onSubmit={handleSubmit}>
-          {renderFFMUIComponent(firstNameField)}
-          {renderFFMUIComponent(lastNameField)}
-          {renderFFMUIComponent(passwordField)}
-          {renderFFMUIComponent(employedField)}
-          {renderFFMUIComponent(favoriteColorField)}
-          {renderFFMUIComponent(toppingsField)}
+        <Collapse in={collapseToggler.isOpen}>
+          <a href="https://codesandbox.io/s/ww40y2m595">
+            See source
+          </a>
 
-          {/* sauces field */}
-          <Grid container style={{ marginBottom: 20 }}>
-            <Grid item xs={3}>
-              <FormLabel
-                style={{ position: 'relative', top: 16 }}
-              >
-                {saucesField.label}
-              </FormLabel>
-            </Grid>
+          <form onSubmit={handleSubmit}>
+            {renderFFMUIComponent(firstNameField)}
+            {renderFFMUIComponent(lastNameField)}
+            {renderFFMUIComponent(passwordField)}
+            {renderFFMUIComponent(employedField)}
+            {renderFFMUIComponent(favoriteColorField)}
+            {renderFFMUIComponent(toppingsField)}
 
-            <Grid item xs={9}>
-              {
-                R.pipe(
-                  R.values,
-                  R.map(field => (
-                    <div style={{ display: 'flex' }}
-                      key={field.value}
-                    >
-                      {renderFFMUIComponent(field)}
-                    </div>
-                  ))
-                )(saucesField.subFields)
-              }
-              {renderFFHelperText(saucesField)}
-            </Grid>
-          </Grid>
+            {/* sauces field */}
+            <Grid container style={{ marginBottom: 20 }}>
+              <Grid item xs={3}>
+                <FormLabel
+                  style={{ position: 'relative', top: 16 }}
+                >
+                  {saucesField.label}
+                </FormLabel>
+              </Grid>
 
-          {/* stooge field */}
-          <Grid container style={{ marginBottom: 20 }}>
-            <Grid item xs={3}>
-              <FormLabel
-                style={{ position: 'relative', top: 16 }}
-              >
-                {stoogeField.label}
-              </FormLabel>
-            </Grid>
-
-            <Grid item xs={9}>
-              <Grid container>
+              <Grid item xs={9}>
                 {
                   R.pipe(
                     R.values,
                     R.map(field => (
-                      <div style={{ display: 'inline-flex' }}
+                      <div style={{ display: 'flex' }}
                         key={field.value}
                       >
                         {renderFFMUIComponent(field)}
                       </div>
                     ))
-                  )(stoogeField.subFields)
+                  )(saucesField.subFields)
                 }
+                {renderFFHelperText(saucesField)}
               </Grid>
-              {renderFFHelperText(stoogeField)}
             </Grid>
-          </Grid>
+
+            {/* stooge field */}
+            <Grid container style={{ marginBottom: 20 }}>
+              <Grid item xs={3}>
+                <FormLabel
+                  style={{ position: 'relative', top: 16 }}
+                >
+                  {stoogeField.label}
+                </FormLabel>
+              </Grid>
+
+              <Grid item xs={9}>
+                <Grid container>
+                  {
+                    R.pipe(
+                      R.values,
+                      R.map(field => (
+                        <div style={{ display: 'inline-flex' }}
+                          key={field.value}
+                        >
+                          {renderFFMUIComponent(field)}
+                        </div>
+                      ))
+                    )(stoogeField.subFields)
+                  }
+                </Grid>
+                {renderFFHelperText(stoogeField)}
+              </Grid>
+            </Grid>
 
 
-          {renderFFMUIComponent(notesField)}
+            {renderFFMUIComponent(notesField)}
 
-          <div className="buttons">
-            <Button
-              type="submit"
-              disabled={submitting || pristine}
-              color="primary"
-              variant="contained"
-              style={{ marginRight: 8 }}
-            >
-              Submit
-          </Button>
-            <Button
-              type="button"
-              onClick={form.reset}
-              disabled={submitting || pristine}
-              variant="contained"
-            >
-              Reset
-          </Button>
-          </div>
-          <pre>{JSON.stringify(values, 0, 2)}</pre>
-        </form>
+            <div className="buttons">
+              <Button
+                type="submit"
+                disabled={submitting || pristine}
+                color="primary"
+                variant="contained"
+                style={{ marginRight: 8 }}
+              >
+                Submit
+            </Button>
+              <Button
+                type="button"
+                onClick={form.reset}
+                disabled={submitting || pristine}
+                variant="contained"
+              >
+                Reset
+            </Button>
+            </div>
+            <pre>{JSON.stringify(values, 0, 2)}</pre>
+          </form>
+        </Collapse>
       </Styles>
     )
   }
 }
 
 const enhancer = compose(
+  withTogglers(
+    { name: 'collapse', defaultOpen: false }
+  ),
   fromRenderProps(
     ({ children }) => (
       <Form 
