@@ -83,7 +83,7 @@ const lastNameField = {
 
 const passwordField = {
   form: formConfig.name,
-  name: 'pasoword',
+  name: 'password',
   validate: pipeValidatorsAndGetHead(
     isRequired,
     isMoreThanNChars(8)
@@ -302,113 +302,140 @@ const notesField = {
   }
 }
 
-const SimpleExample = (props) => {
-  console.group('Final Form - SimpleExample')
-  console.log(props)
-  console.groupEnd()
+class SimpleExample extends React.Component {
+  componentDidMount () {
+    const v = `update${formConfig.name}`
+    
+    window[v] = (nextValues) => {
 
-  const { 
-    handleSubmit, submitting, pristine, form,
-    values
-  } = props[formConfig.name]
+      R.pipe(
+        Object.entries,
+        R.forEach(x => 
+          this.props[formConfig.name].form.change(...x)
+        )
+      )(nextValues)
+      
+    }
+
+    console.info(`🔮 You can access change form function via global variable: ${v}`)
+
+    this.releaseFormVariable = () => {
+      window[v] = undefined  
+    }
+  }
+
+  componentWillUnmount () {
+    this.releaseFormVariable()
+  }
   
-  return (
-    <Styles>
-      <h1>🏁 React Final Form - Simple Example</h1>
-      <a href="https://codesandbox.io/s/ww40y2m595">
-        See source
+  render() {
+    // console.group('Final Form - SimpleExample')
+    // console.log(this.props)
+    // console.groupEnd()
+
+    const {
+      handleSubmit, submitting, pristine, form,
+      values
+    } = this.props[formConfig.name]
+
+    return (
+      <Styles>
+        <h1>🏁 React Final Form - Simple Example</h1>
+        <a href="https://codesandbox.io/s/ww40y2m595">
+          See source
       </a>
 
-      <form onSubmit={handleSubmit}>
-        {renderFFMUIComponent(firstNameField)}
-        {renderFFMUIComponent(lastNameField)}
-        {renderFFMUIComponent(passwordField)}
-        {renderFFMUIComponent(employedField)}
-        {renderFFMUIComponent(favoriteColorField)}
-        {renderFFMUIComponent(toppingsField)}
+        <form onSubmit={handleSubmit}>
+          {renderFFMUIComponent(firstNameField)}
+          {renderFFMUIComponent(lastNameField)}
+          {renderFFMUIComponent(passwordField)}
+          {renderFFMUIComponent(employedField)}
+          {renderFFMUIComponent(favoriteColorField)}
+          {renderFFMUIComponent(toppingsField)}
 
-        {/* sauces field */}
-        <Grid container style={{ marginBottom: 20 }}>
-          <Grid item xs={3}>
-            <FormLabel
-              style={{ position: 'relative', top: 16 }}
-            >
-              {saucesField.label}
-            </FormLabel>
-          </Grid>
+          {/* sauces field */}
+          <Grid container style={{ marginBottom: 20 }}>
+            <Grid item xs={3}>
+              <FormLabel
+                style={{ position: 'relative', top: 16 }}
+              >
+                {saucesField.label}
+              </FormLabel>
+            </Grid>
 
-          <Grid item xs={9}>
-            {
-              R.pipe(
-                R.values,
-                R.map(field => (
-                  <div style={{ display: 'flex' }}
-                    key={field.value}
-                  >
-                    {renderFFMUIComponent(field)}
-                  </div>
-                ))
-              )(saucesField.subFields)
-            }
-            {renderFFHelperText(saucesField)}
-          </Grid>
-        </Grid>
-  
-        {/* stooge field */}
-        <Grid container style={{ marginBottom: 20 }}>
-          <Grid item xs={3}>
-            <FormLabel
-              style={{ position: 'relative', top: 16 }}
-            >
-              {stoogeField.label}
-            </FormLabel>
-          </Grid>
-
-          <Grid item xs={9}>
-            <Grid container>
+            <Grid item xs={9}>
               {
                 R.pipe(
                   R.values,
                   R.map(field => (
-                    <div style={{ display: 'inline-flex' }}
+                    <div style={{ display: 'flex' }}
                       key={field.value}
                     >
                       {renderFFMUIComponent(field)}
                     </div>
                   ))
-                )(stoogeField.subFields)
+                )(saucesField.subFields)
               }
+              {renderFFHelperText(saucesField)}
             </Grid>
-            {renderFFHelperText(stoogeField)}
           </Grid>
-        </Grid>
-            
-        
-        {renderFFMUIComponent(notesField)}
 
-        <div className="buttons">
-          <Button 
-            type="submit" 
-            disabled={submitting || pristine}
-            color="primary"
-            variant="contained"
-            style={{ marginRight: 8 }}
-          >
-            Submit
+          {/* stooge field */}
+          <Grid container style={{ marginBottom: 20 }}>
+            <Grid item xs={3}>
+              <FormLabel
+                style={{ position: 'relative', top: 16 }}
+              >
+                {stoogeField.label}
+              </FormLabel>
+            </Grid>
+
+            <Grid item xs={9}>
+              <Grid container>
+                {
+                  R.pipe(
+                    R.values,
+                    R.map(field => (
+                      <div style={{ display: 'inline-flex' }}
+                        key={field.value}
+                      >
+                        {renderFFMUIComponent(field)}
+                      </div>
+                    ))
+                  )(stoogeField.subFields)
+                }
+              </Grid>
+              {renderFFHelperText(stoogeField)}
+            </Grid>
+          </Grid>
+
+
+          {renderFFMUIComponent(notesField)}
+
+          <div className="buttons">
+            <Button
+              type="submit"
+              disabled={submitting || pristine}
+              color="primary"
+              variant="contained"
+              style={{ marginRight: 8 }}
+            >
+              Submit
           </Button>
-          <Button
-            type="button"
-            onClick={form.reset}
-            disabled={submitting || pristine}
-            variant="contained"
-          >
-            Reset
+            <Button
+              type="button"
+              onClick={form.reset}
+              disabled={submitting || pristine}
+              variant="contained"
+            >
+              Reset
           </Button>
-        </div>
-        <pre>{JSON.stringify(values, 0, 2)}</pre>
-      </form>
-    </Styles>
-  )
+          </div>
+          <pre>{JSON.stringify(values, 0, 2)}</pre>
+        </form>
+      </Styles>
+    )
+  }
 }
 
 const enhancer = compose(
