@@ -23,7 +23,7 @@ import {
 } from '../../common/renderFFMUIComponent'
 
 import {
-  SynchronousRecordLevelValidationForm,
+  SynchronousFieldLevelValidation,
   firstNameField,
   lastNameField,
   ageField
@@ -31,14 +31,14 @@ import {
 
 class SynchronousRecordLevelValidation extends React.Component {
   componentDidMount () {
-    const v = `update${SynchronousRecordLevelValidationForm.name}`
+    const v = `update${SynchronousFieldLevelValidation.name}`
     
     window[v] = (nextValues) => {
 
       R.pipe(
         Object.entries,
         R.forEach(x => 
-          this.props[SynchronousRecordLevelValidationForm.name].form.change(...x)
+          this.props[SynchronousFieldLevelValidation.name].form.change(...x)
         )
       )(nextValues)
       
@@ -64,12 +64,12 @@ class SynchronousRecordLevelValidation extends React.Component {
     const {
       handleSubmit, submitting, pristine, form,
       values
-    } = this.props[SynchronousRecordLevelValidationForm.name]
+    } = this.props[SynchronousFieldLevelValidation.name]
 
     return (
       <Styles>
         <h1 onClick={() => collapseToggler.toggle()}>
-          🏁 Synchronous Record-Level Validation
+          🏁 Synchronous Field-Level Validation
           { 
             collapseToggler.isOpen ?
             <ArrowDropUp /> :
@@ -78,7 +78,7 @@ class SynchronousRecordLevelValidation extends React.Component {
         </h1>
 
         <Collapse in={collapseToggler.isOpen}>
-          <a href="https://codesandbox.io/s/yk1zx56y5j">
+          <a href="https://codesandbox.io/s/2k054qp40">
             See source
           </a>
 
@@ -116,17 +116,17 @@ class SynchronousRecordLevelValidation extends React.Component {
 
 const enhancer = compose(
   withTogglers(
-    { name: 'collapse', defaultOpen: false }
+    { name: 'collapse', defaultOpen: true }
   ),
   fromRenderProps(
     ({ children }) => (
       <Form 
-        {...SynchronousRecordLevelValidationForm}
+        {...SynchronousFieldLevelValidation}
         children={children}
       />
     ),
     (formRenderProps) => ({
-      [SynchronousRecordLevelValidationForm.name]: formRenderProps
+      [SynchronousFieldLevelValidation.name]: formRenderProps
     }),
   )
 )
