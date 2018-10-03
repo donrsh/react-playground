@@ -79,7 +79,9 @@ const getHelperTextContent = (fieldConfig, fieldRenderProps) => {
   /* error first */
   if (Boolean(touched && error)) {
     if (!R.contains(error.validatedBy, [isMoreThanNChars, isLessThanNChars])) {
-      return error.msg || 'unknow error'
+      return typeof error === 'string' ? 
+        error : 
+        (error.msg || 'unknow error')
     }
   }
 
