@@ -7,7 +7,7 @@ import { Form } from 'react-final-form'
 import * as R from 'ramda'
 
 import {
-  Button, Collapse,
+  Button, Collapse, CircularProgress, Typography
 } from '@material-ui/core'
 
 import {
@@ -23,22 +23,22 @@ import {
 } from '../../common/renderFFMUIComponent'
 
 import {
-  SynchronousFieldLevelValidation,
-  firstNameField,
-  lastNameField,
-  ageField
+  HybridSyncAsyncRecordLevelValidation,
+  userNameField,
+  passwordField,
+  confirmField
 } from './formConfig'
 
 class SynchronousRecordLevelValidation extends React.Component {
   componentDidMount () {
-    const v = `update${SynchronousFieldLevelValidation.name}`
+    const v = `update${HybridSyncAsyncRecordLevelValidation.name}`
     
     window[v] = (nextValues) => {
 
       R.pipe(
         Object.entries,
         R.forEach(x => 
-          this.props[SynchronousFieldLevelValidation.name].form.change(...x)
+          this.props[HybridSyncAsyncRecordLevelValidation.name].form.change(...x)
         )
       )(nextValues)
       
@@ -63,13 +63,13 @@ class SynchronousRecordLevelValidation extends React.Component {
 
     const {
       handleSubmit, submitting, pristine, form,
-      values
-    } = this.props[SynchronousFieldLevelValidation.name]
+      values, validating
+    } = this.props[HybridSyncAsyncRecordLevelValidation.name]
 
     return (
       <Styles>
         <h1 onClick={() => collapseToggler.toggle()}>
-          🏁 Synchronous Field-Level Validation
+          🏁 Hybrid Synchronous/Asynchronous Record-Level Validation
           { 
             collapseToggler.isOpen ?
             <ArrowDropUp /> :
@@ -78,19 +78,37 @@ class SynchronousRecordLevelValidation extends React.Component {
         </h1>
 
         <Collapse in={collapseToggler.isOpen}>
-          <a href="https://codesandbox.io/s/2k054qp40">
+          <a href="https://codesandbox.io/s/kl9n295n5">
             See source
           </a>
 
+          <div style={{ textAlign: 'center' }}>
+            Usernames John, Paul, George or Ringo will fail async validation.
+          </div>
+
           <form onSubmit={handleSubmit}>
-            {renderFFMUIComponent(firstNameField)}
-            {renderFFMUIComponent(lastNameField)}
-            {renderFFMUIComponent(ageField)}
+            {renderFFMUIComponent(userNameField)}
+            {renderFFMUIComponent(passwordField)}
+            {renderFFMUIComponent(confirmField)}
+
+            <div className="validating">
+            { validating && (
+              <React.Fragment>
+                <CircularProgress size={16} 
+                  style={{ marginRight: 8 }}
+                />
+                <Typography variant="body2" color="primary">
+                  validating ...
+                </Typography>
+              </React.Fragment>
+              )
+            }
+            </div>
 
             <div className="buttons">
               <Button
                 type="submit"
-                disabled={submitting || pristine}
+                disabled={submitting || pristine || validating}
                 color="primary"
                 variant="contained"
                 style={{ marginRight: 8 }}
@@ -100,7 +118,7 @@ class SynchronousRecordLevelValidation extends React.Component {
               <Button
                 type="button"
                 onClick={form.reset}
-                disabled={submitting || pristine}
+                disabled={submitting || pristine || validating}
                 variant="contained"
               >
                 Reset
@@ -116,17 +134,17 @@ class SynchronousRecordLevelValidation extends React.Component {
 
 const enhancer = compose(
   withTogglers(
-    { name: 'collapse', defaultOpen: false }
+    { name: 'collapse', defaultOpen: true }
   ),
   fromRenderProps(
     ({ children }) => (
       <Form 
-        {...SynchronousFieldLevelValidation}
+        {...HybridSyncAsyncRecordLevelValidation}
         children={children}
       />
     ),
     (formRenderProps) => ({
-      [SynchronousFieldLevelValidation.name]: formRenderProps
+      [HybridSyncAsyncRecordLevelValidation.name]: formRenderProps
     }),
   )
 )
