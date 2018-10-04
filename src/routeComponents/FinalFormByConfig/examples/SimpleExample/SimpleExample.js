@@ -19,7 +19,7 @@ import { withTogglers } from 'HOCs/withTogglers'
 
 import { 
   renderFFMUIComponent,
-  renderFFHelperText
+  renderFFMUIHelperText
 } from '../../common/renderFFMUIComponent'
 
 import {
@@ -119,7 +119,7 @@ class SimpleExample extends React.Component {
                     ))
                   )(saucesField.subFields)
                 }
-                {renderFFHelperText(saucesField)}
+                {renderFFMUIHelperText(saucesField)}
               </Grid>
             </Grid>
 
@@ -148,7 +148,7 @@ class SimpleExample extends React.Component {
                     )(stoogeField.subFields)
                   }
                 </Grid>
-                {renderFFHelperText(stoogeField)}
+                {renderFFMUIHelperText(stoogeField)}
               </Grid>
             </Grid>
 

@@ -4,10 +4,11 @@ import React from 'react'
 import Styles from './Styles'
 import { compose } from 'recompose'
 import { Form } from 'react-final-form'
+import { FieldArray } from 'react-final-form-arrays'
 import * as R from 'ramda'
 
 import {
-  Button, Collapse,
+  Button, Collapse, FormControlLabel
 } from '@material-ui/core'
 
 import {
@@ -23,22 +24,21 @@ import {
 } from '../../common/renderFFMUIComponent'
 
 import {
-  SynchronousFieldLevelValidation,
-  firstNameField,
-  lastNameField,
-  ageField
+  ArrayFieldsForm,
+  companyField,
+  customersField
 } from './formConfig'
 
-class SynchronousRecordLevelValidation extends React.Component {
+class ExampleComponent extends React.Component {
   componentDidMount () {
-    const v = `update${SynchronousFieldLevelValidation.name}`
+    const v = `update${ArrayFieldsForm.name}`
     
     window[v] = (nextValues) => {
 
       R.pipe(
         Object.entries,
         R.forEach(x => 
-          this.props[SynchronousFieldLevelValidation.name].form.change(...x)
+          this.props[ArrayFieldsForm.name].form.change(...x)
         )
       )(nextValues)
       
@@ -56,7 +56,7 @@ class SynchronousRecordLevelValidation extends React.Component {
   }
   
   render() {
-    // console.group('Final Form - SynchronousRecordLevelValidation')
+    // console.group('Final Form - ExampleComponent')
     // console.log(this.props)
     // console.groupEnd()
     const { collapseToggler } = this.props
@@ -64,12 +64,12 @@ class SynchronousRecordLevelValidation extends React.Component {
     const {
       handleSubmit, submitting, pristine, form,
       values
-    } = this.props[SynchronousFieldLevelValidation.name]
+    } = this.props[ArrayFieldsForm.name]
 
     return (
       <Styles>
         <h1 onClick={() => collapseToggler.toggle()}>
-          🏁 Synchronous Field-Level Validation
+          🏁 Array Fields
           { 
             collapseToggler.isOpen ?
             <ArrowDropUp /> :
@@ -78,14 +78,20 @@ class SynchronousRecordLevelValidation extends React.Component {
         </h1>
 
         <Collapse in={collapseToggler.isOpen}>
-          <a href="https://codesandbox.io/s/2k054qp40">
+          <a href="https://codesandbox.io/s/kx8qv67nk5">
             See source
           </a>
 
           <form onSubmit={handleSubmit}>
-            {renderFFMUIComponent(firstNameField)}
-            {renderFFMUIComponent(lastNameField)}
-            {renderFFMUIComponent(ageField)}
+            {renderFFMUIComponent(companyField)}
+
+            <FieldArray
+              name={customersField.name}
+              validate={customElements.validate}
+              render={(fields, meta) => {
+
+              }}
+            />
 
             <div className="buttons">
               <Button
@@ -116,19 +122,19 @@ class SynchronousRecordLevelValidation extends React.Component {
 
 const enhancer = compose(
   withTogglers(
-    { name: 'collapse', defaultOpen: false }
+    { name: 'collapse', defaultOpen: true }
   ),
   fromRenderProps(
     ({ children }) => (
       <Form 
-        {...SynchronousFieldLevelValidation}
+        {...ArrayFieldsForm}
         children={children}
       />
     ),
     (formRenderProps) => ({
-      [SynchronousFieldLevelValidation.name]: formRenderProps
+      [ArrayFieldsForm.name]: formRenderProps
     }),
   )
 )
 
-export default enhancer(SynchronousRecordLevelValidation)
+export default enhancer(ExampleComponent)

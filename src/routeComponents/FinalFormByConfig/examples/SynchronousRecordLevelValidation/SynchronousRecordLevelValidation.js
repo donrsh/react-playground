@@ -19,7 +19,7 @@ import { withTogglers } from 'HOCs/withTogglers'
 
 import { 
   renderFFMUIComponent,
-  // renderFFHelperText
+  // renderFFMUIHelperText
 } from '../../common/renderFFMUIComponent'
 
 import {

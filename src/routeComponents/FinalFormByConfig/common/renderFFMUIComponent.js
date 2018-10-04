@@ -110,7 +110,7 @@ const getHelperTextContent = (fieldConfig, fieldRenderProps) => {
   return null
 }
 
-export const renderFFHelperText = (
+export const renderFFMUIHelperText = (
   fieldConfig, 
   FormHelperTextProps = {}
 ) => {
@@ -275,5 +275,3 @@ export const createFFFormSubComponents = (formConfig) => ({
     )
   }
 })
-
-
