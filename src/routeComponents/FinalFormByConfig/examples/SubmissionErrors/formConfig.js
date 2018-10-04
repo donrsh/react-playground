@@ -7,7 +7,7 @@ import { FORM_ERROR } from 'final-form'
 //   isMoreThanNChars
 // } from '../../helpers/fieldValidators'
 
-import { createFormLogger } from '../../helpers/finalFormLogger'
+// import { createFormLogger } from '../../helpers/finalFormLogger'
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
@@ -22,7 +22,7 @@ const MUITextFieldBaseProps = {
 const form = {
   name: 'SubmissionErrors',
 
-  debug: createFormLogger('SubmissionErrors'),
+  // debug: createFormLogger('SubmissionErrors'),
 
   validate: values => {
     const errors = {}
@@ -56,7 +56,7 @@ export const userNameField = {
   type: 'text',
   label: 'Username',
   // disabled: true,
-  debug: true,
+  // debug: true,
   MUIProps: {
     TextField: {
       ...MUITextFieldBaseProps,

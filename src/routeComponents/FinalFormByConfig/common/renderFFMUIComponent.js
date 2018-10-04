@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as R from 'ramda'
 import * as RA from 'ramda-adjunct'
-import { Field } from 'react-final-form'
+import { Field, FormSpy } from 'react-final-form'
 
 import {
   MenuItem, FormHelperText, Typography, CircularProgress
@@ -224,6 +224,10 @@ const DefaultFFFormSubComponents = {
     return validating && (
       <Typography variant="body2" color="primary"
         component="span"
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center'
+        }}
       >
         <CircularProgress size={16}
           style={{ marginRight: 8 }}
@@ -244,21 +248,30 @@ const DefaultFFFormSubComponents = {
 }
 
 export const createFFFormSubComponents = (formConfig) => ({
-  ValidateIndicator: ({ formRenderProps, component }) => {
-    const { validating } = formRenderProps
-
-    return React.createElement(
-      component || DefaultFFFormSubComponents.ValidateIndicator,
-      { validating }
+  ValidateIndicator: ({ component }) => {
+    return (
+      <FormSpy
+        subscription={{ validating: true }}
+        component={
+          component ||
+          DefaultFFFormSubComponents.ValidateIndicator
+        }
+      />
     )
   },
 
-  SubmitErrorHelperText: ({ formRenderProps, component }) => {
-    const { submitError, submitErrors } = formRenderProps
-
-    return React.createElement(
-      component || DefaultFFFormSubComponents.SubmitErrorHelperText,
-      { submitError, submitErrors }
+  SubmitErrorHelperText: ({ component }) => {
+    return (
+      <FormSpy
+        subscription={{
+          submitError: true,
+          submitErrors: true
+        }}
+        component={
+          component ||
+          DefaultFFFormSubComponents.SubmitErrorHelperText
+        }
+      />
     )
   }
 })

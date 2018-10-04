@@ -96,11 +96,7 @@ class ExampleComponent extends React.Component {
             {renderFFMUIComponent(confirmField)}
 
             <div className="validating">
-            { 
-              <ValidateIndicator
-                formRenderProps={this.props[HybridSyncAsyncRecordLevelValidation.name]}
-              />
-            }
+              <ValidateIndicator />
             </div>
 
             <div className="buttons">

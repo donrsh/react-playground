@@ -95,11 +95,7 @@ class ExampleComponent extends React.Component {
             {renderFFMUIComponent(passwordField)}
 
             <div style={{ height: 50 }}>
-              {
-                <SubmitErrorHelperText
-                  formRenderProps={this.props[SubmissionErrors.name]}
-                />
-              }
+              <SubmitErrorHelperText />
             </div>
 
             <div className="buttons">
