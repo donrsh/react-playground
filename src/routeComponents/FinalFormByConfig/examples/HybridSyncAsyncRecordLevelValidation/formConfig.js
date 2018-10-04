@@ -5,6 +5,8 @@
 //   isMoreThanNChars
 // } from '../../helpers/fieldValidators'
 
+// import { createFormLogger } from '../../helpers/finalFormLogger'
+
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 const MUITextFieldBaseProps = {
@@ -29,7 +31,7 @@ const verifyUsername = async values => {
  const form = {
   name: 'HybridSyncAsyncRecordLevelValidation',
 
-  // debug: console.log,
+  // debug: createFormLogger('HybridSyncAsyncRecordLevelValidation'),
 
   validate: values => {
     const errors = {};
