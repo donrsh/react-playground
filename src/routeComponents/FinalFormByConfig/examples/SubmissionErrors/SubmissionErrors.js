@@ -7,7 +7,7 @@ import { Form } from 'react-final-form'
 import * as R from 'ramda'
 
 import {
-  Button, Collapse
+  Button, Collapse, CircularProgress
 } from '@material-ui/core'
 
 import {
@@ -24,24 +24,23 @@ import {
 } from '../../common/renderFFMUIComponent'
 
 import {
-  HybridSyncAsyncRecordLevelValidation,
+  SubmissionErrors,
   userNameField,
   passwordField,
-  confirmField
 } from './formConfig'
 
 class ExampleComponent extends React.Component {
-  FFFormSubComponents = createFFFormSubComponents(HybridSyncAsyncRecordLevelValidation)
+  FFFormSubComponents = createFFFormSubComponents(SubmissionErrors)
 
   componentDidMount () {
-    const v = `update${HybridSyncAsyncRecordLevelValidation.name}`
+    const v = `update${SubmissionErrors.name}`
     
     window[v] = (nextValues) => {
 
       R.pipe(
         Object.entries,
         R.forEach(x => 
-          this.props[HybridSyncAsyncRecordLevelValidation.name].form.change(...x)
+          this.props[SubmissionErrors.name].form.change(...x)
         )
       )(nextValues)
       
@@ -59,21 +58,21 @@ class ExampleComponent extends React.Component {
   }
   
   render() {
-    // console.group('Final Form - ExampleComponent')
+    // console.group('Final Form - SubmissionErrors')
     // console.log(this.props)
     // console.groupEnd()
-    const { ValidateIndicator } = this.FFFormSubComponents
     const { collapseToggler } = this.props
+    const { SubmitErrorHelperText } = this.FFFormSubComponents
 
     const {
       handleSubmit, submitting, pristine, form,
       values, validating
-    } = this.props[HybridSyncAsyncRecordLevelValidation.name]
+    } = this.props[SubmissionErrors.name]
 
     return (
       <Styles>
         <h1 onClick={() => collapseToggler.toggle()}>
-          🏁 Hybrid Synchronous/Asynchronous Record-Level Validation
+          🏁 Submission Errors
           { 
             collapseToggler.isOpen ?
             <ArrowDropUp /> :
@@ -82,25 +81,25 @@ class ExampleComponent extends React.Component {
         </h1>
 
         <Collapse in={collapseToggler.isOpen}>
-          <a href="https://codesandbox.io/s/kl9n295n5">
+          <a href="https://codesandbox.io/s/9y9om95lyp">
             See source
           </a>
 
           <div style={{ textAlign: 'center' }}>
-            Usernames John, Paul, George or Ringo will fail async validation.
+            Only successful credentials are <code>erikras</code> and{" "}
+            <code>finalformrocks</code>.
           </div>
 
           <form onSubmit={handleSubmit}>
             {renderFFMUIComponent(userNameField)}
             {renderFFMUIComponent(passwordField)}
-            {renderFFMUIComponent(confirmField)}
 
-            <div className="validating">
-            { 
-              <ValidateIndicator
-                formRenderProps={this.props[HybridSyncAsyncRecordLevelValidation.name]}
-              />
-            }
+            <div style={{ height: 50 }}>
+              {
+                <SubmitErrorHelperText
+                  formRenderProps={this.props[SubmissionErrors.name]}
+                />
+              }
             </div>
 
             <div className="buttons">
@@ -110,7 +109,14 @@ class ExampleComponent extends React.Component {
                 color="primary"
                 variant="contained"
                 style={{ marginRight: 8 }}
-              >
+              > 
+                {
+                  submitting && (
+                    <CircularProgress size={16}
+                      style={{ marginRight: 8 }}
+                    />
+                  )
+                }
                 Submit
             </Button>
               <Button
@@ -132,17 +138,17 @@ class ExampleComponent extends React.Component {
 
 const enhancer = compose(
   withTogglers(
-    { name: 'collapse', defaultOpen: false }
+    { name: 'collapse', defaultOpen: true }
   ),
   fromRenderProps(
     ({ children }) => (
       <Form 
-        {...HybridSyncAsyncRecordLevelValidation}
+        {...SubmissionErrors}
         children={children}
       />
     ),
     (formRenderProps) => ({
-      [HybridSyncAsyncRecordLevelValidation.name]: formRenderProps
+      [SubmissionErrors.name]: formRenderProps
     }),
   )
 )

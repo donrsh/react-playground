@@ -7,8 +7,8 @@ export default class extends React.Component {
   static displayName = 'C(FinalFormMUI/TextField)'
 
   get showError () {
-    const { error, touched } = this.props.meta
-    return Boolean(touched && error)
+    const { error, submitError, touched } = this.props.meta
+    return Boolean(touched && error) || Boolean(submitError)
   }
 
   render() {
@@ -24,7 +24,6 @@ export default class extends React.Component {
       console.log('MUIProps', this.props.MUIProps)
       console.groupEnd()
     }
-
 
     return (
       <TextField

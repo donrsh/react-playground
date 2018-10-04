@@ -4,7 +4,7 @@ import * as RA from 'ramda-adjunct'
 import { Field } from 'react-final-form'
 
 import {
-  MenuItem
+  MenuItem, FormHelperText, Typography, CircularProgress
 } from '@material-ui/core'
 
 import FFMUITextField from 'components/FinalFormMUI/TextField'
@@ -73,10 +73,15 @@ const getHelperTextContent = (fieldConfig, fieldRenderProps) => {
   const { minLength, maxLength } = fieldConfig
   const { 
     input: { value }, 
-    meta: { error, touched } 
+    meta: { error, touched, submitError } 
   } = fieldRenderProps
 
-  /* error first */
+  /* priority-1: submit error */
+  if (submitError) {
+    return submitError
+  }
+
+  /* priority-2: error */
   if (Boolean(touched && error)) {
     if (!R.contains(error.validatedBy, [isMoreThanNChars, isLessThanNChars])) {
       return typeof error === 'string' ? 
@@ -85,7 +90,7 @@ const getHelperTextContent = (fieldConfig, fieldRenderProps) => {
     }
   }
 
-  /* then display text number */
+  /* priority-3: display text number */
   if (R.any(RA.isNotNil, [minLength, maxLength])) {
     const minLengthValid = R.allPass([RA.isInteger, RA.isPositive])(minLength)
     const maxLengthValid = R.allPass([RA.isInteger, RA.isPositive])(maxLength)
@@ -213,3 +218,49 @@ export const renderFFMUIComponent = (fieldConfig) => {
       throw new Error(`Invalid input type: ${type}.`)
   }
 }
+
+const DefaultFFFormSubComponents = {
+  ValidateIndicator: ({ validating }) => {
+    return validating && (
+      <Typography variant="body2" color="primary"
+        component="span"
+      >
+        <CircularProgress size={16}
+          style={{ marginRight: 8 }}
+        />
+        <span>validating ...</span>
+      </Typography>
+    )
+  },
+
+  SubmitErrorHelperText: ({ submitError, submitErrors }) => {
+    return submitError ? (
+      <FormHelperText
+        error
+        children={submitError}
+      /> 
+    ) : null
+  },
+}
+
+export const createFFFormSubComponents = (formConfig) => ({
+  ValidateIndicator: ({ formRenderProps, component }) => {
+    const { validating } = formRenderProps
+
+    return React.createElement(
+      component || DefaultFFFormSubComponents.ValidateIndicator,
+      { validating }
+    )
+  },
+
+  SubmitErrorHelperText: ({ formRenderProps, component }) => {
+    const { submitError, submitErrors } = formRenderProps
+
+    return React.createElement(
+      component || DefaultFFFormSubComponents.SubmitErrorHelperText,
+      { submitError, submitErrors }
+    )
+  }
+})
+
+
