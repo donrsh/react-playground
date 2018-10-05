@@ -7,7 +7,7 @@ import { Form } from 'react-final-form'
 import * as R from 'ramda'
 
 import {
-  FormLabel, Grid, Button, Collapse,
+  Grid, Button, Collapse,
 } from '@material-ui/core'
 
 import {
@@ -19,7 +19,8 @@ import { withTogglers } from 'HOCs/withTogglers'
 
 import { 
   renderFFMUIComponent,
-  renderFFMUIHelperText
+  renderFFMUIHelperText,
+  renderFFMUIFormLabel
 } from '../../common/renderFFMUIComponent'
 
 import {
@@ -99,11 +100,9 @@ class SimpleExample extends React.Component {
             {/* sauces field */}
             <Grid container style={{ marginBottom: 20 }}>
               <Grid item xs={3}>
-                <FormLabel
-                  style={{ position: 'relative', top: 16 }}
-                >
-                  {saucesField.label}
-                </FormLabel>
+                {renderFFMUIFormLabel(saucesField, {
+                  style: { position: 'relative', top: 16 }
+                })}
               </Grid>
 
               <Grid item xs={9}>
@@ -126,11 +125,9 @@ class SimpleExample extends React.Component {
             {/* stooge field */}
             <Grid container style={{ marginBottom: 20 }}>
               <Grid item xs={3}>
-                <FormLabel
-                  style={{ position: 'relative', top: 16 }}
-                >
-                  {stoogeField.label}
-                </FormLabel>
+                {renderFFMUIFormLabel(stoogeField, {
+                  style: { position: 'relative', top: 16 }
+                })}
               </Grid>
 
               <Grid item xs={9}>

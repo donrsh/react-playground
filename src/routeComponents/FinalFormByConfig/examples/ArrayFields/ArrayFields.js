@@ -8,11 +8,11 @@ import { FieldArray } from 'react-final-form-arrays'
 import * as R from 'ramda'
 
 import {
-  Button, Collapse, FormControlLabel
+  Button, Collapse, Grid, IconButton, CircularProgress
 } from '@material-ui/core'
 
 import {
-  ArrowDropDown, ArrowDropUp
+  ArrowDropDown, ArrowDropUp, Close
 } from '@material-ui/icons'
 
 import { fromRenderProps } from 'HOCs/fromRenderProps'
@@ -20,7 +20,10 @@ import { withTogglers } from 'HOCs/withTogglers'
 
 import { 
   renderFFMUIComponent,
-  // renderFFMUIHelperText
+  renderFFMUIFormLabel,
+  // renderFFMUIFormLabel,
+  renderFFArrayFieldMUIHelperText,
+  renderFFArrayFieldMUIFormLabel
 } from '../../common/renderFFMUIComponent'
 
 import {
@@ -66,6 +69,10 @@ class ExampleComponent extends React.Component {
       values
     } = this.props[ArrayFieldsForm.name]
 
+    const {
+      mutators: { push, pop }
+    } = form
+
     return (
       <Styles>
         <h1 onClick={() => collapseToggler.toggle()}>
@@ -83,15 +90,76 @@ class ExampleComponent extends React.Component {
           </a>
 
           <form onSubmit={handleSubmit}>
-            {renderFFMUIComponent(companyField)}
+            <Grid container>
+              <Grid item xs={3}>
+                {renderFFMUIFormLabel(companyField)}
+              </Grid>
+              <Grid item xs={9}>
+                {renderFFMUIComponent(companyField)}
+              </Grid>
+            </Grid>
 
-            <FieldArray
-              name={customersField.name}
-              validate={customElements.validate}
-              render={(fields, meta) => {
+            <Grid container>
+              <Grid item xs={3}>
+                {renderFFArrayFieldMUIFormLabel(customersField)}
+                {renderFFArrayFieldMUIHelperText(customersField)}
+              </Grid>
+              <Grid item xs={9} style={{ textAlign: 'left' }}>
+                <div style={{ marginBottom: 20 }}>
+                  <Button variant="contained"
+                    onClick={() => push(customersField.name, undefined)}
+                    style={{ marginRight: 8 }}
+                  >
+                    Add a Customer
+                        </Button>
+                  <Button variant="contained"
+                    onClick={() => pop(customersField.name)}
+                  >
+                    Remove last Customer
+                  </Button>
+                </div>
 
-              }}
-            />
+                <div>
+                  <FieldArray
+                    name={customersField.name}
+                    validate={customersField.validate}
+                    children={({ fields, meta }) => {
+                      return (
+                        fields.map((name, idx) => {
+                          return (
+                            <div key={name}>
+                              {
+                                renderFFMUIComponent(
+                                  R.pipe(
+                                    R.evolve({
+                                      name: s => `${name}.${s}`
+                                    }),
+                                  )(customersField.subFields.firstName)
+                                )
+                              }
+                              {
+                                renderFFMUIComponent(
+                                  R.pipe(
+                                    R.evolve({
+                                      name: s => `${name}.${s}`
+                                    })
+                                  )(customersField.subFields.lastName)
+                                )
+                              }
+                              <IconButton
+                                onClick={() => fields.remove(idx)}
+                                children={<Close />}
+                              />
+                            </div>
+                          )
+                        })
+                      )
+                    }}
+                  />
+                </div>
+
+              </Grid>
+            </Grid>
 
             <div className="buttons">
               <Button
@@ -101,8 +169,15 @@ class ExampleComponent extends React.Component {
                 variant="contained"
                 style={{ marginRight: 8 }}
               >
+                {
+                  submitting && (
+                    <CircularProgress size={16}
+                      style={{ marginRight: 8 }}
+                    />
+                  )
+                }
                 Submit
-            </Button>
+              </Button>
               <Button
                 type="button"
                 onClick={form.reset}

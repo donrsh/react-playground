@@ -21,7 +21,7 @@ export default styled.div`
   }
 
   form {
-    max-width: 500px;
+    max-width: 800px;
     margin: 10px auto;
     border: 1px solid #ccc;
     padding: 20px;
@@ -33,6 +33,7 @@ export default styled.div`
       background: rgba(0, 0, 0, 0.1);
       box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.2);
       padding: 20px;
+      text-align: left;
     }
   }
 `;

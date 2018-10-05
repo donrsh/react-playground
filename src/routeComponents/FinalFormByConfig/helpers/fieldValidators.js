@@ -36,6 +36,13 @@ export const isRequiredForMultipleSelect = (value, allValues, props, name) => {
   } : undefined
 }
 
+export const isRequiredForArrayField = (value, allValues, props, name) => {
+  return (RA.isEmptyArray(value) || RA.isNilOrEmpty(value)) ? {
+    validatedBy: isRequiredForMultipleSelect,
+    msg: t('error.isRequiredForArrayField')
+  } : undefined
+}
+
 export const isNumber = R.pipe(
   Number,
   R.ifElse(

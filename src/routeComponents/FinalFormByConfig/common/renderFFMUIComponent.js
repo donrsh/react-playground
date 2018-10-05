@@ -1,12 +1,15 @@
 import * as React from 'react'
 import * as R from 'ramda'
 import * as RA from 'ramda-adjunct'
+import { ARRAY_ERROR } from 'final-form'
 import { Field, FormSpy } from 'react-final-form'
 
 import {
-  MenuItem, FormHelperText, Typography, CircularProgress
+  MenuItem, FormHelperText, Typography, CircularProgress,
+  FormLabel
 } from '@material-ui/core'
 
+import FFFormControl from 'components/FinalFormMUI/FormControl'
 import FFMUITextField from 'components/FinalFormMUI/TextField'
 import FFMUICheckbox from 'components/FinalFormMUI/Checkbox'
 import FFMUIRadio from 'components/FinalFormMUI/Radio'
@@ -40,7 +43,7 @@ const getFFFieldProps = (fieldConfig) => {
 const getMUIProps = (
   fieldConfig, fieldRenderProps
 ) => {
-  const { MUIProps = {}, type } = fieldConfig
+  const { MUIProps = {}, type, labelStandalone } = fieldConfig
   
   const base = {
     ...R.pick(['type', 'label', 'form', 'debug'], fieldConfig),
@@ -61,6 +64,13 @@ const getMUIProps = (
         R.assocPath(
           ['MUIProps', 'TextField', 'helperText'],
           getHelperTextContent(fieldConfig, fieldRenderProps)
+        ),
+        R.when(
+          () => labelStandalone,
+          R.assocPath(
+            ['MUIProps', 'TextField', 'InputLabelProps', 'style'],
+            { display: 'none' }
+          ),
         )
       ))
   
@@ -110,6 +120,27 @@ const getHelperTextContent = (fieldConfig, fieldRenderProps) => {
   return null
 }
 
+const getArrayFieldHelperTextContent = (fieldConfig, formSpyRenderProps) => {
+  if (Boolean(
+    R.path(
+      ['dirtyFields', fieldConfig.name],
+      formSpyRenderProps
+    )
+  )) {
+    return (
+      R.path(
+        ['submitErrors', fieldConfig.name, ARRAY_ERROR],
+        formSpyRenderProps
+      )
+    ) || (
+      R.path(
+        ['errors', fieldConfig.name, ARRAY_ERROR],
+        formSpyRenderProps
+      )
+    )
+  }
+}
+
 export const renderFFMUIHelperText = (
   fieldConfig, 
   FormHelperTextProps = {}
@@ -118,18 +149,103 @@ export const renderFFMUIHelperText = (
     <Field
       {...getFFFieldProps(fieldConfig)}
       render={fieldRenderProps => (
-        <FFFormHelperText
-          {...fieldRenderProps}
-          {...R.pick(
-            ['type', 'label', 'form', 'debug'], 
-            fieldConfig
-          )}
-          MUIProps={{
-            FormHelperText: {
-              ...FormHelperTextProps,
-              children: getHelperTextContent(fieldRenderProps, fieldRenderProps)
-            }
-          }}
+        <FFFormControl
+          fieldConfig={fieldConfig}
+          fieldRenderProps={fieldRenderProps}
+        >
+          <FFFormHelperText
+            {...fieldRenderProps}
+            {...R.pick(
+              ['type', 'label', 'form', 'debug'], 
+              fieldConfig
+            )}
+            MUIProps={{
+              FormHelperText: {
+                ...FormHelperTextProps,
+                children: getHelperTextContent(
+                  fieldConfig, 
+                  fieldRenderProps
+                )
+              }
+            }}
+          />
+        </FFFormControl>
+      )}
+    />
+  )
+}
+
+export const renderFFArrayFieldMUIHelperText = (
+  fieldConfig,
+  FormHelperTextProps = {}
+) => {
+  return (
+    <FormSpy
+      render={(formSpyRenderProps) => (
+        <FFFormControl
+          fieldConfig={fieldConfig}
+          formSpyRenderProps={formSpyRenderProps}
+          children={
+            <FFFormHelperText
+              {...R.pick(
+                ['type', 'label', 'form', 'debug'],
+                fieldConfig
+              )}
+              MUIProps={{
+                FormHelperText: {
+                  ...FormHelperTextProps,
+                  children: getArrayFieldHelperTextContent(
+                    fieldConfig, 
+                    formSpyRenderProps
+                  )
+                }
+              }}
+            />
+          }
+        />
+      )}
+    />
+  )
+}
+
+export const renderFFMUIFormLabel = (
+  fieldConfig,
+  FormLabelProps = {}
+) => {
+  return (
+    <Field
+      {...getFFFieldProps(fieldConfig)}
+      render={fieldRenderProps => (
+        <FFFormControl
+          fieldConfig={fieldConfig}
+          fieldRenderProps={fieldRenderProps}
+        >
+          <FormLabel
+            {...FormLabelProps}
+            children={fieldConfig.label}
+          />
+        </FFFormControl>
+      )}
+    />
+  )
+}
+
+export const renderFFArrayFieldMUIFormLabel = (
+  fieldConfig,
+  FormLabelProps = {}
+  ) => {
+    return (
+      <FormSpy
+        render={(formSpyRenderProps) => (
+        <FFFormControl
+          fieldConfig={fieldConfig}
+          formSpyRenderProps={formSpyRenderProps}
+          children={
+            <FormLabel
+              {...FormLabelProps}
+              children={fieldConfig.label}
+            />
+          }
         />
       )}
     />
