@@ -3,12 +3,12 @@ import * as R from 'ramda'
 import * as RA from 'ramda-adjunct'
 import { ARRAY_ERROR } from 'final-form'
 
-import { createFormLogger } from '../../helpers/finalFormLogger'
+// import { createFormLogger } from '../../helpers/finalFormLogger'
 
 import {
   // pipeValidatorsAndGetHead,
-  isRequired,
-  isRequiredForArrayField
+  // isRequired,
+  // isRequiredForArrayField
 } from '../../helpers/fieldValidators'
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -16,7 +16,7 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 const form = {
   name: 'ArrayFields',
 
-  debug: createFormLogger('ArrayFields'),
+  // debug: createFormLogger('ArrayFields'),
 
   mutators: {
     ...arrayMutators

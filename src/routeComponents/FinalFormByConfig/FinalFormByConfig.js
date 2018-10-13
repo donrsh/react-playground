@@ -6,11 +6,13 @@ import SynchronousFieldLevelValidation from './examples/SynchronousFieldLevelVal
 import HybridSyncAsyncRecordLevelValidation from './examples/HybridSyncAsyncRecordLevelValidation'
 import SubmissionErrors from './examples/SubmissionErrors'
 import ArrayFields from './examples/ArrayFields'
+import CalculatedFields from './examples/CalculatedFields'
 
 class FinalFormByConfig extends React.Component {
   render () {
     return (
       <React.Fragment>
+        <CalculatedFields />
         <ArrayFields />
         <SubmissionErrors />
         <HybridSyncAsyncRecordLevelValidation />
