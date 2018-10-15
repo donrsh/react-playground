@@ -1,8 +1,9 @@
 import * as React from 'react'
 import * as R from 'ramda'
 import * as RA from 'ramda-adjunct'
-import { ARRAY_ERROR } from 'final-form'
 import { Field, FormSpy } from 'react-final-form'
+import { FieldArray } from 'react-final-form-arrays'
+import { ARRAY_ERROR } from 'final-form'
 
 import {
   MenuItem, FormHelperText, Typography, CircularProgress,
@@ -83,11 +84,11 @@ const getHelperTextContent = (fieldConfig, fieldRenderProps) => {
   const { minLength, maxLength } = fieldConfig
   const { 
     input: { value }, 
-    meta: { error, touched, submitError } 
+    meta: { error, touched, submitError, dirtySinceLastSubmit } 
   } = fieldRenderProps
 
   /* priority-1: submit error */
-  if (submitError) {
+  if (submitError && !dirtySinceLastSubmit) {
     return submitError
   }
 
@@ -120,7 +121,8 @@ const getHelperTextContent = (fieldConfig, fieldRenderProps) => {
   return null
 }
 
-const getArrayFieldHelperTextContent = (fieldConfig, formSpyRenderProps) => {
+/* 
+const getArrayFieldHelperTextContentLegacy = (fieldConfig, formSpyRenderProps) => {
   if (Boolean(
     R.path(
       ['dirtyFields', fieldConfig.name],
@@ -139,6 +141,35 @@ const getArrayFieldHelperTextContent = (fieldConfig, formSpyRenderProps) => {
       )
     )
   }
+}
+*/
+
+const getArrayFieldHelperTextContent = (fieldConfig, fieldArrayRenderProps) => {
+  const { 
+    error, submitError, 
+    touched, /* dirtySinceLastSubmit  */
+  } = fieldArrayRenderProps.meta
+
+  /* submitError first */
+  let arrayFieldSubmitError = R.propOr(
+    undefined, ARRAY_ERROR, submitError
+  )
+  if (/* !dirtySinceLastSubmit && */ 
+    arrayFieldSubmitError
+  ) {
+    return typeof arrayFieldSubmitError === 'string' ?
+      arrayFieldSubmitError :
+      (arrayFieldSubmitError.msg || 'unknow submit error')
+  }
+
+  /* then validate error */
+  if (touched && error && RA.isNotArray(error)) {
+    return typeof error === 'string' ?
+      error :
+      (error.msg || 'unknow error')
+  }
+
+  return null
 }
 
 export const renderFFMUIHelperText = (
@@ -180,11 +211,12 @@ export const renderFFArrayFieldMUIHelperText = (
   FormHelperTextProps = {}
 ) => {
   return (
-    <FormSpy
-      render={(formSpyRenderProps) => (
+    <FieldArray
+      name={fieldConfig.name}
+      render={(fieldArrayRenderProps) => (
         <FFFormControl
           fieldConfig={fieldConfig}
-          formSpyRenderProps={formSpyRenderProps}
+          fieldArrayRenderProps={fieldArrayRenderProps}
           children={
             <FFFormHelperText
               {...R.pick(
@@ -196,7 +228,7 @@ export const renderFFArrayFieldMUIHelperText = (
                   ...FormHelperTextProps,
                   children: getArrayFieldHelperTextContent(
                     fieldConfig, 
-                    formSpyRenderProps
+                    fieldArrayRenderProps
                   )
                 }
               }}
@@ -235,11 +267,12 @@ export const renderFFArrayFieldMUIFormLabel = (
   FormLabelProps = {}
   ) => {
     return (
-      <FormSpy
-        render={(formSpyRenderProps) => (
+      <FieldArray
+        name={fieldConfig.name}
+        render={(fieldArrayRenderProps) => (
         <FFFormControl
           fieldConfig={fieldConfig}
-          formSpyRenderProps={formSpyRenderProps}
+          fieldArrayRenderProps={fieldArrayRenderProps}
           children={
             <FormLabel
               {...FormLabelProps}

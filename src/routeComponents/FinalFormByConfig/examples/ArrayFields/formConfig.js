@@ -7,7 +7,7 @@ import { ARRAY_ERROR } from 'final-form'
 
 import {
   // pipeValidatorsAndGetHead,
-  // isRequired,
+  isRequired,
   // isRequiredForArrayField
 } from '../../helpers/fieldValidators'
 
@@ -23,7 +23,7 @@ const form = {
   },
 
   initialValues: {
-    customers: [{}, {}]
+    customers: [{ firstName: '1' }, { firstName: '2' }]
   },
 
   /* 
@@ -100,7 +100,7 @@ export const companyField = {
   labelStandalone: true,
   // disabled: true,
   // debug: true,
-  // validate: isRequired,
+  validate: isRequired,
   MUIProps: {
     TextField: {
       placeholder: 'Company name',
@@ -139,7 +139,7 @@ export const customersField = {
       name: 'firstName',
       type: 'text',
       label: 'First Name',
-      // validate: isRequired,
+      validate: isRequired,
       MUIProps: {
         TextField: TextFieldBasePropsForSubfields
       }
