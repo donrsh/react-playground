@@ -35,6 +35,12 @@ const getFFFieldProps = (fieldConfig) => {
       'validate',
       'validateFields',
       'value',
+      'allowNull',
+      'format',
+      'formatOnBlur',
+      'isEqual',
+      'parse',
+      'subscription'
     ])(fieldConfig),
     
     ...FFFieldProps
@@ -44,7 +50,12 @@ const getFFFieldProps = (fieldConfig) => {
 const getMUIProps = (
   fieldConfig, fieldRenderProps
 ) => {
-  const { MUIProps = {}, type, labelStandalone } = fieldConfig
+  const { 
+    MUIProps = {}, 
+    type, 
+    labelStandalone,
+    placeholder
+  } = fieldConfig
   
   const base = {
     ...R.pick(['type', 'label', 'form', 'debug'], fieldConfig),
@@ -71,6 +82,13 @@ const getMUIProps = (
           R.assocPath(
             ['MUIProps', 'TextField', 'InputLabelProps', 'style'],
             { display: 'none' }
+          ),
+        ),
+        R.when(
+          () => Boolean(placeholder),
+          R.assocPath(
+            ['MUIProps', 'TextField', 'placeholder'],
+            placeholder
           ),
         )
       ))

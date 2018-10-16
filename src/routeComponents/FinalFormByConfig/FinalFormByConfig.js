@@ -8,11 +8,13 @@ import SubmissionErrors from './examples/SubmissionErrors'
 import ArrayFields from './examples/ArrayFields'
 import CalculatedFields from './examples/CalculatedFields'
 import WizardForm from './examples/WizardForm'
+import ParseAndFormat from './examples/ParseAndFormat'
 
 class FinalFormByConfig extends React.Component {
   render () {
     return (
       <React.Fragment>
+        <ParseAndFormat/>
         <WizardForm/>
         <CalculatedFields />
         <ArrayFields />
