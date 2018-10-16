@@ -3,7 +3,7 @@ import * as RA from 'ramda-adjunct'
 import createDecorator from 'final-form-calculate'
 import { ARRAY_ERROR } from 'final-form'
 
-import { createFormLogger } from '../../helpers/finalFormLogger'
+// import { createFormLogger } from '../../helpers/finalFormLogger'
 
 import {
   pipeValidatorsAndGetHead,
@@ -47,7 +47,7 @@ const calculator = createDecorator(
 const form = {
   name: 'CalculatedFields',
 
-  debug: createFormLogger('CalculatedFields'),
+  // debug: createFormLogger('CalculatedFields'),
 
   decorators: [calculator],
 

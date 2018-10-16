@@ -7,11 +7,13 @@ import HybridSyncAsyncRecordLevelValidation from './examples/HybridSyncAsyncReco
 import SubmissionErrors from './examples/SubmissionErrors'
 import ArrayFields from './examples/ArrayFields'
 import CalculatedFields from './examples/CalculatedFields'
+import WizardForm from './examples/WizardForm'
 
 class FinalFormByConfig extends React.Component {
   render () {
     return (
       <React.Fragment>
+        <WizardForm/>
         <CalculatedFields />
         <ArrayFields />
         <SubmissionErrors />
