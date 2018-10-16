@@ -9,6 +9,7 @@
     "final-form": "^4.10.0",
     "final-form-arrays": "^1.1.0",
     "final-form-calculate": "^1.2.1",
+    "final-form-set-field-data": "^1.0.1",
     "invariant": "^2.2.4",
     "normalize.css": "^8.0.0",
     "polished": "^1.9.3",
