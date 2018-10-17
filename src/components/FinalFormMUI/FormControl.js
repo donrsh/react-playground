@@ -12,10 +12,14 @@ export default class extends React.Component {
       this.props.fieldArrayRenderProps :
       this.props.fieldRenderProps  
 
-    const { error, touched, submitError, dirtySinceLastSubmit } = renderProps.meta
-    return Boolean(error && touched) || (
-      Boolean(submitError) && !dirtySinceLastSubmit
-    )
+    const { 
+      error, touched, submitError, dirtySinceLastSubmit,
+      data: { error: dataError, validating } = {}
+    } = renderProps.meta
+    
+    return Boolean(validating === false && dataError) ||
+      Boolean(touched && error) ||
+      Boolean(!dirtySinceLastSubmit && submitError)
   }
 
   render() {

@@ -7,7 +7,7 @@ import { ARRAY_ERROR } from 'final-form'
 
 import {
   MenuItem, FormHelperText, Typography, CircularProgress,
-  FormLabel
+  FormLabel, InputAdornment
 } from '@material-ui/core'
 
 import FFFormControl from 'components/FinalFormMUI/FormControl'
@@ -56,6 +56,10 @@ const getMUIProps = (
     labelStandalone,
     placeholder
   } = fieldConfig
+
+  const validating = R.pathOr(
+    false, ['meta', 'data', 'validating'], fieldRenderProps
+  )
   
   const base = {
     ...R.pick(['type', 'label', 'form', 'debug'], fieldConfig),
@@ -90,6 +94,20 @@ const getMUIProps = (
             ['MUIProps', 'TextField', 'placeholder'],
             placeholder
           ),
+        ),
+        R.when(
+          () => validating,
+          R.pipe(
+            R.assocPath(
+              ['MUIProps', 'TextField', 'InputProps', 'endAdornment'],
+              <InputAdornment>
+                <CircularProgress size={18}/>
+              </InputAdornment>
+            ),
+            R.assocPath(
+              ['MUIProps', 'TextField', 'disabled'], true
+            )
+          )
         )
       ))
   
@@ -102,15 +120,25 @@ const getHelperTextContent = (fieldConfig, fieldRenderProps) => {
   const { minLength, maxLength } = fieldConfig
   const { 
     input: { value }, 
-    meta: { error, touched, submitError, dirtySinceLastSubmit } 
+    meta: { 
+      error, touched, submitError, dirtySinceLastSubmit,
+      data: { error: dataError, validating } = {}
+    },
   } = fieldRenderProps
 
-  /* priority-1: submit error */
+  /* priority-1: data error */
+  if (validating === false && dataError) {
+    return typeof dataError === 'string' ?
+      dataError :
+      (dataError.msg || '')
+  }
+
+  /* priority-2: submit error */
   if (submitError && !dirtySinceLastSubmit) {
     return submitError
   }
 
-  /* priority-2: error */
+  /* priority-3: error */
   if (Boolean(touched && error)) {
     if (!R.contains(error.validatedBy, [isMoreThanNChars, isLessThanNChars])) {
       return typeof error === 'string' ? 

@@ -7,11 +7,13 @@ export default class extends React.Component {
   static displayName = 'C(FinalFormMUI/TextField)'
 
   get showError () {
-    const { error, submitError, touched, dirtySinceLastSubmit } = this.props.meta
-    return Boolean(touched && error) || (
-      !dirtySinceLastSubmit &&
-      Boolean(submitError)
-    )
+    const { 
+      error, submitError, touched, dirtySinceLastSubmit,
+      data: { error: dataError, validating }
+    } = this.props.meta
+    return Boolean(validating === false && dataError) ||
+      Boolean(touched && error) || 
+      Boolean(!dirtySinceLastSubmit && submitError)
   }
 
   render() {
