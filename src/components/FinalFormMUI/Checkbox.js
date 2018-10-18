@@ -38,11 +38,7 @@ export default class extends React.Component {
             {...getMUIComponentProps(
               'Checkbox', this.props
             )}
-            inputProps={{
-              ...restInputProps,
-              'data-form': form,
-              'data-field': name
-            }}
+            inputProps={restInputProps}
             checked={checked}
             value={`${value}`}
             name={name}

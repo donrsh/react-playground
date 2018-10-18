@@ -1,6 +1,6 @@
 import setFieldData from 'final-form-set-field-data'
 
-import { createFormLogger } from '../../helpers/finalFormLogger'
+// import { createFormLogger } from '../../helpers/finalFormLogger'
 
 import {
   // pipeValidatorsAndGetHead,
@@ -22,7 +22,7 @@ const MUITextFieldBaseProps = {
  const form = {
   name: 'CustomValidationEngine',
 
-  debug: createFormLogger('CustomValidationEngine'),
+  // debug: createFormLogger('CustomValidationEngine'),
 
   mutators: { 
     setFieldData,

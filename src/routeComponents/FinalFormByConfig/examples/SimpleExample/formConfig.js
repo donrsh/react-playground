@@ -25,6 +25,8 @@ const MUITextFieldBaseProps = {
 export const simpleExampleForm = {
   name: 'SimpleExample',
 
+  title: 'Simple Example',
+
   onSubmit: async values => {
     await sleep(300)
     window.alert(JSON.stringify(values, 0, 2))
@@ -45,6 +47,7 @@ export const firstNameField = {
   name: 'firstName',
   type: 'text',
   label: 'First Name',
+  placeholder: 'First Name',
   // disabled: true,
   // debug: true,
   validate: pipeValidatorsAndGetHead(
@@ -176,7 +179,7 @@ export const toppingsField = {
 export const saucesField = {
   form: simpleExampleForm.name,
   name: 'sauces',
-  type: 'selectBycheckbox',
+  type: 'selectionGroup',
   label: 'Sauces',
   validate: pipeValidatorsAndGetHead(
     isRequiredForMultipleSelect,
@@ -194,6 +197,7 @@ export const saucesField = {
       form: simpleExampleForm.name,
       name: 'sauces',
       type: 'checkbox',
+      isOption: true,
       label: 'Ketchup',
       value: 'ketchup',
       MUIProps: {},
@@ -204,6 +208,7 @@ export const saucesField = {
       form: simpleExampleForm.name,
       name: 'sauces',
       type: 'checkbox',
+      isOption: true,
       label: 'Mustard',
       value: 'mustard',
       MUIProps: {}
@@ -212,6 +217,7 @@ export const saucesField = {
       form: simpleExampleForm.name,
       name: 'sauces',
       type: 'checkbox',
+      isOption: true,
       label: 'Mayonnaise',
       value: 'mayonnaise',
       MUIProps: {}
@@ -220,6 +226,7 @@ export const saucesField = {
       form: simpleExampleForm.name,
       name: 'sauces',
       type: 'checkbox',
+      isOption: true,
       label: 'Guacamole',
       value: 'guacamole',
       MUIProps: {}
@@ -230,7 +237,7 @@ export const saucesField = {
 export const stoogeField = {
   form: simpleExampleForm.name,
   name: 'stooge',
-  type: 'selectByRadio',
+  type: 'radioGroup',
   label: 'Best Stooge',
   // debug: true,
   validate: pipeValidatorsAndGetHead(

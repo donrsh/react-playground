@@ -36,6 +36,10 @@ import {
   notesField
 } from './formConfig'
 
+export const testIds = {
+  togglerButton: "togglerButton"
+}
+
 class SimpleExample extends React.Component {
   componentDidMount () {
     const v = `update${simpleExampleForm.name}`
@@ -61,11 +65,27 @@ class SimpleExample extends React.Component {
   componentWillUnmount () {
     this.releaseFormVariable()
   }
+
+  Sub = {
+    TogglerButton: () => {
+      const { isOpen } = this.props.collapseToggler
+      
+      const TogglerComponent = isOpen ? ArrowDropUp : ArrowDropDown
+
+      return (
+        <TogglerComponent 
+          data-testid={testIds.togglerButton}
+          data-open={`${isOpen}`}
+        />
+      )
+    }
+  }
   
   render() {
     // console.group('Final Form - SimpleExample')
     // console.log(this.props)
     // console.groupEnd()
+    const { Sub } = this
     const { collapseToggler } = this.props
 
     const {
@@ -74,14 +94,10 @@ class SimpleExample extends React.Component {
     } = this.props[simpleExampleForm.name]
 
     return (
-      <Styles>
+      <Styles id={simpleExampleForm.name}>
         <h1 onClick={() => collapseToggler.toggle()}>
-          🏁 React Final Form - Simple Example
-          { 
-            collapseToggler.isOpen ?
-            <ArrowDropUp /> :
-            <ArrowDropDown />
-          }
+          🏁 React Final Form - { simpleExampleForm.title }
+          <Sub.TogglerButton />
         </h1>
 
         <Collapse in={collapseToggler.isOpen}>
@@ -181,7 +197,9 @@ class SimpleExample extends React.Component {
 
 const enhancer = compose(
   withTogglers(
-    { name: 'collapse', defaultOpen: false }
+    ({ defaultOpen = false }) => [
+      { name: 'collapse', defaultOpen }
+    ]
   ),
   fromRenderProps(
     ({ children }) => (

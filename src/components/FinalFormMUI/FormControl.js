@@ -24,11 +24,14 @@ export default class extends React.Component {
 
   render() {
     const {
-      children
+      children,
+      fieldConfig: { form, name }
     } = this.props
 
     return (
       <FormControl
+        data-form={form}
+        data-field={name}
         error={this.error}
         children={children}
       />

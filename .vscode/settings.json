@@ -10,5 +10,6 @@
     "routeComponents": "${workspace}/src/routeComponents",
     "HOCs": "${workspace}/src/HOCs",
   },
-  "standard.enable": false
+  "standard.enable": false,
+  "jest.autoEnable": false
 }

@@ -15,7 +15,8 @@ class FinalFormByConfig extends React.Component {
   render () {
     return (
       <React.Fragment>
-        <CustomValidationEngine />
+        <SimpleExample defaultOpen/>
+        <CustomValidationEngine defaultOpen={false}/>
         <ParseAndFormat/>
         <WizardForm/>
         <CalculatedFields />
@@ -24,7 +25,6 @@ class FinalFormByConfig extends React.Component {
         <HybridSyncAsyncRecordLevelValidation />
         <SynchronousFieldLevelValidation />
         <SynchronousRecordLevelValidation />
-        <SimpleExample />
       </React.Fragment>
     )
   }

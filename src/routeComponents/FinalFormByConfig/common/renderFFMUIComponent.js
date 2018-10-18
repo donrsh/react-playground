@@ -18,6 +18,31 @@ import FFFormHelperText from 'components/FinalFormMUI/FormHelperText'
 
 import { isMoreThanNChars, isLessThanNChars } from '../helpers/fieldValidators'
 
+export const MUIComponentDataAttribute = 'data-mui-component'
+
+export const getInputId = (fieldConfig) => {
+  const { form, name, isOption, type } = fieldConfig
+
+  let inputId = `${form}(${name})`
+  if (
+    (type === 'checkbox' && isOption) ||
+    type === 'radio'
+  ) {
+    inputId = `${form}(${name}:${fieldConfig.value})`
+  }
+
+  return inputId
+}
+
+export const getDataFieldAttribute = (fieldConfig) => {
+  const { name, type, isOption, value } = fieldConfig
+
+  return (
+    (type === 'checkbox' && isOption) ||
+    type === 'radio'
+  ) ? `${name}:${value}` : name
+}
+
 /* 
   See final-form FieldProps:
   https://github.com/final-form/react-final-form#fieldprops
@@ -53,6 +78,7 @@ const getMUIProps = (
   const { 
     MUIProps = {}, 
     type, 
+    form, name,
     labelStandalone,
     placeholder
   } = fieldConfig
@@ -60,6 +86,8 @@ const getMUIProps = (
   const validating = R.pathOr(
     false, ['meta', 'data', 'validating'], fieldRenderProps
   )
+
+  const inputId = getInputId(fieldConfig)
   
   const base = {
     ...R.pick(['type', 'label', 'form', 'debug'], fieldConfig),
@@ -67,7 +95,9 @@ const getMUIProps = (
     MUIProps: {
       ...MUIProps,
       Root: {
-        disabled: fieldConfig.disabled
+        disabled: fieldConfig.disabled,
+        'data-form': form,
+        'data-field': name
       }
     }
   }
@@ -78,14 +108,39 @@ const getMUIProps = (
     case 'select':
       return R.applyTo(base)(R.pipe(
         R.assocPath(
+          ['MUIProps', 'TextField', 'FormHelperTextProps', MUIComponentDataAttribute],
+          'FormHelperText'
+        ),
+        R.assocPath(
           ['MUIProps', 'TextField', 'helperText'],
           getHelperTextContent(fieldConfig, fieldRenderProps)
         ),
+        R.assocPath(
+          ['MUIProps', 'TextField', 'InputProps', 'id'],
+          inputId
+        ),
+        R.over(
+          R.lensPath(['MUIProps', 'TextField', 'InputLabelProps']),
+          R.merge({
+            htmlFor: inputId,
+            'data-field': getDataFieldAttribute(fieldConfig)
+          })
+        ),
+        /*
+        R.over(
+          R.lensPath(['MUIProps', 'TextField', 'InputProps']),
+          R.merge({
+            id: inputId,
+            'data-form': form,
+            'data-field': name
+          })
+        ),
+        */
         R.when(
           () => labelStandalone,
           R.assocPath(
-            ['MUIProps', 'TextField', 'InputLabelProps', 'style'],
-            { display: 'none' }
+            ['MUIProps', 'TextField', 'InputLabelProps', 'component'],
+            () => null
           ),
         ),
         R.when(
@@ -109,6 +164,36 @@ const getMUIProps = (
             )
           )
         )
+      ))
+
+    case 'checkbox':
+      return R.applyTo(base)(R.pipe(
+        R.over(
+          R.lensPath(['MUIProps', 'FormControlLabel']),
+          R.merge({
+            htmlFor: inputId,
+            'data-field': getDataFieldAttribute(fieldConfig)
+          })
+        ),
+        R.assocPath(
+          ['MUIProps', 'Checkbox', 'id'],
+          inputId
+        ),
+      ))
+
+    case 'radio':
+      return R.applyTo(base)(R.pipe(
+        R.over(
+          R.lensPath(['MUIProps', 'FormControlLabel']),
+          R.merge({
+            htmlFor: inputId,
+            'data-field': getDataFieldAttribute(fieldConfig)
+          })
+        ),
+        R.assocPath(
+          ['MUIProps', 'Radio', 'id'],
+          inputId
+        ),
       ))
   
     default:
@@ -240,6 +325,7 @@ export const renderFFMUIHelperText = (
             MUIProps={{
               FormHelperText: {
                 ...FormHelperTextProps,
+                [MUIComponentDataAttribute]: "FormHelperText",
                 children: getHelperTextContent(
                   fieldConfig, 
                   fieldRenderProps
@@ -292,6 +378,8 @@ export const renderFFMUIFormLabel = (
   fieldConfig,
   FormLabelProps = {}
 ) => {
+  const inputId = getInputId(fieldConfig)
+
   return (
     <Field
       {...getFFFieldProps(fieldConfig)}
@@ -302,6 +390,8 @@ export const renderFFMUIFormLabel = (
         >
           <FormLabel
             {...FormLabelProps}
+            data-field={getDataFieldAttribute(fieldConfig)}
+            htmlFor={inputId}
             children={fieldConfig.label}
           />
         </FFFormControl>

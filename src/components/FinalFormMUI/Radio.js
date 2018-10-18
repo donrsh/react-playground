@@ -32,17 +32,13 @@ export default class extends React.Component {
         )}
         control={
           <Radio
+            type={type}
             {...getMUIComponentProps(
               'Radio', this.props
             )}
-            inputProps={{
-              ...restInputProps,
-              'data-form': form,
-              'data-field': name
-            }}
+            inputProps={restInputProps}
             checked={checked}
             name={name}
-            type={type}
             onChange={onChange}
           />
         }

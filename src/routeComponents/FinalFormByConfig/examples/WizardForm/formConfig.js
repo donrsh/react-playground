@@ -162,7 +162,7 @@ export const toppingsField = {
 export const saucesField = {
   form: WizardForm.name,
   name: 'sauces',
-  type: 'selectBycheckbox',
+  type: 'selectionGroup',
   label: 'Sauces',
   validate: pipeValidatorsAndGetHead(
     isRequiredForMultipleSelect,
@@ -216,7 +216,7 @@ export const saucesField = {
 export const stoogeField = {
   form: WizardForm.name,
   name: 'stooge',
-  type: 'selectByRadio',
+  type: 'radioGroup',
   label: 'Best Stooge',
   // debug: true,
   validate: pipeValidatorsAndGetHead(
