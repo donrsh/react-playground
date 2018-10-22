@@ -191,16 +191,17 @@ const getArrayFieldHelperTextContentLegacy = (fieldConfig, formSpyRenderProps) =
 */
 
 const getArrayFieldHelperTextContent = (fieldConfig, fieldArrayRenderProps) => {
+  console.log('fieldArrayRenderProps', fieldArrayRenderProps)
   const { 
     error, submitError, 
-    touched, /* dirtySinceLastSubmit  */
+    touched, dirtySinceLastSubmit
   } = fieldArrayRenderProps.meta
 
   /* submitError first */
   let arrayFieldSubmitError = R.propOr(
     undefined, ARRAY_ERROR, submitError
   )
-  if (/* !dirtySinceLastSubmit && */ 
+  if (!dirtySinceLastSubmit && 
     arrayFieldSubmitError
   ) {
     return typeof arrayFieldSubmitError === 'string' ?
@@ -259,6 +260,7 @@ export const renderFFArrayFieldMUIHelperText = (
   return (
     <FieldArray
       name={fieldConfig.name}
+      isEqual={fieldConfig.isEqual || R.equals}
       render={(fieldArrayRenderProps) => (
         <FFFormControl
           fieldConfig={fieldConfig}
@@ -315,6 +317,7 @@ export const renderFFArrayFieldMUIFormLabel = (
     return (
       <FieldArray
         name={fieldConfig.name}
+        isEqual={fieldConfig.isEqual || R.equals}
         render={(fieldArrayRenderProps) => (
         <FFFormControl
           fieldConfig={fieldConfig}
