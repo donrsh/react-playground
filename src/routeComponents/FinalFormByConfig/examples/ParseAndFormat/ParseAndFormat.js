@@ -17,7 +17,7 @@ import {
 import { fromRenderProps } from 'HOCs/fromRenderProps'
 import { withTogglers } from 'HOCs/withTogglers'
 
-import { 
+import {
   renderFFMUIComponent,
   createFFFormSubComponents
 } from '../../common/renderFFMUIComponent'
@@ -32,31 +32,31 @@ import {
 class ExampleComponent extends React.Component {
   FFFormSubComponents = createFFFormSubComponents(ParseAndFormat)
 
-  componentDidMount () {
+  componentDidMount() {
     const v = `update${ParseAndFormat.name}`
-    
+
     window[v] = (nextValues) => {
 
       R.pipe(
         Object.entries,
-        R.forEach(x => 
+        R.forEach(x =>
           this.props[ParseAndFormat.name].form.change(...x)
         )
       )(nextValues)
-      
+
     }
 
     console.info(`🔮 You can access change form function via global variable: ${v}`)
 
     this.releaseFormVariable = () => {
-      window[v] = undefined  
+      window[v] = undefined
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.releaseFormVariable()
   }
-  
+
   render() {
     // console.group('Final Form - ParseAndFormat')
     // console.log(this.props)
@@ -73,10 +73,10 @@ class ExampleComponent extends React.Component {
       <Styles>
         <h1 onClick={() => collapseToggler.toggle()}>
           🏁 Parse and Format
-          { 
+          {
             collapseToggler.isOpen ?
-            <ArrowDropUp /> :
-            <ArrowDropDown />
+              <ArrowDropUp /> :
+              <ArrowDropDown />
           }
         </h1>
 
@@ -101,7 +101,7 @@ class ExampleComponent extends React.Component {
                 color="primary"
                 variant="contained"
                 style={{ marginRight: 8 }}
-              > 
+              >
                 {
                   submitting && (
                     <CircularProgress size={16}
@@ -130,11 +130,13 @@ class ExampleComponent extends React.Component {
 
 const enhancer = compose(
   withTogglers(
-    { name: 'collapse', defaultOpen: false }
+    ({ defaultOpen = false }) => [
+      { name: 'collapse', defaultOpen }
+    ]
   ),
   fromRenderProps(
     ({ children }) => (
-      <Form 
+      <Form
         {...ParseAndFormat}
         children={children}
       />

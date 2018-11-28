@@ -34,7 +34,6 @@ describe('Radio', () => {
     name: 'stooge',
     type: 'radioGroup',
     label: 'Best Stooge',
-    // debug: true,
     validate: value => value === 'moe' ? fieldInvalidMessage : undefined,
     
     options: {
@@ -67,7 +66,7 @@ describe('Radio', () => {
     const fieldConfig = fieldBaseConfig
     const { baseElement } = renderInForm(
       formRenderProps => (
-        <React.Fragment>
+        <>
           {renderFFMUIFormLabel(fieldConfig)}
 
           {
@@ -83,7 +82,7 @@ describe('Radio', () => {
           <div id={idForRadioValue}>
             {formRenderProps.values[fieldConfig.name]}
           </div>
-        </React.Fragment>
+        </>
     ))
 
     const { larry, moe, curly } = fieldConfig.options

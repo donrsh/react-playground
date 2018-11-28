@@ -15,12 +15,12 @@ class FinalFormByConfig extends React.Component {
   render () {
     return (
       <React.Fragment>
-        <SimpleExample defaultOpen/>
-        <CustomValidationEngine defaultOpen={false}/>
+        <ArrayFields defaultOpen/>
+        <SimpleExample />
+        <CustomValidationEngine />
         <ParseAndFormat/>
         <WizardForm/>
         <CalculatedFields />
-        <ArrayFields />
         <SubmissionErrors />
         <HybridSyncAsyncRecordLevelValidation />
         <SynchronousFieldLevelValidation />

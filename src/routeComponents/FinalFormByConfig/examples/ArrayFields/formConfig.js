@@ -3,7 +3,7 @@ import * as R from 'ramda'
 import * as RA from 'ramda-adjunct'
 import { ARRAY_ERROR } from 'final-form'
 
-// import { createFormLogger } from '../../helpers/finalFormLogger'
+import { createFormLogger } from '../../helpers/finalFormLogger'
 
 import {
   // pipeValidatorsAndGetHead,
@@ -16,7 +16,7 @@ const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
 const form = {
   name: 'ArrayFields',
 
-  // debug: createFormLogger('ArrayFields'),
+  debug: createFormLogger('ArrayFields'),
 
   mutators: {
     ...arrayMutators
@@ -26,7 +26,6 @@ const form = {
     customers: [{ firstName: '1' }, { firstName: '2' }]
   },
 
-  /* 
   validate: (values) => {
     const errors = {}
 
@@ -34,15 +33,14 @@ const form = {
       errors.company = `Company is required!`
     }
 
-    if (!values.customers || values.customers.length <= 2) {
+    if (!values.customers || values.customers.length < 4) {
       let arrayError = []
-      arrayError[ARRAY_ERROR] = `Should at least contain 3 customers.`
+      arrayError[ARRAY_ERROR] = `Should at least contain 4 customers. (by form validators)`
       errors.customers = arrayError
     }
 
     return errors
   },
-  */
 
   onSubmit: async values => {
     await sleep(1000)
@@ -127,11 +125,11 @@ export const customersField = {
   type: 'array',
   labelStandalone: true,
   label: 'Customers',
-  // validate: (values) => {
-  //   if(!RA.isArray(values) || R.length(values) <= 2) {
-  //     return `Should at least contain 3 customers.`
-  //   }
-  // },
+  validate: (values) => {
+    if(!RA.isArray(values) || R.length(values) <= 2) {
+      return `Should at least contain 3 customers. (by field validator)`
+    }
+  },
   // debug: true,
   subFields: {
     firstName: {

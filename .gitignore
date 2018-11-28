@@ -1,5 +1,7 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
+CNAME
+
 # dependencies
 /node_modules
 
@@ -8,6 +10,10 @@
 
 # production
 /build
+/storybook-build
+
+# doc generated dynamically
+/storybook-readme/generated
 
 # misc
 .DS_Store

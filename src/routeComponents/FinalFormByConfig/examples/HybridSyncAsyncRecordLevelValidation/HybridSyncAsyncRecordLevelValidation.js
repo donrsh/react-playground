@@ -127,7 +127,9 @@ class ExampleComponent extends React.Component {
 
 const enhancer = compose(
   withTogglers(
-    { name: 'collapse', defaultOpen: false }
+    ({ defaultOpen = false }) => [
+      { name: 'collapse', defaultOpen }
+    ]
   ),
   fromRenderProps(
     ({ children }) => (

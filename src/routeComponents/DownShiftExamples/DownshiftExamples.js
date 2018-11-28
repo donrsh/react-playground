@@ -1,15 +1,15 @@
 import * as React from 'react'
 
 import Basic from './Examples/Basic'
-import Muitiple from './Examples/Muitiple'
+import Multiple from './Examples/Multiple'
 import SingleAsync from './Examples/SingleAsync'
 
 class DownshiftExamples extends React.Component {
-  render () {
+  render() {
     return (
       <div>
         <SingleAsync />
-        <Muitiple />
+        <Multiple />
         <Basic />
       </div>
     )

@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^3.1.1",
     "@material-ui/icons": "^3.0.1",
+    "@storybook/addon-options": "^4.0.8",
     "downshift": "^2.0.16",
     "final-form": "^4.10.0",
     "final-form-arrays": "^1.1.0",
@@ -12,6 +13,8 @@
     "final-form-set-field-data": "^1.0.1",
     "invariant": "^2.2.4",
     "jest-dom": "^2.1.0",
+    "mkdirp": "^0.5.1",
+    "mustache": "^3.0.1",
     "normalize.css": "^8.0.0",
     "polished": "^1.9.3",
     "prop-types": "^15.6.2",
@@ -37,8 +40,12 @@
     "yup": "^0.25.1"
   },
   "scripts": {
+    "doc:storybook": "node bin/genDocs.js",
     "start": "react-scripts start",
+    "start:storybook": "yarn run doc:storybook && start-storybook -p 9001 -c .storybook",
     "build": "react-scripts build",
+    "build:storybook": "yarn run doc:storybook && build-storybook -c .storybook -o storybook-build",
+    "deploy:storybook": "cp CNAME storybook-build/CNAME && surge storybook-build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
@@ -47,5 +54,11 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "@storybook/react": "^4.0.9",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.0.4",
+    "storybook-readme": "^4.0.2"
+  }
 }

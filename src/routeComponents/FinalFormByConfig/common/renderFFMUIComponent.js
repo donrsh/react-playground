@@ -43,6 +43,11 @@ export const getDataFieldAttribute = (fieldConfig) => {
   ) ? `${name}:${value}` : name
 }
 
+export const formSubComponentNames = {
+  ValidateIndicator: 'ValidateIndicator',
+  SubmitErrorHelperText: 'SubmitErrorHelperText'
+}
+
 /* 
   See final-form FieldProps:
   https://github.com/final-form/react-final-form#fieldprops
@@ -126,16 +131,6 @@ const getMUIProps = (
             'data-field': getDataFieldAttribute(fieldConfig)
           })
         ),
-        /*
-        R.over(
-          R.lensPath(['MUIProps', 'TextField', 'InputProps']),
-          R.merge({
-            id: inputId,
-            'data-form': form,
-            'data-field': name
-          })
-        ),
-        */
         R.when(
           () => labelStandalone,
           R.assocPath(
@@ -252,31 +247,7 @@ const getHelperTextContent = (fieldConfig, fieldRenderProps) => {
   return null
 }
 
-/* 
-const getArrayFieldHelperTextContentLegacy = (fieldConfig, formSpyRenderProps) => {
-  if (Boolean(
-    R.path(
-      ['dirtyFields', fieldConfig.name],
-      formSpyRenderProps
-    )
-  )) {
-    return (
-      R.path(
-        ['submitErrors', fieldConfig.name, ARRAY_ERROR],
-        formSpyRenderProps
-      )
-    ) || (
-      R.path(
-        ['errors', fieldConfig.name, ARRAY_ERROR],
-        formSpyRenderProps
-      )
-    )
-  }
-}
-*/
-
 const getArrayFieldHelperTextContent = (fieldConfig, fieldArrayRenderProps) => {
-  console.log('fieldArrayRenderProps', fieldArrayRenderProps)
   const { 
     error, submitError, 
     touched, dirtySinceLastSubmit
@@ -343,33 +314,45 @@ export const renderFFArrayFieldMUIHelperText = (
   fieldConfig,
   FormHelperTextProps = {}
 ) => {
+  const { form, name, debug } = fieldConfig
+  
   return (
     <FieldArray
       name={fieldConfig.name}
       isEqual={fieldConfig.isEqual || R.equals}
-      render={(fieldArrayRenderProps) => (
-        <FFFormControl
-          fieldConfig={fieldConfig}
-          fieldArrayRenderProps={fieldArrayRenderProps}
-          children={
-            <FFFormHelperText
-              {...R.pick(
-                ['type', 'label', 'form', 'debug'],
-                fieldConfig
-              )}
-              MUIProps={{
-                FormHelperText: {
-                  ...FormHelperTextProps,
-                  children: getArrayFieldHelperTextContent(
-                    fieldConfig, 
-                    fieldArrayRenderProps
-                  )
-                }
-              }}
-            />
-          }
-        />
-      )}
+      render={(fieldArrayRenderProps) => {
+        if (debug) {
+          console.group(`🏁 [${form}]${name} @ArrayFieldMUIHelperText`)
+          console.log('meta', fieldArrayRenderProps.meta)
+          console.log('FormHelperTextProps', FormHelperTextProps)
+          console.groupEnd()
+        }
+
+        return (
+          <FFFormControl
+            fieldConfig={fieldConfig}
+            fieldArrayRenderProps={fieldArrayRenderProps}
+            children={
+              <FFFormHelperText
+                {...R.pick(
+                  ['type', 'label', 'form', 'debug'],
+                  fieldConfig
+                )}
+                MUIProps={{
+                  FormHelperText: {
+                    ...FormHelperTextProps,
+                    [MUIComponentDataAttribute]: "FormHelperText",
+                    children: getArrayFieldHelperTextContent(
+                      fieldConfig, 
+                      fieldArrayRenderProps
+                    )
+                  }
+                }}
+              />
+            }
+          />
+        )
+      }}
     />
   )
 }
@@ -415,6 +398,7 @@ export const renderFFArrayFieldMUIFormLabel = (
           children={
             <FormLabel
               {...FormLabelProps}
+              data-field={getDataFieldAttribute(fieldConfig)}
               children={fieldConfig.label}
             />
           }
@@ -516,6 +500,9 @@ const DefaultFFFormSubComponents = {
           display: 'inline-flex',
           alignItems: 'center'
         }}
+        {...{
+          [MUIComponentDataAttribute]: formSubComponentNames.ValidateIndicator
+        }}
       >
         <CircularProgress size={16}
           style={{ marginRight: 8 }}
@@ -530,6 +517,9 @@ const DefaultFFFormSubComponents = {
       <FormHelperText
         error
         children={submitError}
+        {...{
+          [MUIComponentDataAttribute]: formSubComponentNames.SubmitErrorHelperText
+        }}
       /> 
     ) : null
   },

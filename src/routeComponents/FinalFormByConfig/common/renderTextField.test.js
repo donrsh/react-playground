@@ -84,7 +84,7 @@ describe('TextField', () => {
     expect(labelEl).toBeNull()
   })
 
-  it(`field-level validate do make error helperText appear`, async () => {
+  it(`field-level validate do make error HelperText appear`, async () => {
     const helperTextTestId = `${Math.random()}`
     const requiredMessage = `${Math.random()}`
 
@@ -121,7 +121,7 @@ describe('TextField', () => {
     expect(getHelperTextElThunk()).toBeNull()
   })
 
-  it(`record-level validate do make error helperText appear`, async () => {
+  it(`record-level validate do make error HelperText appear`, async () => {
     const helperTextTestId = `${Math.random()}`
     const requiredMessage = `${Math.random()}`
     
@@ -158,5 +158,5 @@ describe('TextField', () => {
     expect(getHelperTextElThunk()).toBeNull()
   })
 
-  xit(`field-level async validate do make error helperText appear`, () => {})
+  xit(`field-level async validate do make error HelperText appear`, () => {})
 })

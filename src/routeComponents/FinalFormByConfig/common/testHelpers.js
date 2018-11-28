@@ -24,7 +24,7 @@ export function renderInForm(children, formConfig = {}) {
             <button type='submit' />
             {
               formConfig.show && (
-                <pre>
+                <pre id="formStateEl">
                   FormConfigs: {JSON.stringify(Object.keys(resolvedFormConfig), null, 2)}
                   formRenderProps: {JSON.stringify(formRenderProps, null, 2)}
                 </pre>

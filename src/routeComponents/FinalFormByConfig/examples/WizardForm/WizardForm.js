@@ -17,7 +17,7 @@ import { withTogglers } from 'HOCs/withTogglers'
 
 import Wizard from './Wizard'
 
-import { 
+import {
   renderFFMUIComponent,
   renderFFMUIHelperText,
   renderFFMUIFormLabel
@@ -47,31 +47,31 @@ class ExampleComponent extends React.Component {
     </Grid>
   )
 
-  componentDidMount () {
+  componentDidMount() {
     const v = `update${WizardForm.name}`
-    
+
     window[v] = (nextValues) => {
 
       R.pipe(
         Object.entries,
-        R.forEach(x => 
+        R.forEach(x =>
           this.props[WizardForm.name].form.change(...x)
         )
       )(nextValues)
-      
+
     }
 
     console.info(`🔮 You can access change form function via global variable: ${v}`)
 
     this.releaseFormVariable = () => {
-      window[v] = undefined  
+      window[v] = undefined
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.releaseFormVariable()
   }
-  
+
   render() {
     // console.group('Final Form - WizardForm')
     // console.log(this.props)
@@ -83,10 +83,10 @@ class ExampleComponent extends React.Component {
       <Styles>
         <h1 onClick={() => collapseToggler.toggle()}>
           🏁 React Final Form - Wizard Form
-          { 
+          {
             collapseToggler.isOpen ?
-            <ArrowDropUp /> :
-            <ArrowDropDown />
+              <ArrowDropUp /> :
+              <ArrowDropDown />
           }
         </h1>
 
@@ -101,14 +101,14 @@ class ExampleComponent extends React.Component {
 
 
           <Wizard
-            initialValues={{ 
+            initialValues={{
               toppings: [],
-              employed: true, stooge: 'larry' 
+              employed: true, stooge: 'larry'
             }}
             onSubmit={WizardForm.onSubmit}
           >
             <Wizard.Page
-              // page = 0
+            // page = 0
             >
               {renderFieldInGrid(firstNameField)}
               {renderFieldInGrid(lastNameField)}
@@ -130,7 +130,7 @@ class ExampleComponent extends React.Component {
               {renderFieldInGrid(emailField)}
               {renderFieldInGrid(favoriteColorField)}
             </Wizard.Page>
-            
+
             <Wizard.Page
               // page = 2
               validate={values => {
@@ -146,7 +146,7 @@ class ExampleComponent extends React.Component {
               {renderFFMUIComponent(employedField)}
               {renderFFMUIComponent(toppingsField)}
             </Wizard.Page>
-            
+
             <Wizard.Page
               // page = 3
               validate={values => {
@@ -194,7 +194,9 @@ class ExampleComponent extends React.Component {
 
 const enhancer = compose(
   withTogglers(
-    { name: 'collapse', defaultOpen: false }
+    ({ defaultOpen = false }) => [
+      { name: 'collapse', defaultOpen }
+    ]
   )
 )
 
