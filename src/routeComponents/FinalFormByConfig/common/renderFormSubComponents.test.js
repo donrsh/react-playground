@@ -8,6 +8,7 @@ import { renderInForm, createElGetter, sleep } from './testHelpers'
 
 import {
   formSubComponentNames,
+  renderFFMUIComponent,
   createFFFormSubComponents,
   MUIComponentDataAttribute
 } from './renderFFMUIComponent'
@@ -18,92 +19,131 @@ const getSubmitBtn = (baseElement) =>
   )
 
 const formName = 'test-form-for-form-subcomponents'
+const invalidName = "INVALID_NAME"
+const usernameInvalidMsg = `${Math.random()}`
 
 describe(`${formSubComponentNames.ValidateIndicator}`, () => {
-  it('basic', async() => {
+  it('basic', async () => {
+    const verifyUsername = async values => {
+      await sleep(500);
+      if (
+        ~[invalidName].indexOf(
+          values.username && values.username.toLowerCase()
+        )
+      ) {
+        return { username: usernameInvalidMsg }
+      }
+    }
+
     const formConfig = {
       name: formName,
-      validate: async () => {
-        await sleep(100)
-        return {}
+      validate: values => {
+        const errors = {}
+        if (!values.username) {
+          errors.username = "Required"
+        }
+
+        return Object.keys(errors).length ?
+          errors :
+          verifyUsername(values)
       }
+    }
+
+    const userNameField = {
+      form: formName,
+      name: 'username',
+      type: 'text',
+      label: 'Username',
     }
 
     const { ValidateIndicator } = createFFFormSubComponents(formConfig)
 
     const { baseElement } = renderInForm(
-        <ValidateIndicator />
-      , formConfig
+      <>
+        {renderFFMUIComponent(userNameField)}
+        <ValidateIndicator />,
+      </>,
+      formConfig
     )
 
     const submitBtn = getSubmitBtn(baseElement)
-    const getValidateIndicator = () => 
+    const { getInput } = createElGetter(baseElement)
+    const usernameInputEl = getInput(userNameField)
+    const getValidateIndicator = () =>
       baseElement.querySelector(
         `[${MUIComponentDataAttribute}="${formSubComponentNames.ValidateIndicator}"]`
       )
 
-    await sleep(3000)    
-    console.dom(getValidateIndicator())    
+    // In the beginning, the validate indicator should not appear
+    expect(getValidateIndicator()).toBeNull()
 
-    // Not yet submit, 
-    // expect the `ValidateIndicator` to be null
-    // expect(getValidateIndicator()).toBeNull()
+    // change the username input to trigger form validate
+    fireEvent.change(usernameInputEl, {
+      target: { value: 'abcde' }
+    })
 
-    // click submit button
-    // fireEvent.click(submitBtn)
-
-    // Since the `onSubmit` is async,
-    // we expect the indicator to appear
+    // now validate indicator should appear
     await sleep(100)
-    // expect(getValidateIndicator()).toBeInTheDocument()
+    expect(getValidateIndicator()).toBeInTheDocument()
 
-    // The `onSumbit` last for 500ms,
-    // After that duration, we expect the indicator to disapeear
-    await sleep(1000)
-    // expect(getValidateIndicator()).toBeNull()
-
-    expect(1).toBe(1)
+    // wait until the validate function resolved
+    await sleep(500)
+    expect(getValidateIndicator()).not.toBeInTheDocument()
   })
 })
 
-/* 
-xdescribe(`${formSubComponentNames.SubmitErrorHelperText}`, async () => {
-  const submitError = `${Math.random()}`
-  const formConfig = {
-    name: formName,
-    onSubmit: async () => {
-      return {[FORM_ERROR]: submitError}
+describe(`${formSubComponentNames.SubmitErrorHelperText}`, () => {
+  it('basic', async () => {
+    const verifyUsername = async values => {
+      await sleep(300);
+      if (values.username === invalidName) {
+        return { [FORM_ERROR]: usernameInvalidMsg }
+      }
     }
-  }
 
-  const { SubmitErrorHelperText } = createFFFormSubComponents(formConfig)
+    const formConfig = {
+      name: formName,
+      onSubmit: verifyUsername
+    }
 
-  const { baseElement } = renderInForm(
-    <SubmitErrorHelperText />
-    , formConfig
-  )
+    const userNameField = {
+      form: formName,
+      name: 'username',
+      type: 'text',
+      label: 'Username',
+    }
 
-  const submitBtn = getSubmitBtn(baseElement)
-  const getSubmitErrorHelperText = () =>
-    baseElement.querySelector(
-      `[${MUIComponentDataAttribute}="${formSubComponentNames.SubmitErrorHelperText}"]`
+    const { SubmitErrorHelperText } = createFFFormSubComponents(formConfig)
+
+    const { baseElement } = renderInForm(
+      <>
+        {renderFFMUIComponent(userNameField)}
+        <SubmitErrorHelperText />
+      </>,
+      formConfig
     )
 
-  // Not yet submit, 
-  // expect the `SubmitErrorHelperText` to be null
-  expect(SubmitErrorHelperText).toBeNull()
+    const submitBtn = getSubmitBtn(baseElement)
+    const { getInput } = createElGetter(baseElement)
+    const usernameInputEl = getInput(userNameField)
+    const getSubmitErrorHelperText = () =>
+      baseElement.querySelector(
+        `[${MUIComponentDataAttribute}="${formSubComponentNames.SubmitErrorHelperText}"]`
+      )
 
-  // click submit button
-  fireEvent.click(submitBtn)
+    // change the username input to trigger form validate
+    fireEvent.change(usernameInputEl, {
+      target: { value: invalidName }
+    })
 
-  // Since the `onSubmit` is async,
-  // we expect the indicator to appear
-  await sleep(50)
-  expect(getValidateIndicator).toBeInTheDocument()
+    // click the submit button
+    fireEvent.click(submitBtn)
 
-  // The `onSumbit` last for 500ms,
-  // After that duration, we expect the indicator to disapeear
-  await sleep(1000)
-  expect(getValidateIndicator).toBeNull()
+    // wait until onSubmit finish
+    await sleep(500)
+
+    // now submit error helper text should appear
+    expect(getSubmitErrorHelperText()).toBeInTheDocument()
+    expect(getSubmitErrorHelperText()).toContainHTML(usernameInvalidMsg)
+  })
 })
-*/
