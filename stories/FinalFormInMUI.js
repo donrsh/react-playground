@@ -1,6 +1,6 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import { withReadme } from 'storybook-readme'
+import { withReadme, doc } from 'storybook-readme'
 
 import SimpleExample from '../src/routeComponents/FinalFormByConfig/examples/SimpleExample'
 import CustomValidationEngine from '../src/routeComponents/FinalFormByConfig/examples/CustomValidationEngine'
@@ -15,6 +15,10 @@ import ArrayFields from '../src/routeComponents/FinalFormByConfig/examples/Array
 
 storiesOf('Final Form with MUI', module)
   .addParameters({ options: { addonPanelInRight: true } })
+  .add(
+    'README',
+    doc(require('../storybook-readme/non-generated/FinalFormInMUI/readme.md'))
+  )
   .add(
     'Simple Example',
     withReadme(
