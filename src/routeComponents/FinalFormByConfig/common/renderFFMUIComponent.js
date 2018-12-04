@@ -53,7 +53,7 @@ export const formSubComponentNames = {
   https://github.com/final-form/react-final-form#fieldprops
 */
 const getFFFieldProps = (fieldConfig) => {
-  const { key, FFFieldProps = {} } = fieldConfig
+  const { key } = fieldConfig
 
   return {
     ...(key ? { key } : null),
@@ -72,8 +72,6 @@ const getFFFieldProps = (fieldConfig) => {
       'parse',
       'subscription'
     ])(fieldConfig),
-
-    ...FFFieldProps
   }
 }
 
@@ -279,6 +277,23 @@ export const renderFFMUIHelperText = (
   fieldConfig,
   FormHelperTextProps = {}
 ) => {
+  const { type } = fieldConfig
+
+  if (type === 'array') {
+    return renderFFMUIHelperTextOfFieldArray(
+      fieldConfig, FormHelperTextProps
+    )
+  } else {
+    return renderFFMUIHelperTextOfField(
+      fieldConfig, FormHelperTextProps
+    )
+  }
+}
+
+const renderFFMUIHelperTextOfField = (
+  fieldConfig,
+  FormHelperTextProps = {}
+) => {
   return (
     <Field
       {...getFFFieldProps(fieldConfig)}
@@ -310,7 +325,7 @@ export const renderFFMUIHelperText = (
   )
 }
 
-export const renderFFArrayFieldMUIHelperText = (
+const renderFFMUIHelperTextOfFieldArray = (
   fieldConfig,
   FormHelperTextProps = {}
 ) => {
@@ -361,6 +376,19 @@ export const renderFFMUIFormLabel = (
   fieldConfig,
   FormLabelProps = {}
 ) => {
+  return fieldConfig.type === 'array' ?
+    renderFFMUIFormLabelOfFieldArray(
+      fieldConfig, FormLabelProps
+    ) :
+    renderFFMUIFormLabelOfField(
+      fieldConfig, FormLabelProps
+    )
+}
+
+const renderFFMUIFormLabelOfField = (
+  fieldConfig,
+  FormLabelProps = {}
+) => {
   const inputId = getInputId(fieldConfig)
 
   return (
@@ -383,7 +411,7 @@ export const renderFFMUIFormLabel = (
   )
 }
 
-export const renderFFArrayFieldMUIFormLabel = (
+const renderFFMUIFormLabelOfFieldArray = (
   fieldConfig,
   FormLabelProps = {}
 ) => {

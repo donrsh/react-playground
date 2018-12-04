@@ -18,12 +18,10 @@ import {
 import { fromRenderProps } from 'HOCs/fromRenderProps'
 import { withTogglers } from 'HOCs/withTogglers'
 
-import { 
+import {
   renderFFMUIComponent,
   renderFFMUIFormLabel,
-  // renderFFMUIFormLabel,
-  renderFFArrayFieldMUIHelperText,
-  renderFFArrayFieldMUIFormLabel
+  renderFFMUIHelperText,
 } from '../../common/renderFFMUIComponent'
 
 import {
@@ -33,31 +31,31 @@ import {
 } from './formConfig'
 
 class ExampleComponent extends React.Component {
-  componentDidMount () {
+  componentDidMount() {
     const v = `update${ArrayFieldsForm.name}`
-    
+
     window[v] = (nextValues) => {
 
       R.pipe(
         Object.entries,
-        R.forEach(x => 
+        R.forEach(x =>
           this.props[ArrayFieldsForm.name].form.change(...x)
         )
       )(nextValues)
-      
+
     }
 
     console.info(`🔮 You can access change form function via global variable: ${v}`)
 
     this.releaseFormVariable = () => {
-      window[v] = undefined  
+      window[v] = undefined
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.releaseFormVariable()
   }
-  
+
   render() {
     // console.group('Final Form - ExampleComponent')
     // console.log(this.props)
@@ -77,10 +75,10 @@ class ExampleComponent extends React.Component {
       <Styles>
         <h1 onClick={() => collapseToggler.toggle()}>
           🏁 Array Fields
-          { 
+          {
             collapseToggler.isOpen ?
-            <ArrowDropUp /> :
-            <ArrowDropDown />
+              <ArrowDropUp /> :
+              <ArrowDropDown />
           }
         </h1>
 
@@ -101,8 +99,8 @@ class ExampleComponent extends React.Component {
 
             <Grid container>
               <Grid item xs={3}>
-                {renderFFArrayFieldMUIFormLabel(customersField)}
-                {renderFFArrayFieldMUIHelperText(customersField)}
+                {renderFFMUIFormLabel(customersField)}
+                {renderFFMUIHelperText(customersField)}
               </Grid>
               <Grid item xs={9} style={{ textAlign: 'left' }}>
                 <div style={{ marginBottom: 20 }}>
@@ -201,7 +199,7 @@ const enhancer = compose(
   ]),
   fromRenderProps(
     ({ children }) => (
-      <Form 
+      <Form
         {...ArrayFieldsForm}
         children={children}
       />

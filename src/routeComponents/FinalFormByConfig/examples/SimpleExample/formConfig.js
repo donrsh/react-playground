@@ -179,7 +179,7 @@ export const toppingsField = {
 export const saucesField = {
   form: simpleExampleForm.name,
   name: 'sauces',
-  type: 'selectionGroup',
+  type: 'checkboxGroup',
   label: 'Sauces',
   validate: pipeValidatorsAndGetHead(
     isRequiredForMultipleSelect,

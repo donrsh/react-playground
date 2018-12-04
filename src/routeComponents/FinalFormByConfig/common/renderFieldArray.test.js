@@ -12,8 +12,8 @@ import { renderInForm, createElGetter, sleep } from './testHelpers'
 import {
   getInputId,
   MUIComponentDataAttribute,
-  renderFFArrayFieldMUIFormLabel,
-  renderFFArrayFieldMUIHelperText,
+  renderFFMUIFormLabel,
+  renderFFMUIHelperText,
   renderFFMUIComponent,
 } from './renderFFMUIComponent'
 
@@ -21,7 +21,7 @@ const MUILabelTextElSelector = `[class*=MuiFormControlLabel-label]`
 const idForAddEmployeeBtn = `${Math.random()}`
 const idForAddCustomerBtn = `${Math.random()}`
 const entryAttrName = `is-entry`
-const getEmployeeInputEntryEls = (baseElement) => 
+const getEmployeeInputEntryEls = (baseElement) =>
   baseElement.querySelectorAll(`[data-${entryAttrName}=true]`)
 const getAddEmployeeBtn = (baseElement) =>
   baseElement.querySelector(
@@ -90,7 +90,7 @@ describe('FieldArray', () => {
           const name = R.propOr(undefined, 'name', employee)
           if (!name) {
             employeesError = R.assocPath(
-              [idx, 'name'], 
+              [idx, 'name'],
               errorMsgs.nameIsRequired,
               employeesError
             )
@@ -100,7 +100,7 @@ describe('FieldArray', () => {
 
 
       if (employeesError.length > 0) {
-        return {[employeesField.name]: employeesError}
+        return { [employeesField.name]: employeesError }
       } else {
         return {}
       }
@@ -118,7 +118,7 @@ describe('FieldArray', () => {
       */
       let indexOfJohn = R.findIndex(R.equals('John'), allNames)
       if (indexOfJohn >= 0) {
-        errorToBe[indexOfJohn] = { 
+        errorToBe[indexOfJohn] = {
           [employeesField.subField.name.name]: errorMsgs.noJohn
         }
       }
@@ -146,7 +146,7 @@ describe('FieldArray', () => {
     const { baseElement } = renderInForm(
       (
         <>
-          {renderFFArrayFieldMUIHelperText(employeesField)}
+          {renderFFMUIHelperText(employeesField)}
 
           <FieldArray
             name={employeesField.name}
@@ -154,35 +154,35 @@ describe('FieldArray', () => {
             children={({
               fields
             }) => (
-              <> 
-                <button id={idForAddEmployeeBtn}
-                  onClick={() => fields.push()}
-                />
+                <>
+                  <button id={idForAddEmployeeBtn}
+                    onClick={() => fields.push()}
+                  />
 
-                {
-                  fields.map((name, i) =>
-                    <div 
-                      {...{[`data-${entryAttrName}`]: true}}
-                      key={name}
-                    > 
-                      {
-                        R.pipe(
-                          R.evolve({
-                            name: x => `${name}.${x}`
-                          }),
-                          renderFFMUIComponent
-                        )(employeesField.subField.name)
-                      }
-                    </div>
-                  )
-                }
-              </>
-            )}
+                  {
+                    fields.map((name, i) =>
+                      <div
+                        {...{ [`data-${entryAttrName}`]: true }}
+                        key={name}
+                      >
+                        {
+                          R.pipe(
+                            R.evolve({
+                              name: x => `${name}.${x}`
+                            }),
+                            renderFFMUIComponent
+                          )(employeesField.subField.name)
+                        }
+                      </div>
+                    )
+                  }
+                </>
+              )}
           />
 
-          {renderFFArrayFieldMUIFormLabel(employeesField)}
+          {renderFFMUIFormLabel(employeesField)}
         </>
-    ), formConfig)
+      ), formConfig)
 
     const { getInput, getLabel, getFormHelperText } = createElGetter(baseElement)
 
@@ -191,13 +191,13 @@ describe('FieldArray', () => {
     const addEmployeeBtn = getAddEmployeeBtn(baseElement)
     const submitBtn = getSubmitBtn(baseElement)
     const formStateEl = getFormStateEl(baseElement)
-    
+
     let entryEls, entrySubEls
     const updateEntryEls = () => {
       entryEls = getEmployeeInputEntryEls(baseElement)
       entrySubEls = getSubElsOfEmployeeInputEntry(baseElement)
     }
-    
+
     /* render properly */
     expect(fieldLabelEl).toBeInTheDocument()
     expect(fieldLabelEl).toContainHTML(employeesField.label)
@@ -218,7 +218,7 @@ describe('FieldArray', () => {
     updateEntryEls()
     expect(entrySubEls[0].helperText)
       .toContainHTML(errorMsgs.nameIsRequired)
-    
+
     /* add 2 employees */
     fireEvent.click(addEmployeeBtn)
     fireEvent.click(addEmployeeBtn)
@@ -241,7 +241,7 @@ describe('FieldArray', () => {
     })
 
     await sleep(50)
-    
+
     /* Since changed, the error should disapper */
     expect(getFormHelperText(employeesField)).toBeEmpty()
     updateEntryEls()
