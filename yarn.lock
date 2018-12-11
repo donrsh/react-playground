@@ -3345,7 +3345,7 @@ compression@^1.5.2:
     safe-buffer "5.1.2"
     vary "~1.1.2"
 
-compute-scroll-into-view@^1.0.2:
+compute-scroll-into-view@^1.0.9:
   version "1.0.11"
   resolved "https://registry.yarnpkg.com/compute-scroll-into-view/-/compute-scroll-into-view-1.0.11.tgz#7ff0a57f9aeda6314132d8994cce7aeca794fecf"
   integrity sha512-uUnglJowSe0IPmWOdDtrlHXof5CTIJitfJEyITHBW6zDVOGu9Pjk5puaLM73SLcwak0L4hEjO7Td88/a6P5i7A==
@@ -4233,13 +4233,15 @@ dotenv@^6.0.0:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-6.1.0.tgz#9853b6ca98292acb7dec67a95018fa40bccff42c"
   integrity sha512-/veDn2ztgRlB7gKmE3i9f6CmDIyXAy6d5nBq+whO9SLX+Zs1sXEgFLPi+aSuWqUuusMfbi84fT8j34fs1HaYUw==
 
-downshift@^2.0.16:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/downshift/-/downshift-2.2.3.tgz#85187568455134e72025fbddd40bb9cf96c55eed"
-  integrity sha512-SXFgGq5QYT9mxbaSsYdp4Ng0tP87F5z33PD+tZ2kyK0qIBYd1rcPe90+ykCOYqsWHsb/gcrjaAav2Jpa6qNbQg==
+downshift@^3.1.6:
+  version "3.1.6"
+  resolved "https://registry.yarnpkg.com/downshift/-/downshift-3.1.6.tgz#3950436220e86825cee8627286a6272efaaf502f"
+  integrity sha512-3Q0E9JK6FYqQ7mXnSsfzVEbpgT160EFb70UST7lrs2EOGF2cd5ZzKegJX0nuFnE/0xE9BGhqCC4Exdq8nCCTqA==
   dependencies:
-    compute-scroll-into-view "^1.0.2"
+    "@babel/runtime" "^7.1.2"
+    compute-scroll-into-view "^1.0.9"
     prop-types "^15.6.0"
+    react-is "^16.5.2"
 
 duplexer@^0.1.1:
   version "0.1.1"
@@ -9620,6 +9622,11 @@ react-is@^16.3.1:
   version "16.5.2"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.5.2.tgz#e2a7b7c3f5d48062eb769fcb123505eb928722e3"
   integrity sha512-hSl7E6l25GTjNEZATqZIuWOgSnpXb3kD0DVCujmg46K5zLxsbiKaaT6VO9slkSBDPZfYs30lwfJwbOFOnoEnKQ==
+
+react-is@^16.5.2:
+  version "16.6.3"
+  resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.6.3.tgz#d2d7462fcfcbe6ec0da56ad69047e47e56e7eac0"
+  integrity sha512-u7FDWtthB4rWibG/+mFbVd5FvdI20yde86qKGx4lVUTWmPlSWQ4QxbBIrrs+HnXGbxOUlUzTAP/VDmvCwaP2yA==
 
 react-lifecycles-compat@^3.0.0, react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
   version "3.0.4"

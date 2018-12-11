@@ -9,22 +9,20 @@ import allColors from 'constants/colorNames'
 class Basic extends React.Component {
   inputRef = React.createRef()
 
-  render () {
+  render() {
     return (
-      <div style={{margin: '100px 0'}}>
+      <div style={{ margin: '100px 0' }}>
         <Typography variant='headline'
           style={{ marginBottom: 20 }}
         >
           Downshift Basic Example
         </Typography>
-        
+
         <Typography variant='subheading'>
           What is your favorite color?
         </Typography>
 
-        <Downshift
-          
-        >
+        <Downshift>
           {
             (downshift) => {
               const {
@@ -64,38 +62,36 @@ class Basic extends React.Component {
                     helperText={fieldError ? 'required' : null}
                   />
 
-                  { isOpen &&
-                    <Popper open 
+                  {
+                    <Popper open={isOpen}
+                      {...getMenuProps()}
                       anchorEl={this.inputRef.current}
                       placement='bottom-start'
                     >
                       <Paper style={{ maxHeight: 300, overflow: 'scroll' }}>
-                        <ul 
-                          {...getMenuProps()} 
-                          style={{paddingLeft: 0}}
-                        >
+                        <ul style={{ paddingLeft: 0 }}>
                           {
                             allColors
-                            .filter(color => color.toLowerCase().includes(inputValue.toLowerCase()))
-                            .map((color, idx) => (
-                              <MenuItem 
-                                key={color} 
-                                {...getItemProps({item: color})}
-                                selected={idx === highlightedIndex}
-                              >
-                                <span style={{ 
-                                  background: color, width: 30, height: 30, 
-                                  marginRight: 15, display: 'inline-block'
-                                }}/>
-                                <span>{color}</span>
-                              </MenuItem>
-                            ))
+                              .filter(color => color.toLowerCase().includes(inputValue.toLowerCase()))
+                              .map((color, idx) => (
+                                <MenuItem
+                                  key={color}
+                                  {...getItemProps({ item: color })}
+                                  selected={idx === highlightedIndex}
+                                >
+                                  <span style={{
+                                    background: color, width: 30, height: 30,
+                                    marginRight: 15, display: 'inline-block'
+                                  }} />
+                                  <span>{color}</span>
+                                </MenuItem>
+                              ))
                           }
                         </ul>
                       </Paper>
                     </Popper>
                   }
-                    
+
                 </div>
               )
             }
@@ -104,6 +100,6 @@ class Basic extends React.Component {
       </div>
     )
   }
-} 
+}
 
 export default Basic

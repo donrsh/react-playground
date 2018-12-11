@@ -5,6 +5,7 @@ import { withReadme } from 'storybook-readme'
 
 import Basic from '../src/routeComponents/DownShiftExamples/Examples/Basic'
 import Multiple from '../src/routeComponents/DownShiftExamples/Examples/Multiple'
+import MultipleAndEditable from '../src/routeComponents/DownShiftExamples/Examples/MultipleAndEditable'
 import SingleAsync from '../src/routeComponents/DownShiftExamples/Examples/SingleAsync'
 
 storiesOf('Downshift', module)
@@ -20,6 +21,13 @@ storiesOf('Downshift', module)
     withReadme(
       require('../storybook-readme/generated/Downshift/Multiple.md'),
       () => <Multiple />
+    )
+  )
+  .add(
+    'MultipleAndEditable',
+    withReadme(
+      require('../storybook-readme/generated/Downshift/MultipleAndEditable.md'),
+      () => <MultipleAndEditable />
     )
   )
   .add(

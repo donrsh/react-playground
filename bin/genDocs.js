@@ -71,4 +71,5 @@ const genDownshiftDocs = name => {
 mkdirp.sync(`${outputDir}/Downshift`)
 genDownshiftDocs('Basic')
 genDownshiftDocs('Multiple')
+genDownshiftDocs('MultipleAndEditable')
 genDownshiftDocs('SingleAsync')

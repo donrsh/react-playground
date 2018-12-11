@@ -2,12 +2,14 @@ import * as React from 'react'
 
 import Basic from './Examples/Basic'
 import Multiple from './Examples/Multiple'
+import MultipleAndEditable from './Examples/MultipleAndEditable'
 import SingleAsync from './Examples/SingleAsync'
 
 class DownshiftExamples extends React.Component {
   render() {
     return (
       <div>
+        <MultipleAndEditable />
         <SingleAsync />
         <Multiple />
         <Basic />
