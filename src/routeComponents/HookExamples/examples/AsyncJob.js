@@ -14,7 +14,10 @@ const useAsyncJob = ({
     throw new Error(`[useAsync] "executeAsync" must be a function`)
   }
 
-  const [state, setState] = useState({
+  const [
+    { error, data, executing, reexecuting, executed },
+    setState
+  ] = useState({
     error: null,
     data: null,
     executing: auto,
@@ -22,14 +25,12 @@ const useAsyncJob = ({
     executed: false,
   })
 
-  const { executed } = state
-
   return {
-    error: state.error,
-    data: state.data,
-    executing: state.executing,
-    reexecuting: state.reexecuting,
-    executed: state.executed,
+    error,
+    data,
+    executing,
+    reexecuting,
+    executed,
     executeAsyncJob: async (variables) => {
       setState(R.evolve({
         executing: executed ? R.F : R.T,
