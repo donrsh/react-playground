@@ -11,6 +11,7 @@ function loadStories() {
   require('../stories/FinalFormInMUI')
   require('../stories/DnD')
   require('../stories/Downshift')
+  require('../stories/Hooks')
   // You can require as many stories as you need.
 }
 

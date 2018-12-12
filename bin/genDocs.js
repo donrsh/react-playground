@@ -74,3 +74,18 @@ genDownshiftDocs('Multiple')
 genDownshiftDocs('MultipleAndEditable')
 genDownshiftDocs('MultipleAndEditable2')
 genDownshiftDocs('SingleAsync')
+
+const genHookExampleDocs = name => {
+  let viewData = {
+    codeString: getCodeString(`src/routeComponents/HookExamples/examples/${name}.js`)
+  }
+
+  fs.writeFileSync(
+    `${outputDir}/HookExamples/${name}.md`,
+    mustache.render(templates.SingleFile, viewData)
+  )
+}
+
+mkdirp.sync(`${outputDir}/HookExamples`)
+genHookExampleDocs('Toggler')
+genHookExampleDocs('AsyncJob')
