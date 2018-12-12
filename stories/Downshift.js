@@ -6,6 +6,7 @@ import { withReadme } from 'storybook-readme'
 import Basic from '../src/routeComponents/DownShiftExamples/Examples/Basic'
 import Multiple from '../src/routeComponents/DownShiftExamples/Examples/Multiple'
 import MultipleAndEditable from '../src/routeComponents/DownShiftExamples/Examples/MultipleAndEditable'
+import MultipleAndEditable2 from '../src/routeComponents/DownShiftExamples/Examples/MultipleAndEditable2'
 import SingleAsync from '../src/routeComponents/DownShiftExamples/Examples/SingleAsync'
 
 storiesOf('Downshift', module)
@@ -24,10 +25,17 @@ storiesOf('Downshift', module)
     )
   )
   .add(
-    'MultipleAndEditable',
+    'MultipleAndEditable (inputValue controlled)',
     withReadme(
       require('../storybook-readme/generated/Downshift/MultipleAndEditable.md'),
       () => <MultipleAndEditable />
+    )
+  )
+  .add(
+    'MultipleAndEditable (inputValue and selectedItem controlled)',
+    withReadme(
+      require('../storybook-readme/generated/Downshift/MultipleAndEditable2.md'),
+      () => <MultipleAndEditable2 />
     )
   )
   .add(

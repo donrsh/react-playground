@@ -11,21 +11,21 @@ import allColors from 'constants/colorNames'
 
 const { useState, useRef } = React
 
-const MultipleAndEditable = () => {
+const MultipleAndEditable2 = () => {
   const inputRef = useRef()
-  const [selectedItems, setSelectedItems] = useState([])
+  const [selectedItem, setSelectedItem] = useState([])
   const [inputValue, setInputValue] = useState('')
 
-  const addSelectedItem = (...items) => {
-    setSelectedItems(R.concat(R.__, items))
+  const addToSelectedItem = (...items) => {
+    setSelectedItem(R.concat(R.__, items))
   }
 
-  const removeSelectedItem = (item) => {
-    setSelectedItems(R.reject(R.equals(item)))
+  const removeFromSelectedItem = (item) => {
+    setSelectedItem(R.reject(R.equals(item)))
   }
 
-  const removeLastItem = () => {
-    setSelectedItems(R.init)
+  const removeLastFromSelectedItem = () => {
+    setSelectedItem(R.init)
   }
 
   return (
@@ -37,7 +37,7 @@ const MultipleAndEditable = () => {
         <br />
         (with
         {' '}
-        <b><code>inputValue</code></b>
+        <b><code>inputValue, selectedItem</code></b>
         {' '}
         controlled)
       </Typography>
@@ -53,7 +53,8 @@ const MultipleAndEditable = () => {
 
       <Downshift
         inputValue={inputValue}
-        onChange={(selectedItem) => setInputValue(selectedItem)}
+        selectedItem={selectedItem}
+        onChange={(item) => setInputValue(item)}
         onStateChange={(changes, stateAndHelpers) => {
           switch (changes.type) {
             case Downshift.stateChangeTypes.changeInput:
@@ -81,7 +82,7 @@ const MultipleAndEditable = () => {
               closeMenu
             } = downshift
 
-            const fieldError = selectedItems.length === 0
+            const fieldError = selectedItem.length === 0
 
             const startAdornment = (
               <>
@@ -100,19 +101,19 @@ const MultipleAndEditable = () => {
                             }
                           }}
                           onClick={(e) => e.stopPropagation()}
-                          onDelete={(e) => removeSelectedItem(item)}
+                          onDelete={(e) => removeFromSelectedItem(item)}
                           deleteIcon={<Clear />}
                         />
                       )
                     })
-                  )(selectedItems)
+                  )(selectedItem)
                 }
               </>
             )
 
             const items = allColors
               .filter(color =>
-                !selectedItems.includes(color) &&
+                !selectedItem.includes(color) &&
                 color
                   .toLocaleLowerCase()
                   .includes(inputValue.toLocaleLowerCase())
@@ -128,14 +129,14 @@ const MultipleAndEditable = () => {
                     !inputValue &&
                     !isMenuOpen
                   ) {
-                    removeLastItem()
+                    removeLastFromSelectedItem()
                   }
 
                   if (
                     e.keyCode === 32 /* space */ &&
                     inputValue
                   ) {
-                    addSelectedItem(inputValue)
+                    addToSelectedItem(inputValue)
                     setInputValue('')
                     closeMenu()
                     e.preventDefault()
@@ -204,9 +205,12 @@ const MultipleAndEditable = () => {
         <pre>
           <b>inputValue</b> (controlled): {inputValue}
         </pre>
+        <pre>
+          <b>selectedItem</b> (controlled): {JSON.stringify(selectedItem)}
+        </pre>
       </div>
     </div>
   )
 }
 
-export default MultipleAndEditable
+export default MultipleAndEditable2
