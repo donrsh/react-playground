@@ -40,12 +40,12 @@
     "yup": "^0.25.1"
   },
   "scripts": {
-    "doc:storybook": "node bin/genDocs.js",
+    "doc:sb": "node bin/genDocs.js",
     "start": "react-scripts start",
-    "start:storybook": "yarn run doc:storybook && start-storybook -p 9001 -c .storybook",
+    "start:sb": "yarn run doc:sb && start-storybook -p 9001 -c .storybook",
     "build": "react-scripts build",
-    "build:storybook": "yarn run doc:storybook && build-storybook -c .storybook -o storybook-build",
-    "deploy:storybook": "cp CNAME storybook-build/CNAME && surge storybook-build",
+    "build:sb": "yarn run doc:sb && build-storybook -c .storybook -o storybook-build",
+    "deploy:sb": "cp CNAME storybook-build/CNAME && surge storybook-build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
