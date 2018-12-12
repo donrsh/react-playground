@@ -10,6 +10,7 @@ import { Tabs, Tab } from '@material-ui/core'
 import DownShiftExamples from './routeComponents/DownShiftExamples'
 import DnDExamples from './routeComponents/DnDExamples'
 import FinalFormByConfig from './routeComponents/FinalFormByConfig'
+import HookExamples from './routeComponents/HookExamples'
 
 const paths = {
   downshiftExamples: {
@@ -26,6 +27,11 @@ const paths = {
     name: 'FinalFormByConfigs',
     displayText: 'Final Form By Configs',
     path: '/final-form-by-configs'
+  },
+  HookExamples: {
+    name: 'hookExamples',
+    displayText: 'react hook examples',
+    path: '/react-hook-examples'
   }
 }
 
@@ -73,7 +79,7 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="App">
-          <Route 
+          <Route
             path='/'
             component={this.Sub.Tabs}
           />
@@ -88,6 +94,10 @@ class App extends Component {
 
           <Route path={paths.FinalFormByConfigs.path}
             component={FinalFormByConfig}
+          />
+
+          <Route path={paths.HookExamples.path}
+            component={HookExamples}
           />
         </div>
       </BrowserRouter>
