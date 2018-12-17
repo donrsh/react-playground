@@ -55,6 +55,7 @@ const genDnDDocs = name => {
 
 mkdirp.sync(`${outputDir}/DnD`)
 genDnDDocs('NativeAPI')
+genDnDDocs('DragAround')
 genDnDDocs('ReactDnDTutorial')
 
 const genDownshiftDocs = name => {

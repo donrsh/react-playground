@@ -11,7 +11,7 @@ const Styc = {
     width: 200px;
     height: 200px;
     border: 1px dashed grey;
-    background-color: ${({ over }) => over ? 'lightgrey': 'white' }
+    background-color: ${({ over }) => over ? 'lightgrey' : 'white'}
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -75,7 +75,7 @@ class NativeAPI extends React.Component {
     // console.log('onDragOver', e.target)
     e.stopPropagation()
     e.preventDefault()
-    e.persist()
+    // e.persist()
     e.dataTransfer.dropEffect = "copy"
   }
 
@@ -90,7 +90,7 @@ class NativeAPI extends React.Component {
     window.alert('dropped!')
   }
 
-  render () {
+  render() {
     const { over } = this.state
 
     return (
@@ -107,12 +107,12 @@ class NativeAPI extends React.Component {
           onDragEnd={this.onDragEnd}
         />
 
-        <Styc.DropTargetRoot 
+        <Styc.DropTargetRoot
           over={over}
-          onDragOver={this.onDragOver}  
+          onDragOver={this.onDragOver}
           onDragEnter={this.onDragEnter}
           onDragLeave={this.onDragLeave}
-          onDrop={this.onDrop}        
+          onDrop={this.onDrop}
         />
 
         <Typography variant='subheading'
