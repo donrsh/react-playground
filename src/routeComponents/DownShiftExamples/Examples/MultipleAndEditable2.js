@@ -14,7 +14,6 @@ const { useState, useRef } = React
 const MultipleAndEditable2 = () => {
   const inputRef = useRef()
   const [selectedItem, setSelectedItem] = useState([])
-  const [inputValue, setInputValue] = useState('')
 
   const addToSelectedItem = (...items) => {
     setSelectedItem(R.concat(R.__, items))
@@ -33,11 +32,11 @@ const MultipleAndEditable2 = () => {
       <Typography variant='h5'
         style={{ marginBottom: 20 }}
       >
-        Downshift MultipleAndEditable Example
+        Downshift Multiple & Editable Example
         <br />
         (with
         {' '}
-        <b><code>inputValue, selectedItem</code></b>
+        <b><code>selectedItem</code></b>
         {' '}
         controlled)
       </Typography>
@@ -52,23 +51,9 @@ const MultipleAndEditable2 = () => {
       </Typography>
 
       <Downshift
-        inputValue={inputValue}
         selectedItem={selectedItem}
-        onChange={(item) => setInputValue(item)}
-        onStateChange={(changes, stateAndHelpers) => {
-          switch (changes.type) {
-            case Downshift.stateChangeTypes.changeInput:
-              setInputValue(changes.inputValue)
-              break
-
-            case Downshift.stateChangeTypes.clickItem:
-              setInputValue(changes.selectedItem)
-              break
-
-            default:
-              return changes
-          }
-        }}
+        itemToString={() => ''}
+        onSelect={(item) => addToSelectedItem(item)}
       >
         {
           (downshift) => {
@@ -77,9 +62,10 @@ const MultipleAndEditable2 = () => {
               getItemProps,
               getLabelProps,
               getMenuProps,
+              inputValue,
               isOpen,
               highlightedIndex,
-              closeMenu
+              closeMenu,
             } = downshift
 
             const fieldError = selectedItem.length === 0
@@ -137,7 +123,6 @@ const MultipleAndEditable2 = () => {
                     inputValue
                   ) {
                     addToSelectedItem(inputValue)
-                    setInputValue('')
                     closeMenu()
                     e.preventDefault()
                   }
@@ -202,9 +187,6 @@ const MultipleAndEditable2 = () => {
       </Downshift>
 
       <div>
-        <pre>
-          <b>inputValue</b> (controlled): {inputValue}
-        </pre>
         <pre>
           <b>selectedItem</b> (controlled): {JSON.stringify(selectedItem)}
         </pre>
