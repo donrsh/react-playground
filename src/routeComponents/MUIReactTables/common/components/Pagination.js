@@ -62,7 +62,7 @@ const cls = {
 
   PageSizeSelect: css`
     && {
-      width: 100px;
+      width: 60px;
       margin-left: 8px;
     }
   `
@@ -151,7 +151,7 @@ export default class Pagination extends React.Component {
     },
 
     PageSizeSelect: () => {
-      const { pageSize, pageSizeOptions, rowsText, onPageSizeChange } = this.props
+      const { pageSize, pageSizeOptions, onPageSizeChange } = this.props
       return (
         <div className={cls.PageSizeSelectWrapper}>
           <Typography variant="caption" className={cls.Caption}>
@@ -166,7 +166,7 @@ export default class Pagination extends React.Component {
           >
             {pageSizeOptions.map((option, i) => (
               <MenuItem key={i} value={option}>
-                {`${option} ${rowsText}`}
+                {option}
               </MenuItem>
             ))}
           </TextField>

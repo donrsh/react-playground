@@ -1,10 +1,4 @@
 import { css } from 'emotion'
-import { styles as TableCellStyles } from '@material-ui/core/TableCell'
-
-import theme from './MUITheme'
-
-console.log(theme)
-console.log(TableCellStyles)
 
 const MUIStyles = {
   // https://github.com/mui-org/material-ui/blob/master/packages/material-ui/src/TableRow/TableRow.js#L21
@@ -35,9 +29,14 @@ const MUIStyles = {
   `
 }
 
-export default {
+export default (theme) => ({
+  Font: css`
+    font-family: ${theme.typography.fontFamily}
+  `,
+
   Table: {
-    root: css``
+    root: css`
+    `
   },
 
   TheadGroup: {
@@ -54,6 +53,7 @@ export default {
     root: css`
       ${MUIStyles.TableCell}
       justify-content: center;
+      font-weight: bold;
     `
   },
 
@@ -130,4 +130,4 @@ export default {
   Resizer: {
     root: css``
   },
-}
+})
