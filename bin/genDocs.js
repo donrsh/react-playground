@@ -106,4 +106,5 @@ mkdirp.sync(`${outputDir}/MUIReactTables`)
 genMUIReactTableExampleDocs('SimpleTable')
 genMUIReactTableExampleDocs('CellRenderers')
 genMUIReactTableExampleDocs('DefaultSorting')
+genMUIReactTableExampleDocs('CustomSorting')
 
