@@ -6,6 +6,7 @@ import SimpleTable from '../src/routeComponents/MUIReactTables/examples/SimpleTa
 import CellRenderers from '../src/routeComponents/MUIReactTables/examples/CellRenderers'
 import DefaultSorting from '../src/routeComponents/MUIReactTables/examples/DefaultSorting'
 import CustomSorting from '../src/routeComponents/MUIReactTables/examples/CustomSorting'
+import CustomColumnWidth from '../src/routeComponents/MUIReactTables/examples/CustomColumnWidth'
 
 storiesOf('MUI ⨉ react-table', module)
   .add(
@@ -34,5 +35,12 @@ storiesOf('MUI ⨉ react-table', module)
     withReadme(
       require('../storybook-readme/generated/MUIReactTables/CustomSorting.md'),
       () => <CustomSorting />
+    )
+  )
+  .add(
+    'Custom Column Width',
+    withReadme(
+      require('../storybook-readme/generated/MUIReactTables/CustomColumnWidth.md'),
+      () => <CustomColumnWidth />
     )
   )
