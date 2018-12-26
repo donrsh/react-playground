@@ -90,3 +90,17 @@ const genHookExampleDocs = name => {
 mkdirp.sync(`${outputDir}/HookExamples`)
 genHookExampleDocs('Toggler')
 genHookExampleDocs('AsyncJob')
+
+const genMUIReactTableExampleDocs = name => {
+  let viewData = {
+    codeString: getCodeString(`src/routeComponents/MUIReactTables/examples/${name}.js`)
+  }
+
+  fs.writeFileSync(
+    `${outputDir}/MUIReactTables/${name}.md`,
+    mustache.render(templates.SingleFile, viewData)
+  )
+}
+
+mkdirp.sync(`${outputDir}/MUIReactTables`)
+genMUIReactTableExampleDocs('SimpleTable')

@@ -11,6 +11,7 @@ import DownShiftExamples from './routeComponents/DownShiftExamples'
 import DnDExamples from './routeComponents/DnDExamples'
 import FinalFormByConfig from './routeComponents/FinalFormByConfig'
 import HookExamples from './routeComponents/HookExamples'
+import MUIReactTables from './routeComponents/MUIReactTables'
 
 const paths = {
   downshiftExamples: {
@@ -32,6 +33,11 @@ const paths = {
     name: 'hookExamples',
     displayText: 'react hook examples',
     path: '/react-hook-examples'
+  },
+  MUIReactTable: {
+    name: 'MUIReactTables',
+    displayText: 'React tables in Material UI',
+    path: '/react-tables-in-material-ui'
   }
 }
 
@@ -98,6 +104,10 @@ class App extends Component {
 
           <Route path={paths.HookExamples.path}
             component={HookExamples}
+          />
+
+          <Route path={paths.MUIReactTable.path}
+            component={MUIReactTables}
           />
         </div>
       </BrowserRouter>
