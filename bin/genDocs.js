@@ -108,4 +108,5 @@ genMUIReactTableExampleDocs('CellRenderers')
 genMUIReactTableExampleDocs('DefaultSorting')
 genMUIReactTableExampleDocs('CustomSorting')
 genMUIReactTableExampleDocs('CustomColumnWidth')
+genMUIReactTableExampleDocs('CustomComponentProps')
 
