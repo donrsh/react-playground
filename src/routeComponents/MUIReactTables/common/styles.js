@@ -14,9 +14,10 @@ const MUIStyles = {
   TableCell: css`
     & {
       text-align: left;
-      padding: 4px 56px 4px 24px;
       display: flex;
       align-items: center;
+
+      padding: 4px 56px 4px 24px;
 
       &:last-child {
         padding-right: 24px;
@@ -51,9 +52,11 @@ export default (theme) => ({
 
   TheadGroupTh: {
     root: css`
-      ${MUIStyles.TableCell}
-      justify-content: center;
-      font-weight: bold;
+      .ReactTable .rt-thead && {
+        ${MUIStyles.TableCell}
+        justify-content: center;
+        font-weight: bold;
+      }
     `
   },
 
@@ -69,7 +72,9 @@ export default (theme) => ({
 
   TheadTh: {
     root: css`
-      ${MUIStyles.TableCell}
+      .ReactTable .rt-thead && {
+        ${MUIStyles.TableCell}
+      }
     `
   },
 
@@ -85,7 +90,9 @@ export default (theme) => ({
 
   TheadFilterTh: {
     root: css`
-      ${MUIStyles.TableCell}
+      .ReactTable .rt-thead && {
+        ${MUIStyles.TableCell}
+      }
     `
   },
 
@@ -105,13 +112,17 @@ export default (theme) => ({
 
   Th: {
     root: css`
-      ${MUIStyles.TableCell}
+      .ReactTable .rt-tbody && {
+        ${MUIStyles.TableCell}
+      }
     `
   },
 
   Td: {
     root: css`
-      ${MUIStyles.TableCell}
+      .ReactTable .rt-tbody && {
+        ${MUIStyles.TableCell}
+      }
     `
   },
 
