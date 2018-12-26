@@ -25,14 +25,14 @@ storiesOf('Downshift', module)
     )
   )
   .add(
-    'MultipleAndEditable (inputValue controlled)',
+    'MultipleAndEditable',
     withReadme(
       require('../storybook-readme/generated/Downshift/MultipleAndEditable.md'),
       () => <MultipleAndEditable />
     )
   )
   .add(
-    'MultipleAndEditable (inputValue and selectedItem controlled)',
+    'MultipleAndEditable (selectedItem controlled)',
     withReadme(
       require('../storybook-readme/generated/Downshift/MultipleAndEditable2.md'),
       () => <MultipleAndEditable2 />

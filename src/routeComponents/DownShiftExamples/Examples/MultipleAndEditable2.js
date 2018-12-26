@@ -111,7 +111,7 @@ const MultipleAndEditable2 = () => {
               ...getInputProps({
                 onKeyDown: (e) => {
                   if (
-                    e.keyCode === 8 /* backspace */ &&
+                    e.key === "Backspace" &&
                     !inputValue &&
                     !isMenuOpen
                   ) {
@@ -119,7 +119,7 @@ const MultipleAndEditable2 = () => {
                   }
 
                   if (
-                    e.keyCode === 32 /* space */ &&
+                    e.key === "Tab" &&
                     inputValue
                   ) {
                     addToSelectedItem(inputValue)

@@ -39,7 +39,7 @@ const MultipleAndEditable = () => {
         What are your favorite colors?
         </Typography>
       <Typography variant='body1'>
-        <em>Hint 1: enter <b><code>space</code></b> to separate items</em>
+        <em>Hint 1: enter <b><code>tab</code></b> to separate items</em>
         <br />
         <em>Hint 2: enter <b><code>backspace</code></b> to delete the last selected item</em>
       </Typography>
@@ -100,23 +100,28 @@ const MultipleAndEditable = () => {
 
             const inputProps = {
               ...getInputProps({
+                onBlur: (e) => {
+                  console.log('onBlur: clear inputValue')
+                  setDownshiftState({ inputValue: '', selectedItem: '' })
+                },
+
                 onKeyDown: (e) => {
+                  const { key, keyCode, altKey, ctrlKey, metaKey, shiftKey } = e
+                  console.log('onKeydown', { key, keyCode, altKey, ctrlKey, metaKey, shiftKey })
+
                   if (
-                    e.keyCode === 8 /* backspace */ &&
+                    e.key === "Backspace" &&
                     !inputValue &&
                     !isMenuOpen
                   ) {
                     removeLastItem()
                   }
 
-                  if (
-                    e.keyCode === 32 /* space */ &&
-                    inputValue
-                  ) {
-                    addSelectedItem(inputValue)
-                    setDownshiftState({ inputValue: '' })
-                    closeMenu()
+                  if (e.key === 'Tab' && inputValue) {
                     e.preventDefault()
+                    setDownshiftState({ inputValue: '' })
+                    addSelectedItem(inputValue)
+                    closeMenu()
                   }
                 }
               }),
