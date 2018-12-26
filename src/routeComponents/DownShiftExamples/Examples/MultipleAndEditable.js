@@ -101,14 +101,10 @@ const MultipleAndEditable = () => {
             const inputProps = {
               ...getInputProps({
                 onBlur: (e) => {
-                  console.log('onBlur: clear inputValue')
                   setDownshiftState({ inputValue: '', selectedItem: '' })
                 },
 
                 onKeyDown: (e) => {
-                  const { key, keyCode, altKey, ctrlKey, metaKey, shiftKey } = e
-                  console.log('onKeydown', { key, keyCode, altKey, ctrlKey, metaKey, shiftKey })
-
                   if (
                     e.key === "Backspace" &&
                     !inputValue &&
