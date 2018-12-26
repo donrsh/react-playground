@@ -92,6 +92,14 @@ export default (theme) => ({
     root: css`
       .ReactTable .rt-thead && {
         ${MUIStyles.TableCell}
+        
+        & {
+          padding: 4px 24px;
+        }
+
+        & input {
+          border: none
+        }
       }
     `
   },

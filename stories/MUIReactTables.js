@@ -10,6 +10,7 @@ import CustomColumnWidth from '../src/routeComponents/MUIReactTables/examples/Cu
 import CustomComponentProps from '../src/routeComponents/MUIReactTables/examples/CustomComponentProps'
 import SubComponents from '../src/routeComponents/MUIReactTables/examples/SubComponents'
 import PivotAndAggregation from '../src/routeComponents/MUIReactTables/examples/PivotAndAggregation'
+import PivotAndAggregationWithSubComponents from '../src/routeComponents/MUIReactTables/examples/PivotAndAggregationWithSubComponents'
 
 
 storiesOf('MUI ⨉ react-table', module)
@@ -67,5 +68,12 @@ storiesOf('MUI ⨉ react-table', module)
     withReadme(
       require('../storybook-readme/generated/MUIReactTables/PivotAndAggregation.md'),
       () => <PivotAndAggregation />
+    )
+  )
+  .add(
+    'Pivot & Aggregation w/ Sub Components',
+    withReadme(
+      require('../storybook-readme/generated/MUIReactTables/PivotAndAggregationWithSubComponents.md'),
+      () => <PivotAndAggregationWithSubComponents />
     )
   )

@@ -111,4 +111,5 @@ genMUIReactTableExampleDocs('CustomColumnWidth')
 genMUIReactTableExampleDocs('CustomComponentProps')
 genMUIReactTableExampleDocs('SubComponents')
 genMUIReactTableExampleDocs('PivotAndAggregation')
+genMUIReactTableExampleDocs('PivotAndAggregationWithSubComponents')
 

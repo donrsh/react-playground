@@ -20,6 +20,7 @@ class MUIReactTable extends React.Component {
     return {
       loadingText: <CircularProgress />,
       PaginationComponent: tableComponents.Pagination,
+      FilterComponent: tableComponents.Filter,
 
       getTheadGroupTrProps: () => ({
         className: TheadGroupTr.root
