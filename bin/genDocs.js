@@ -105,3 +105,5 @@ const genMUIReactTableExampleDocs = name => {
 mkdirp.sync(`${outputDir}/MUIReactTables`)
 genMUIReactTableExampleDocs('SimpleTable')
 genMUIReactTableExampleDocs('CellRenderers')
+genMUIReactTableExampleDocs('DefaultSorting')
+
