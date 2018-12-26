@@ -8,6 +8,7 @@ import DefaultSorting from '../src/routeComponents/MUIReactTables/examples/Defau
 import CustomSorting from '../src/routeComponents/MUIReactTables/examples/CustomSorting'
 import CustomColumnWidth from '../src/routeComponents/MUIReactTables/examples/CustomColumnWidth'
 import CustomComponentProps from '../src/routeComponents/MUIReactTables/examples/CustomComponentProps'
+import SubComponents from '../src/routeComponents/MUIReactTables/examples/SubComponents'
 
 
 storiesOf('MUI ⨉ react-table', module)
@@ -51,5 +52,12 @@ storiesOf('MUI ⨉ react-table', module)
     withReadme(
       require('../storybook-readme/generated/MUIReactTables/CustomComponentProps.md'),
       () => <CustomComponentProps />
+    )
+  )
+  .add(
+    'Sub Components',
+    withReadme(
+      require('../storybook-readme/generated/MUIReactTables/SubComponents.md'),
+      () => <SubComponents />
     )
   )
