@@ -13,6 +13,7 @@ import PivotAndAggregation from '../src/routeComponents/MUIReactTables/examples/
 import PivotAndAggregationWithSubComponents from '../src/routeComponents/MUIReactTables/examples/PivotAndAggregationWithSubComponents'
 import PivotOptions from '../src/routeComponents/MUIReactTables/examples/PivotOptions'
 import CustomExpanderPosiotion from '../src/routeComponents/MUIReactTables/examples/CustomExpanderPosiotion'
+import CustomNoDataText from '../src/routeComponents/MUIReactTables/examples/CustomNoDataText'
 
 
 storiesOf('MUI ⨉ react-table', module)
@@ -91,5 +92,12 @@ storiesOf('MUI ⨉ react-table', module)
     withReadme(
       require('../storybook-readme/generated/MUIReactTables/CustomExpanderPosiotion.md'),
       () => <CustomExpanderPosiotion />
+    )
+  )
+  .add(
+    'Custom No Data Text',
+    withReadme(
+      require('../storybook-readme/generated/MUIReactTables/CustomNoDataText.md'),
+      () => <CustomNoDataText />
     )
   )

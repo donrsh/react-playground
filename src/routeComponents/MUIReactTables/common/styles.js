@@ -1,4 +1,5 @@
 import { css } from 'emotion'
+import { colors } from '@material-ui/core'
 
 const MUIStyles = {
   // https://github.com/mui-org/material-ui/blob/master/packages/material-ui/src/TableRow/TableRow.js#L21
@@ -192,8 +193,21 @@ export default (theme) => ({
   NoData: {
     root: css`
       label: MUIReactTable-NoData;
+      .ReactTable && {
+        padding: 0;
+      }
     `
   },
+
+  NoDataText: css`
+    label: MUIReactTable-NoDataText;
+    background: ${colors.grey[500]};
+    border-radius: 3px;
+    padding: 20px;
+    && {
+      color: white;
+    }
+  `,
 
   Resizer: {
     root: css`

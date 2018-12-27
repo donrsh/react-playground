@@ -3,5 +3,5 @@ import Filter from './Filter'
 
 export default {
   Pagination,
-  Filter
+  Filter,
 }
