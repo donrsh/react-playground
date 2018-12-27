@@ -113,4 +113,5 @@ genMUIReactTableExampleDocs('SubComponents')
 genMUIReactTableExampleDocs('PivotAndAggregation')
 genMUIReactTableExampleDocs('PivotAndAggregationWithSubComponents')
 genMUIReactTableExampleDocs('PivotOptions')
+genMUIReactTableExampleDocs('CustomExpanderPosiotion')
 
