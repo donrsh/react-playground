@@ -7,16 +7,17 @@ import {
 import FilterListIcon from '@material-ui/icons/FilterList'
 
 export default function Filter(props) {
-  const { /* column, */ filter, onChange } = props
+  const { /* column, */ filter, onChange, MUIProps } = props
   const filterValue = R.propOr('', 'value', filter)
 
   return (
     <TextField
-      value={filterValue}
-      onChange={(e) => onChange(e.target.value)}
       InputProps={{
         startAdornment: <FilterListIcon />
       }}
+      {...MUIProps}
+      value={filterValue}
+      onChange={(e) => onChange(e.target.value)}
     />
   )
 }

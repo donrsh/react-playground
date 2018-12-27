@@ -14,6 +14,7 @@
     "final-form-set-field-data": "^1.0.1",
     "invariant": "^2.2.4",
     "jest-dom": "^2.1.0",
+    "match-sorter": "^2.3.0",
     "mkdirp": "^0.5.1",
     "mustache": "^3.0.1",
     "namor": "^1.1.1",

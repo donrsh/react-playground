@@ -15,6 +15,7 @@ import PivotOptions from '../src/routeComponents/MUIReactTables/examples/PivotOp
 import CustomExpanderPosiotion from '../src/routeComponents/MUIReactTables/examples/CustomExpanderPosiotion'
 import CustomNoDataText from '../src/routeComponents/MUIReactTables/examples/CustomNoDataText'
 import Footers from '../src/routeComponents/MUIReactTables/examples/Footers'
+import CustomFiltering from '../src/routeComponents/MUIReactTables/examples/CustomFiltering'
 
 
 storiesOf('MUI ⨉ react-table', module)
@@ -107,5 +108,12 @@ storiesOf('MUI ⨉ react-table', module)
     withReadme(
       require('../storybook-readme/generated/MUIReactTables/Footers.md'),
       () => <Footers />
+    )
+  )
+  .add(
+    'Custom Filtering',
+    withReadme(
+      require('../storybook-readme/generated/MUIReactTables/CustomFiltering.md'),
+      () => <CustomFiltering />
     )
   )

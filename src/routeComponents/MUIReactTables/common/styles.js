@@ -5,7 +5,8 @@ const MUIStyles = {
   // https://github.com/mui-org/material-ui/blob/master/packages/material-ui/src/TableRow/TableRow.js#L21
   TableRow: css`
     & {
-      height: 48px;
+      min-height: 48px;
+      padding: 8px;
       vertical-align: middle;
       outline: none;
     }

@@ -116,4 +116,5 @@ genMUIReactTableExampleDocs('PivotOptions')
 genMUIReactTableExampleDocs('CustomExpanderPosiotion')
 genMUIReactTableExampleDocs('CustomNoDataText')
 genMUIReactTableExampleDocs('Footers')
+genMUIReactTableExampleDocs('CustomFiltering')
 
