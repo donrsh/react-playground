@@ -14,7 +14,8 @@ class MUIReactTable extends React.Component {
       TheadGroupTr, TheadGroupTh,
       TheadTr, TheadTh,
       TheadFilterTr, TheadFilterTh,
-      Tr, Th, Td
+      Tr, Th, Td,
+      TfootTr, TfootTd
     } = this.subcomponentClasses
 
     return {
@@ -42,7 +43,9 @@ class MUIReactTable extends React.Component {
       }),
       getTrProps: () => ({ className: Tr.root }),
       getThProps: () => ({ className: Th.root }),
-      getTdProps: () => ({ className: Td.root })
+      getTdProps: () => ({ className: Td.root }),
+      getTfootTrProps: () => ({ className: TfootTr.root }),
+      getTfootTdProps: () => ({ className: TfootTd.root }),
     }
   }
 

@@ -11,6 +11,7 @@ import CustomComponentProps from '../src/routeComponents/MUIReactTables/examples
 import SubComponents from '../src/routeComponents/MUIReactTables/examples/SubComponents'
 import PivotAndAggregation from '../src/routeComponents/MUIReactTables/examples/PivotAndAggregation'
 import PivotAndAggregationWithSubComponents from '../src/routeComponents/MUIReactTables/examples/PivotAndAggregationWithSubComponents'
+import PivotOptions from '../src/routeComponents/MUIReactTables/examples/PivotOptions'
 
 
 storiesOf('MUI ⨉ react-table', module)
@@ -75,5 +76,12 @@ storiesOf('MUI ⨉ react-table', module)
     withReadme(
       require('../storybook-readme/generated/MUIReactTables/PivotAndAggregationWithSubComponents.md'),
       () => <PivotAndAggregationWithSubComponents />
+    )
+  )
+  .add(
+    'Pivoting Options',
+    withReadme(
+      require('../storybook-readme/generated/MUIReactTables/PivotOptions.md'),
+      () => <PivotOptions />
     )
   )
