@@ -23,7 +23,7 @@ export default class PivotAndAggregation extends React.Component {
     return (
       <div>
         <Typography variant="h4" style={{ margin: 20, textAlign: 'center' }}>
-          Simple Table
+          Pivot & Aggregation
           <br />
           <Typography variant="body1">
             <a href="https://react-table.js.org/#/story/pivoting-aggregation" target="_blank"

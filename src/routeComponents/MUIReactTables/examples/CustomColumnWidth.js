@@ -22,7 +22,7 @@ export default class CustomColumnWidth extends React.Component {
     return (
       <div>
         <Typography variant="h4" style={{ margin: 20, textAlign: 'center' }}>
-          Simple Table
+          Custom Column Width
           <br />
           <Typography variant="body1">
             <a href="https://react-table.js.org/#/story/custom-column-widths" target="_blank"

@@ -65,7 +65,7 @@ export default class PivotAndAggregationWithSubComponents extends React.Componen
     return (
       <div>
         <Typography variant="h4" style={{ margin: 20, textAlign: 'center' }}>
-          Simple Table
+          Pivot & Aggregation with Sub Components
           <br />
           <Typography variant="body1">
             <a href="https://react-table.js.org/#/story/pivoting-aggregation-w-sub-components" target="_blank"

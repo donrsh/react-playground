@@ -22,7 +22,7 @@ export default class CustomComponentProps extends React.Component {
     return (
       <div>
         <Typography variant="h4" style={{ margin: 20, textAlign: 'center' }}>
-          Simple Table
+          Custom Component Props
           <br />
           <Typography variant="body1">
             <a href="https://react-table.js.org/#/story/custom-component-props" target="_blank"
