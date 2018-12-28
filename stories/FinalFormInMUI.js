@@ -13,7 +13,7 @@ import SynchronousFieldLevelValidation from '../src/routeComponents/FinalFormByC
 import SynchronousRecordLevelValidation from '../src/routeComponents/FinalFormByConfig/examples/SynchronousRecordLevelValidation'
 import ArrayFields from '../src/routeComponents/FinalFormByConfig/examples/ArrayFields'
 
-storiesOf('Final Form with MUI', module)
+storiesOf('MUI ⨉ Final Form', module)
   .addParameters({ options: { addonPanelInRight: true } })
   .add(
     'README',
