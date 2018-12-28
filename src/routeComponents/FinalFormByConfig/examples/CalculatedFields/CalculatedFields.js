@@ -19,7 +19,7 @@ import {
 import { fromRenderProps } from 'HOCs/fromRenderProps'
 import { withTogglers } from 'HOCs/withTogglers'
 
-import { 
+import {
   renderFFMUIComponent,
   renderFFMUIFormLabel,
 } from '../../common/renderFFMUIComponent'
@@ -35,28 +35,28 @@ import {
 const daySubfields = dayField.subFields
 
 class ExampleComponent extends React.Component {
-  componentDidMount () {
+  componentDidMount() {
     const v = `update${CalculatedFieldsForm.name}`
-    
+
     window[v] = (nextValues) => {
 
       R.pipe(
         Object.entries,
-        R.forEach(x => 
+        R.forEach(x =>
           this.props[CalculatedFieldsForm.name].form.change(...x)
         )
       )(nextValues)
-      
+
     }
 
     console.info(`🔮 You can access change form function via global variable: ${v}`)
 
     this.releaseFormVariable = () => {
-      window[v] = undefined  
+      window[v] = undefined
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.releaseFormVariable()
   }
 
@@ -66,7 +66,7 @@ class ExampleComponent extends React.Component {
         <div style={{
           position: 'relative',
           top: 21
-        }}> 
+        }}>
           {renderFFMUIFormLabel(fieldConfig)}
         </div>
       </Grid>
@@ -75,7 +75,7 @@ class ExampleComponent extends React.Component {
       </Grid>
     </Grid>
   )
-  
+
   render() {
     // console.group('Final Form - ExampleComponent')
     // console.log(this.props)
@@ -92,10 +92,10 @@ class ExampleComponent extends React.Component {
       <Styles>
         <h1 onClick={() => collapseToggler.toggle()}>
           🏁 Calculated Fields
-          { 
+          {
             collapseToggler.isOpen ?
-            <ArrowDropUp /> :
-            <ArrowDropDown />
+              <ArrowDropUp /> :
+              <ArrowDropDown />
           }
         </h1>
 
@@ -129,7 +129,7 @@ class ExampleComponent extends React.Component {
 
             <div style={{ height: 50 }}>
               {
-                R.any(Boolean, R.values(touched)) && 
+                R.any(Boolean, R.values(touched)) &&
                 (() => {
                   const { minimum, maximum, total } = values
 
@@ -197,12 +197,12 @@ class ExampleComponent extends React.Component {
 }
 
 const enhancer = compose(
-  withTogglers(
-    { name: 'collapse', defaultOpen: false }
-  ),
+  withTogglers(({ defaultOpen }) => [
+    { name: 'collapse', defaultOpen }
+  ]),
   fromRenderProps(
     ({ children }) => (
-      <Form 
+      <Form
         {...CalculatedFieldsForm}
         children={children}
       />

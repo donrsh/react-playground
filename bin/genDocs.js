@@ -15,9 +15,17 @@ const getCodeString = R.pipe(
   R.replace(/(\s*\n){3,}/g, '\n')
 )
 
+function genDocsByStoryName(lookupPath, taskFn) {
+  fs.readdirSync(lookupPath)
+    .filter(s => !s.startsWith('_'))
+    .map(R.replace(/.js$/, ''))
+    .forEach(taskFn)
+}
+
 const outputDir = 'storybook-readme/generated'
 mkdirp.sync(outputDir)
 
+/* FinalFormByConfig */
 const genFinalFormInMUIDocs = formName => {
   let viewData = {
     formConfigCodeString: getCodeString(`src/routeComponents/FinalFormByConfig/examples/${formName}/formConfig.js`),
@@ -31,17 +39,11 @@ const genFinalFormInMUIDocs = formName => {
 }
 
 mkdirp.sync(`${outputDir}/FinalFormInMUI`)
-genFinalFormInMUIDocs('SimpleExample')
-genFinalFormInMUIDocs('ArrayFields')
-genFinalFormInMUIDocs('CalculatedFields')
-genFinalFormInMUIDocs('CustomValidationEngine')
-genFinalFormInMUIDocs('HybridSyncAsyncRecordLevelValidation')
-genFinalFormInMUIDocs('ParseAndFormat')
-genFinalFormInMUIDocs('SubmissionErrors')
-genFinalFormInMUIDocs('SynchronousFieldLevelValidation')
-genFinalFormInMUIDocs('SynchronousRecordLevelValidation')
-genFinalFormInMUIDocs('WizardForm')
+genDocsByStoryName(`src/routeComponents/FinalFormByConfig/examples/`, genFinalFormInMUIDocs)
+/* FinalFormByConfig *///
 
+
+/* DnD Examples */
 const genDnDDocs = name => {
   let viewData = {
     codeString: getCodeString(`src/routeComponents/DnDExamples/Examples/${name}/${name}.js`)
@@ -54,10 +56,11 @@ const genDnDDocs = name => {
 }
 
 mkdirp.sync(`${outputDir}/DnD`)
-genDnDDocs('NativeAPI')
-genDnDDocs('DragAround')
-genDnDDocs('ReactDnDTutorial')
+genDocsByStoryName(`src/routeComponents/DnDExamples/Examples/`, genDnDDocs)
+/* DnD Examples *///
 
+
+/* Downshift */
 const genDownshiftDocs = name => {
   let viewData = {
     codeString: getCodeString(`src/routeComponents/DownShiftExamples/Examples/${name}.js`)
@@ -70,12 +73,11 @@ const genDownshiftDocs = name => {
 }
 
 mkdirp.sync(`${outputDir}/Downshift`)
-genDownshiftDocs('Basic')
-genDownshiftDocs('Multiple')
-genDownshiftDocs('MultipleAndEditable')
-genDownshiftDocs('MultipleAndEditable2')
-genDownshiftDocs('SingleAsync')
+genDocsByStoryName(`src/routeComponents/DownShiftExamples/Examples`, genDownshiftDocs)
+/* Downshift *///
 
+
+/* React Hooks Examples */
 const genHookExampleDocs = name => {
   let viewData = {
     codeString: getCodeString(`src/routeComponents/HookExamples/examples/${name}.js`)
@@ -88,9 +90,11 @@ const genHookExampleDocs = name => {
 }
 
 mkdirp.sync(`${outputDir}/HookExamples`)
-genHookExampleDocs('Toggler')
-genHookExampleDocs('AsyncJob')
+genDocsByStoryName(`src/routeComponents/HookExamples/examples/`, genHookExampleDocs)
+/* React Hooks Examples *///
 
+
+/* MUI x react-table */
 const genMUIReactTableExampleDocs = name => {
   let viewData = {
     codeString: getCodeString(`src/routeComponents/MUIReactTables/examples/${name}.js`)
@@ -103,18 +107,5 @@ const genMUIReactTableExampleDocs = name => {
 }
 
 mkdirp.sync(`${outputDir}/MUIReactTables`)
-genMUIReactTableExampleDocs('SimpleTable')
-genMUIReactTableExampleDocs('CellRenderers')
-genMUIReactTableExampleDocs('DefaultSorting')
-genMUIReactTableExampleDocs('CustomSorting')
-genMUIReactTableExampleDocs('CustomColumnWidth')
-genMUIReactTableExampleDocs('CustomComponentProps')
-genMUIReactTableExampleDocs('SubComponents')
-genMUIReactTableExampleDocs('PivotAndAggregation')
-genMUIReactTableExampleDocs('PivotAndAggregationWithSubComponents')
-genMUIReactTableExampleDocs('PivotOptions')
-genMUIReactTableExampleDocs('CustomExpanderPosiotion')
-genMUIReactTableExampleDocs('CustomNoDataText')
-genMUIReactTableExampleDocs('Footers')
-genMUIReactTableExampleDocs('CustomFiltering')
-
+genDocsByStoryName(`src/routeComponents/MUIReactTables/examples/`, genMUIReactTableExampleDocs)
+/* MUI x react-table *///

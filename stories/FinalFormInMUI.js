@@ -83,6 +83,15 @@ storiesOf('MUI ⨉ Final Form', module)
     )
   )
   .add(
+    'Calculated Fields',
+    withReadme(
+      require('../storybook-readme/generated/FinalFormInMUI/CalculatedFields.md'),
+      () => (
+        <CalculatedFields defaultOpen />
+      )
+    )
+  )
+  .add(
     'ParseAndFormat',
     withReadme(
       require('../storybook-readme/generated/FinalFormInMUI/ParseAndFormat.md'),
