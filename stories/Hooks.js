@@ -5,6 +5,7 @@ import { withReadme } from 'storybook-readme'
 
 import Toggler from '../src/routeComponents/HookExamples/examples/Toggler'
 import AsyncJob from '../src/routeComponents/HookExamples/examples/AsyncJob'
+import Geometry from '../src/routeComponents/HookExamples/examples/Geometry'
 
 storiesOf('React Hooks', module)
   .add(
@@ -19,5 +20,12 @@ storiesOf('React Hooks', module)
     withReadme(
       require('../storybook-readme/generated/HookExamples/AsyncJob.md'),
       () => <AsyncJob />
+    )
+  )
+  .add(
+    'useGeometryOf',
+    withReadme(
+      require('../storybook-readme/generated/HookExamples/Geometry.md'),
+      () => <Geometry />
     )
   )
