@@ -52,6 +52,8 @@
     "build:sb": "yarn run doc:sb && build-storybook -c .storybook -o storybook-build",
     "deploy:sb": "cp CNAME storybook-build/CNAME && surge storybook-build",
     "bd:sb": "yarn run build:sb && yarn run deploy:sb",
+    "predeploy": "npm run build:sb",
+    "deploy": "gh-pages -d build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
@@ -65,6 +67,7 @@
     "@storybook/react": "^4.0.9",
     "babel-core": "^6.26.3",
     "babel-loader": "^8.0.4",
+    "gh-pages": "^2.0.1",
     "storybook-readme": "^4.0.2"
   }
 }
