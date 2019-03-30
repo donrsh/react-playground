@@ -53,7 +53,7 @@
     "deploy:sb": "cp CNAME storybook-build/CNAME && surge storybook-build",
     "bd:sb": "yarn run build:sb && yarn run deploy:sb",
     "predeploy": "npm run build:sb",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -d storybook-build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
