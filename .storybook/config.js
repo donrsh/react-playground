@@ -1,11 +1,10 @@
-import { addDecorator, configure } from '@storybook/react'
-import { withOptions } from '@storybook/addon-options'
+import { addParameters, configure } from '@storybook/react'
 
-addDecorator(
-  withOptions({
-    addonPanelInRight: true
-  })
-)
+addParameters({
+  options: {
+    panelPosition: 'right',
+  }
+})
 
 function loadStories() {
   require('../stories/FinalFormInMUI')
