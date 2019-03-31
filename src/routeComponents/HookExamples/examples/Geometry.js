@@ -6,10 +6,11 @@ import { transparentize } from 'polished'
 
 import { Typography } from '@material-ui/core';
 
-const useGeometryOf = (el) => {
+const useGeometryOf = (elRef) => {
   const [geometry, setGeometry] = useState(null)
 
   useEffect(() => {
+    const el = elRef.current
     if (!(el instanceof HTMLElement)) return
 
     setGeometry(el.getBoundingClientRect())
@@ -23,7 +24,7 @@ const useGeometryOf = (el) => {
     return () => {
       window.removeEventListener('resize', onResize)
     }
-  }, [el])
+  }, [elRef.current])
 
   return geometry
 }
@@ -97,9 +98,10 @@ const Sub = {
 }
 
 function GeometryExample() {
-  const [rootEl, setRootEl] = useState(null)
-  const [childEl, setChildEl] = useState(null)
-  const [absChildEl, setAbsChildEl] = useState(null)
+  const rootEl = useRef(null)
+  const childEl = useRef(null)
+  const absChildEl = useRef(null)
+
   const geometryOfRootEl = useGeometryOf(rootEl)
   const geometryOfChildEl = useGeometryOf(childEl)
   const geometryOfAbsChildEl = useGeometryOf(absChildEl)
@@ -117,7 +119,8 @@ function GeometryExample() {
       </Typography>
 
       <div
-        ref={el => setRootEl(el)}
+        // ref={el => { console.log('set rootEl'); setRootEl(el) }}
+        ref={rootEl}
         className={cls.Root}
       >
         {geometryOfRootEl && (
@@ -128,7 +131,7 @@ function GeometryExample() {
         )}
 
         <div
-          ref={el => setChildEl(el)}
+          ref={childEl}
           className={cls.Child}
         >
           {geometryOfChildEl && (
@@ -140,7 +143,7 @@ function GeometryExample() {
         </div>
 
         <div
-          ref={el => setAbsChildEl(el)}
+          ref={absChildEl}
           className={cls.AbsoluteChild}
         >
           {geometryOfAbsChildEl && (
