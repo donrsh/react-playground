@@ -15,7 +15,7 @@ const MUITextFieldBaseProps = {
   fullWidth: true,
   InputLabelProps: { shrink: true },
   style: {
-    marginBottom: 20
+    marginBottom: 20,
   },
 }
 
@@ -27,7 +27,7 @@ const form = {
   validate: values => {
     const errors = {}
     if (!values.username) {
-      errors.username = "Required"
+      errors.username = 'Required'
 
       return Object.keys(errors).length ? errors : undefined
     }
@@ -35,8 +35,8 @@ const form = {
 
   onSubmit: async values => {
     await sleep(1000)
-    
-    window.alert("LOGIN SUCCESS!")
+
+    window.alert('LOGIN SUCCESS!')
   },
 }
 
@@ -47,8 +47,8 @@ export const userNameField = {
   name: 'username',
   type: 'text',
   label: 'Username',
-  parse: value => value ? value.toUpperCase() : '',
-  format: value => value ? value.toLowerCase() : '',
+  parse: value => (value ? value.toUpperCase() : ''),
+  format: value => (value ? value.toLowerCase() : ''),
   // disabled: true,
   // debug: true,
   MUIProps: {
@@ -56,7 +56,7 @@ export const userNameField = {
       ...MUITextFieldBaseProps,
       placeholder: 'Username',
     },
-  }
+  },
 }
 
 export const phoneField = {
@@ -67,18 +67,21 @@ export const phoneField = {
   label: 'Phone',
   parse: value => {
     if (!value) return value
-    
-    const onlyNums = value.replace(/[^\d]/g, "")
+
+    const onlyNums = value.replace(/[^\d]/g, '')
     if (onlyNums.length <= 3) return onlyNums
     if (onlyNums.length <= 7)
       return `(${onlyNums.slice(0, 3)}) ${onlyNums.slice(3, 7)}`
-    return `(${onlyNums.slice(0, 3)}) ${onlyNums.slice(3, 6)}-${onlyNums.slice(6, 10)}`
+    return `(${onlyNums.slice(0, 3)}) ${onlyNums.slice(3, 6)}-${onlyNums.slice(
+      6,
+      10,
+    )}`
   },
   MUIProps: {
     TextField: {
-      ...MUITextFieldBaseProps
+      ...MUITextFieldBaseProps,
     },
-  }
+  },
 }
 
 export const cardField = {
@@ -90,19 +93,19 @@ export const cardField = {
   parse: value => {
     if (!value) return value
 
-    const onlyNums = value.replace(/[^\d]/g, "")
+    const onlyNums = value.replace(/[^\d]/g, '')
 
     return R.pipe(
       R.slice(0, 16),
-      R.split(""),
+      R.split(''),
       R.splitEvery(4),
-      R.map(R.join("")),
-      R.join(" - ")
+      R.map(R.join('')),
+      R.join(' - '),
     )(onlyNums)
   },
   MUIProps: {
     TextField: {
-      ...MUITextFieldBaseProps
+      ...MUITextFieldBaseProps,
     },
-  }
+  },
 }

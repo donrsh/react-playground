@@ -6,21 +6,17 @@ import { compose } from 'recompose'
 import { Form } from 'react-final-form'
 import * as R from 'ramda'
 
-import {
-  Grid, Button, Collapse,
-} from '@material-ui/core'
+import { Grid, Button, Collapse } from '@material-ui/core'
 
-import {
-  ArrowDropDown, ArrowDropUp
-} from '@material-ui/icons'
+import { ArrowDropDown, ArrowDropUp } from '@material-ui/icons'
 
 import { fromRenderProps } from 'HOCs/fromRenderProps'
 import { withTogglers } from 'HOCs/withTogglers'
 
-import { 
+import {
   renderFFMUIComponent,
   renderFFMUIHelperText,
-  renderFFMUIFormLabel
+  renderFFMUIFormLabel,
 } from '../../common/renderFFMUIComponent'
 
 import {
@@ -33,54 +29,52 @@ import {
   toppingsField,
   saucesField,
   stoogeField,
-  notesField
+  notesField,
 } from './formConfig'
 
 export const testIds = {
-  togglerButton: "togglerButton"
+  togglerButton: 'togglerButton',
 }
 
 class SimpleExample extends React.Component {
-  componentDidMount () {
+  componentDidMount() {
     const v = `update${simpleExampleForm.name}`
-    
-    window[v] = (nextValues) => {
 
+    window[v] = nextValues => {
       R.pipe(
         Object.entries,
-        R.forEach(x => 
-          this.props[simpleExampleForm.name].form.change(...x)
-        )
+        R.forEach(x => this.props[simpleExampleForm.name].form.change(...x)),
       )(nextValues)
-      
     }
 
-    console.info(`🔮 You can access change form function via global variable: ${v}`)
+    console.info(
+      `🔮 You can access change form function via global variable: ${v}`,
+    )
 
     this.releaseFormVariable = () => {
-      window[v] = undefined  
+      window[v] = undefined
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.releaseFormVariable()
   }
 
   Sub = {
     TogglerButton: () => {
       const { isOpen } = this.props.collapseToggler
-      
+
       const TogglerComponent = isOpen ? ArrowDropUp : ArrowDropDown
 
       return (
-        <TogglerComponent 
+        <TogglerComponent
           data-testid={testIds.togglerButton}
           data-open={`${isOpen}`}
         />
       )
-    }
+    },
   }
-  
+
   render() {
     // console.group('Final Form - SimpleExample')
     // console.log(this.props)
@@ -88,22 +82,19 @@ class SimpleExample extends React.Component {
     const { Sub } = this
     const { collapseToggler } = this.props
 
-    const {
-      handleSubmit, submitting, pristine, form,
-      values
-    } = this.props[simpleExampleForm.name]
+    const { handleSubmit, submitting, pristine, form, values } = this.props[
+      simpleExampleForm.name
+    ]
 
     return (
       <Styles id={simpleExampleForm.name}>
         <h1 onClick={() => collapseToggler.toggle()}>
-          🏁 React Final Form - { simpleExampleForm.title }
+          🏁 React Final Form - {simpleExampleForm.title}
           <Sub.TogglerButton />
         </h1>
 
         <Collapse in={collapseToggler.isOpen}>
-          <a href="https://codesandbox.io/s/ww40y2m595">
-            See source
-          </a>
+          <a href="https://codesandbox.io/s/ww40y2m595">See source</a>
 
           <form onSubmit={handleSubmit}>
             {renderFFMUIComponent(firstNameField)}
@@ -117,23 +108,19 @@ class SimpleExample extends React.Component {
             <Grid container style={{ marginBottom: 20 }}>
               <Grid item xs={3}>
                 {renderFFMUIFormLabel(saucesField, {
-                  style: { position: 'relative', top: 16 }
+                  style: { position: 'relative', top: 16 },
                 })}
               </Grid>
 
               <Grid item xs={9}>
-                {
-                  R.pipe(
-                    R.values,
-                    R.map(field => (
-                      <div style={{ display: 'flex' }}
-                        key={field.value}
-                      >
-                        {renderFFMUIComponent(field)}
-                      </div>
-                    ))
-                  )(saucesField.subFields)
-                }
+                {R.pipe(
+                  R.values,
+                  R.map(field => (
+                    <div style={{ display: 'flex' }} key={field.value}>
+                      {renderFFMUIComponent(field)}
+                    </div>
+                  )),
+                )(saucesField.subFields)}
                 {renderFFMUIHelperText(saucesField)}
               </Grid>
             </Grid>
@@ -142,29 +129,24 @@ class SimpleExample extends React.Component {
             <Grid container style={{ marginBottom: 20 }}>
               <Grid item xs={3}>
                 {renderFFMUIFormLabel(stoogeField, {
-                  style: { position: 'relative', top: 16 }
+                  style: { position: 'relative', top: 16 },
                 })}
               </Grid>
 
               <Grid item xs={9}>
                 <Grid container>
-                  {
-                    R.pipe(
-                      R.values,
-                      R.map(field => (
-                        <div style={{ display: 'inline-flex' }}
-                          key={field.value}
-                        >
-                          {renderFFMUIComponent(field)}
-                        </div>
-                      ))
-                    )(stoogeField.subFields)
-                  }
+                  {R.pipe(
+                    R.values,
+                    R.map(field => (
+                      <div style={{ display: 'inline-flex' }} key={field.value}>
+                        {renderFFMUIComponent(field)}
+                      </div>
+                    )),
+                  )(stoogeField.subFields)}
                 </Grid>
                 {renderFFMUIHelperText(stoogeField)}
               </Grid>
             </Grid>
-
 
             {renderFFMUIComponent(notesField)}
 
@@ -177,7 +159,7 @@ class SimpleExample extends React.Component {
                 style={{ marginRight: 8 }}
               >
                 Submit
-            </Button>
+              </Button>
               <Button
                 type="button"
                 onClick={form.reset}
@@ -185,7 +167,7 @@ class SimpleExample extends React.Component {
                 variant="contained"
               >
                 Reset
-            </Button>
+              </Button>
             </div>
             <pre>{JSON.stringify(values, 0, 2)}</pre>
           </form>
@@ -196,22 +178,15 @@ class SimpleExample extends React.Component {
 }
 
 const enhancer = compose(
-  withTogglers(
-    ({ defaultOpen = false }) => [
-      { name: 'collapse', defaultOpen }
-    ]
-  ),
+  withTogglers(({ defaultOpen = false }) => [
+    { name: 'collapse', defaultOpen },
+  ]),
   fromRenderProps(
-    ({ children }) => (
-      <Form 
-        {...simpleExampleForm}
-        children={children}
-      />
-    ),
-    (formRenderProps) => ({
-      [simpleExampleForm.name]: formRenderProps
+    ({ children }) => <Form {...simpleExampleForm} children={children} />,
+    formRenderProps => ({
+      [simpleExampleForm.name]: formRenderProps,
     }),
-  )
+  ),
 )
 
 export default enhancer(SimpleExample)

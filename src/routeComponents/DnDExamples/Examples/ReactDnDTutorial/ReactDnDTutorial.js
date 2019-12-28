@@ -18,15 +18,15 @@ const Styc = {
   `,
 
   KnightRoot: styled.div`
-    opacity: ${({ isDragging }) => isDragging ? 0.5 : 1 };
+    opacity: ${({ isDragging }) => (isDragging ? 0.5 : 1)};
     font-size: 25;
     font-weight: 'bold';
     cursor: move;
   `,
-  
+
   SquareRoot: styled.div`
-    background-color: ${({ black }) => black ? 'black' : 'white'};
-    color: ${({ black }) => black ? 'white' : 'black'};
+    background-color: ${({ black }) => (black ? 'black' : 'white')};
+    color: ${({ black }) => (black ? 'white' : 'black')};
     width: 100%;
     height: 100%;
     display: flex;
@@ -42,7 +42,7 @@ const Styc = {
     width: 100%;
     z-index: 1;
     opacity: 0.5;
-    background: ${R.prop('color')}
+    background: ${R.prop('color')};
   `,
 
   BoardRoot: styled.div`
@@ -50,19 +50,19 @@ const Styc = {
     height: 100%;
     display: flex;
     flex-wrap: wrap;
-  `
+  `,
 }
 
 const knightSource = {
   beginDrag(props) {
     return {}
-  }
+  },
 }
 
 function sourceCollect(connect, monitor) {
   return {
     connectDragSource: connect.dragSource(),
-    isDragging: monitor.isDragging()
+    isDragging: monitor.isDragging(),
   }
 }
 
@@ -73,14 +73,14 @@ const squareTarget = {
 
   canDrop(props) {
     return canMoveKnight(props.x, props.y)
-  }
+  },
 }
 
 function targetCollect(connect, monitor) {
   return {
     connectDropTarget: connect.dropTarget(),
     isOver: monitor.isOver(),
-    canDrop: monitor.canDrop()
+    canDrop: monitor.canDrop(),
   }
 }
 
@@ -92,7 +92,7 @@ class RactDnDTutorial extends React.Component {
 
     const [knightX, knightY] = knightPosition
     if (x === knightX && y === knightY) {
-      return <Sub.Knight />;
+      return <Sub.Knight />
     }
   }
 
@@ -113,38 +113,41 @@ class RactDnDTutorial extends React.Component {
 
   Sub = {
     Knight: DragSource(
-      ItemTypes.KNIGHT, knightSource, sourceCollect
+      ItemTypes.KNIGHT,
+      knightSource,
+      sourceCollect,
     )(({ connectDragSource, isDragging }) => {
-        return (
-          <Styc.KnightRoot isDragging
-            innerRef={instance => connectDragSource(instance)}
-          >
-            ♘
-          </Styc.KnightRoot>
-        )
+      return (
+        <Styc.KnightRoot
+          isDragging
+          innerRef={instance => connectDragSource(instance)}
+        >
+          ♘
+        </Styc.KnightRoot>
+      )
     }),
 
     BoardSquare: DropTarget(
-      ItemTypes.KNIGHT, squareTarget, targetCollect
+      ItemTypes.KNIGHT,
+      squareTarget,
+      targetCollect,
     )(({ x, y, children, connectDropTarget, isOver, canDrop }) => {
       const black = (x + y) % 2 === 1
 
       return (
-        <div 
+        <div
           ref={connectDropTarget}
           style={{
-          position: 'relative',
-          width: '100%',
-          height: '100%'
+            position: 'relative',
+            width: '100%',
+            height: '100%',
           }}
         >
-          <Styc.SquareRoot black={black}>
-            {children}
-          </Styc.SquareRoot>
+          <Styc.SquareRoot black={black}>{children}</Styc.SquareRoot>
 
-          {isOver && !canDrop && <Styc.SquareOverlay color='red'/>}
-          {!isOver && canDrop && <Styc.SquareOverlay color='yellow' />}
-          {isOver && canDrop && <Styc.SquareOverlay color='green' />}
+          {isOver && !canDrop && <Styc.SquareOverlay color="red" />}
+          {!isOver && canDrop && <Styc.SquareOverlay color="yellow" />}
+          {isOver && canDrop && <Styc.SquareOverlay color="green" />}
         </div>
       )
     }),
@@ -157,45 +160,47 @@ class RactDnDTutorial extends React.Component {
           {R.range(0, 63).map(i => renderSquare(i, knightPosition))}
         </Styc.BoardRoot>
       )
-    }
+    },
   }
 
   handleSquareClick = (toX, toY) => {
     if (canMoveKnight(toX, toY)) {
-      moveKnight(toX, toY);
+      moveKnight(toX, toY)
     }
   }
 
-  componentDidMount () {
+  componentDidMount() {
     initKnightPosition(this.state.knightPosition)
-    this.unobserve = observe(knightPosition => this.setState({ knightPosition }))
+    this.unobserve = observe(knightPosition =>
+      this.setState({ knightPosition }),
+    )
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.unobserve()
   }
-  
-  render () {
+
+  render() {
     const { Sub } = this
     const { knightPosition } = this.state
     return (
       <Styc.Root>
-        <Typography variant='headline'
-          style={{ marginBottom: 20 }}
-        >
+        <Typography variant="headline" style={{ marginBottom: 20 }}>
           React-Dnd Tutorial
         </Typography>
 
-        <Typography variant='body1'
-          style={{ marginBottom: 20 }}
-        >
+        <Typography variant="body1" style={{ marginBottom: 20 }}>
           <OpenInNew />{' '}
-          <a href="http://react-dnd.github.io/react-dnd/docs-tutorial.html" 
-            target='_blank' rel="noopener noreferrer"
-          >See here</a>
+          <a
+            href="http://react-dnd.github.io/react-dnd/docs-tutorial.html"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            See here
+          </a>
         </Typography>
 
-        <Sub.Board knightPosition={knightPosition}/>
+        <Sub.Board knightPosition={knightPosition} />
       </Styc.Root>
     )
   }

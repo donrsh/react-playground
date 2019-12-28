@@ -12,7 +12,7 @@ const MUITextFieldBaseProps = {
   fullWidth: true,
   InputLabelProps: { shrink: true },
   style: {
-    marginBottom: 20
+    marginBottom: 20,
   },
 }
 
@@ -28,10 +28,10 @@ export const WizardForm = {
     stooge: 'moe',
     employed: false,
     // favoriteColor: '#00ff00',
-    toppings: []
+    toppings: [],
   },
 
-  nonAPI: 123
+  nonAPI: 123,
 }
 
 export const firstNameField = {
@@ -42,14 +42,12 @@ export const firstNameField = {
   labelStandalone: true,
   // disabled: true,
   // debug: true,
-  validate: pipeValidatorsAndGetHead(
-    isRequired,
-  ),
+  validate: pipeValidatorsAndGetHead(isRequired),
   MUIProps: {
     TextField: {
       ...MUITextFieldBaseProps,
     },
-  }
+  },
 }
 
 export const lastNameField = {
@@ -58,13 +56,11 @@ export const lastNameField = {
   type: 'text',
   label: 'Last Name',
   labelStandalone: true,
-  validate: pipeValidatorsAndGetHead(
-    isRequired,
-  ),
+  validate: pipeValidatorsAndGetHead(isRequired),
   placeholder: 'Last Name',
   MUIProps: {
-    TextField: MUITextFieldBaseProps
-  }
+    TextField: MUITextFieldBaseProps,
+  },
 }
 
 export const emailField = {
@@ -76,9 +72,9 @@ export const emailField = {
   MUIProps: {
     TextField: {
       placeholder: 'email',
-      ...MUITextFieldBaseProps
+      ...MUITextFieldBaseProps,
     },
-  }
+  },
 }
 
 export const employedField = {
@@ -90,9 +86,9 @@ export const employedField = {
   // debug: true,
   MUIProps: {
     FormControlLabel: {
-      labelPlacement: 'start'
-    }
-  }
+      labelPlacement: 'start',
+    },
+  },
 }
 
 export const favoriteColorField = {
@@ -104,24 +100,24 @@ export const favoriteColorField = {
   // disabled: true,
   // debug: true,
   options: [
-    { value: "#ff0000", display: "❤️ Red" },
-    { value: "#00ff00", display: "💚 Green" },
-    { value: "#0000ff", display: "💙 Blue" },
+    { value: '#ff0000', display: '❤️ Red' },
+    { value: '#00ff00', display: '💚 Green' },
+    { value: '#0000ff', display: '💙 Blue' },
   ],
   getOptionProps: ({ value, display }) => ({
     key: value,
     value,
-    children: display
+    children: display,
   }),
   MUIProps: {
     TextField: {
       ...MUITextFieldBaseProps,
       select: true,
       SelectProps: {
-        native: false
-      }
-    }
-  }
+        native: false,
+      },
+    },
+  },
 }
 
 export const toppingsField = {
@@ -135,17 +131,17 @@ export const toppingsField = {
   // disabled: true,
   // debug: true,
   options: [
-    { value: "chicken", display: "🐓 Chicken" },
-    { value: "ham", display: "🐷 Ham" },
-    { value: "mushrooms", display: "🍄 Mushrooms" },
-    { value: "cheese", display: "🧀 Cheese" },
-    { value: "tuna", display: "🐟 Tuna" },
-    { value: "pineapple", display: "🍍 Pineapple" }
+    { value: 'chicken', display: '🐓 Chicken' },
+    { value: 'ham', display: '🐷 Ham' },
+    { value: 'mushrooms', display: '🍄 Mushrooms' },
+    { value: 'cheese', display: '🧀 Cheese' },
+    { value: 'tuna', display: '🐟 Tuna' },
+    { value: 'pineapple', display: '🍍 Pineapple' },
   ],
   getOptionProps: ({ value, display }) => ({
     key: value,
     value,
-    children: display
+    children: display,
   }),
   MUIProps: {
     TextField: {
@@ -155,8 +151,8 @@ export const toppingsField = {
         multiple: true,
         // native: true
       },
-    }
-  }
+    },
+  },
 }
 
 export const saucesField = {
@@ -169,10 +165,10 @@ export const saucesField = {
     (value, allValues, props, name) => {
       if (RA.isArray(value) && value.length > 2) {
         return {
-          msg: `Neh, I don't think more than 2 sauces would be a good idea...`
+          msg: `Neh, I don't think more than 2 sauces would be a good idea...`,
         }
       }
-    }
+    },
   ),
   // debug: true,
   subFields: {
@@ -192,7 +188,7 @@ export const saucesField = {
       type: 'checkbox',
       label: 'Mustard',
       value: 'mustard',
-      MUIProps: {}
+      MUIProps: {},
     },
     mayonnaise: {
       form: WizardForm.name,
@@ -200,7 +196,7 @@ export const saucesField = {
       type: 'checkbox',
       label: 'Mayonnaise',
       value: 'mayonnaise',
-      MUIProps: {}
+      MUIProps: {},
     },
     guacamole: {
       form: WizardForm.name,
@@ -208,9 +204,9 @@ export const saucesField = {
       type: 'checkbox',
       label: 'Guacamole',
       value: 'guacamole',
-      MUIProps: {}
-    }
-  }
+      MUIProps: {},
+    },
+  },
 }
 
 export const stoogeField = {
@@ -219,15 +215,13 @@ export const stoogeField = {
   type: 'radioGroup',
   label: 'Best Stooge',
   // debug: true,
-  validate: pipeValidatorsAndGetHead(
-    (value, allValues, props, name) => {
-      if (value === 'moe') {
-        return {
-          msg: `Moe? Are you sure?`
-        }
+  validate: pipeValidatorsAndGetHead((value, allValues, props, name) => {
+    if (value === 'moe') {
+      return {
+        msg: `Moe? Are you sure?`,
       }
     }
-  ),
+  }),
   subFields: {
     larry: {
       form: WizardForm.name,
@@ -235,7 +229,7 @@ export const stoogeField = {
       type: 'radio',
       label: 'Larry',
       value: 'larry',
-      MUIProps: {}
+      MUIProps: {},
     },
     moe: {
       form: WizardForm.name,
@@ -255,7 +249,7 @@ export const stoogeField = {
       // disabled: true,
       // debug: true,
     },
-  }
+  },
 }
 
 export const notesField = {
@@ -272,5 +266,5 @@ export const notesField = {
       rows: 2,
       placeholder: 'Write some things...',
     },
-  }
+  },
 }

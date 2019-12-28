@@ -5,13 +5,9 @@ import Styles from './Styles'
 import { compose } from 'recompose'
 import * as R from 'ramda'
 
-import {
-  Grid, Collapse,
-} from '@material-ui/core'
+import { Grid, Collapse } from '@material-ui/core'
 
-import {
-  ArrowDropDown, ArrowDropUp
-} from '@material-ui/icons'
+import { ArrowDropDown, ArrowDropUp } from '@material-ui/icons'
 
 import { withTogglers } from 'HOCs/withTogglers'
 
@@ -20,7 +16,7 @@ import Wizard from './Wizard'
 import {
   renderFFMUIComponent,
   renderFFMUIHelperText,
-  renderFFMUIFormLabel
+  renderFFMUIFormLabel,
 } from '../../common/renderFFMUIComponent'
 
 import {
@@ -32,11 +28,11 @@ import {
   favoriteColorField,
   toppingsField,
   stoogeField,
-  notesField
+  notesField,
 } from './formConfig'
 
 class ExampleComponent extends React.Component {
-  renderFieldInGrid = (fieldConfig) => (
+  renderFieldInGrid = fieldConfig => (
     <Grid container>
       <Grid item xs={3}>
         {renderFFMUIFormLabel(fieldConfig)}
@@ -50,18 +46,16 @@ class ExampleComponent extends React.Component {
   componentDidMount() {
     const v = `update${WizardForm.name}`
 
-    window[v] = (nextValues) => {
-
+    window[v] = nextValues => {
       R.pipe(
         Object.entries,
-        R.forEach(x =>
-          this.props[WizardForm.name].form.change(...x)
-        )
+        R.forEach(x => this.props[WizardForm.name].form.change(...x)),
       )(nextValues)
-
     }
 
-    console.info(`🔮 You can access change form function via global variable: ${v}`)
+    console.info(
+      `🔮 You can access change form function via global variable: ${v}`,
+    )
 
     this.releaseFormVariable = () => {
       window[v] = undefined
@@ -83,27 +77,21 @@ class ExampleComponent extends React.Component {
       <Styles>
         <h1 onClick={() => collapseToggler.toggle()}>
           🏁 React Final Form - Wizard Form
-          {
-            collapseToggler.isOpen ?
-              <ArrowDropUp /> :
-              <ArrowDropDown />
-          }
+          {collapseToggler.isOpen ? <ArrowDropUp /> : <ArrowDropDown />}
         </h1>
 
         <Collapse in={collapseToggler.isOpen}>
-          <a href="https://codesandbox.io/s/km2n35kq3v">
-            See source
-          </a>
+          <a href="https://codesandbox.io/s/km2n35kq3v">See source</a>
           <p>
-            Notice the mixture of field-level and record-level (or <em>page-level</em>{' '}
-            in this case) validation.
+            Notice the mixture of field-level and record-level (or{' '}
+            <em>page-level</em> in this case) validation.
           </p>
-
 
           <Wizard
             initialValues={{
               toppings: [],
-              employed: true, stooge: 'larry'
+              employed: true,
+              stooge: 'larry',
             }}
             onSubmit={WizardForm.onSubmit}
           >
@@ -160,24 +148,23 @@ class ExampleComponent extends React.Component {
               <Grid container style={{ marginBottom: 20 }}>
                 <Grid item xs={3}>
                   {renderFFMUIFormLabel(stoogeField, {
-                    style: { position: 'relative', top: 16 }
+                    style: { position: 'relative', top: 16 },
                   })}
                 </Grid>
 
                 <Grid item xs={9}>
                   <Grid container>
-                    {
-                      R.pipe(
-                        R.values,
-                        R.map(field => (
-                          <div style={{ display: 'inline-flex' }}
-                            key={field.value}
-                          >
-                            {renderFFMUIComponent(field)}
-                          </div>
-                        ))
-                      )(stoogeField.subFields)
-                    }
+                    {R.pipe(
+                      R.values,
+                      R.map(field => (
+                        <div
+                          style={{ display: 'inline-flex' }}
+                          key={field.value}
+                        >
+                          {renderFFMUIComponent(field)}
+                        </div>
+                      )),
+                    )(stoogeField.subFields)}
                   </Grid>
                   {renderFFMUIHelperText(stoogeField)}
                 </Grid>
@@ -193,11 +180,9 @@ class ExampleComponent extends React.Component {
 }
 
 const enhancer = compose(
-  withTogglers(
-    ({ defaultOpen = false }) => [
-      { name: 'collapse', defaultOpen }
-    ]
-  )
+  withTogglers(({ defaultOpen = false }) => [
+    { name: 'collapse', defaultOpen },
+  ]),
 )
 
 export default enhancer(ExampleComponent)

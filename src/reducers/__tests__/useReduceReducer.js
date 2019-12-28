@@ -1,4 +1,7 @@
-import reducer, { numberFragReducer, stringFragReducer } from '../useReduceReducer'
+import reducer, {
+  numberFragReducer,
+  stringFragReducer,
+} from '../useReduceReducer'
 import * as state from 'reduxStates/useReduceReducer'
 import actions from 'actions/creators/useReduceReducer'
 
@@ -14,13 +17,13 @@ describe(filePath, () => {
       numberProduct: initState.numberProduct * injectedNumber,
     }
 
-    expect(resultState).toEqual(expectedState)    
+    expect(resultState).toEqual(expectedState)
   })
 
   it('`INJECT_NUMBER` action', () => {
     const initState = {
       ...state.numberFrag.init(),
-      ...state.stringFrag.init()
+      ...state.stringFrag.init(),
     }
 
     const injectedNumber = 10
@@ -30,7 +33,7 @@ describe(filePath, () => {
     const expectedState = {
       numberSum: initState.numberSum + injectedNumber,
       numberProduct: initState.numberProduct * injectedNumber,
-      ...state.stringFrag.init()
+      ...state.stringFrag.init(),
     }
 
     expect(resultState).toEqual(expectedState)
@@ -39,7 +42,7 @@ describe(filePath, () => {
   it('`INJECT_STRING` action', () => {
     const initState = {
       ...state.numberFrag.init(),
-      ...state.stringFrag.init()
+      ...state.stringFrag.init(),
     }
 
     const injectedString = 'hello'
@@ -48,7 +51,7 @@ describe(filePath, () => {
 
     const expectedState = {
       ...state.numberFrag.init(),
-      stringSum: initState.stringSum + injectedString
+      stringSum: initState.stringSum + injectedString,
     }
 
     expect(resultState).toEqual(expectedState)

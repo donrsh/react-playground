@@ -26,81 +26,81 @@ const MUIStyles = {
       }
 
       &:focus {
-        outline: none
+        outline: none;
       }
     }
-  `
+  `,
 }
 
-export default (theme) => ({
+export default theme => ({
   Font: css`
     label: MUIReactTable-Font;
-    font-family: ${theme.typography.fontFamily}
+    font-family: ${theme.typography.fontFamily};
   `,
 
   Table: {
     root: css`
       label: MUIReactTable-Table;
-    `
+    `,
   },
 
   TheadGroup: {
     root: css`
       label: MUIReactTable-TheadGroup;
-    `
+    `,
   },
 
   TheadGroupTr: {
     root: css`
       label: MUIReactTable-TheadGroupTr;
       ${MUIStyles.TableRow}
-    `
+    `,
   },
 
   TheadGroupTh: {
     root: css`
       .ReactTable .rt-thead && {
-        label: MUIReactTable-TheadGroupTh;        
+        label: MUIReactTable-TheadGroupTh;
         ${MUIStyles.TableCell}
         justify-content: center;
         font-weight: bold;
       }
-    `
+    `,
   },
 
   Thead: {
     root: css`
       label: MUIReactTable-Thead;
-    `
+    `,
   },
 
   TheadTr: {
     root: css`
       label: MUIReactTable-TheadTr;
-      ${MUIStyles.TableRow}    
-    `
+      ${MUIStyles.TableRow}
+    `,
   },
 
   TheadTh: {
     root: css`
       .ReactTable .rt-thead && {
-        label: MUIReactTable-TheadTh;        
+        label: MUIReactTable-TheadTh;
         ${MUIStyles.TableCell}
       }
-    `
+    `,
   },
 
   TheadFilter: {
     root: css`
       label: MUIReactTable-TheadFilter;
-    `
+    `,
   },
 
   TheadFilterTr: {
     root: css`
       label: MUIReactTable-TheadFilterTr;
-      ${MUIStyles.TableRow}    
-    `
+      ${MUIStyles.TableRow}
+    `,
   },
 
   TheadFilterTh: {
@@ -108,44 +108,44 @@ export default (theme) => ({
       .ReactTable .rt-thead && {
         label: MUIReactTable-TheadFilterTh;
         ${MUIStyles.TableCell}
-        
+
         & {
           padding: 4px 24px;
         }
 
         & input {
-          border: none
+          border: none;
         }
       }
-    `
+    `,
   },
 
   Tbody: {
     root: css`
       label: MUIReactTable-Tbody;
-    `
+    `,
   },
 
   TrGroup: {
     root: css`
       label: MUIReactTable-TrGroup;
-    `
+    `,
   },
 
   Tr: {
     root: css`
       label: MUIReactTable-Tr;
-      ${MUIStyles.TableRow}    
-    `
+      ${MUIStyles.TableRow}
+    `,
   },
 
   Th: {
     root: css`
       .ReactTable .rt-tbody && {
-        label: MUIReactTable-Th;        
+        label: MUIReactTable-Th;
         ${MUIStyles.TableCell}
       }
-    `
+    `,
   },
 
   Td: {
@@ -154,20 +154,20 @@ export default (theme) => ({
         label: MUIReactTable-Td;
         ${MUIStyles.TableCell}
       }
-    `
+    `,
   },
 
   Tfoot: {
     root: css`
       label: MUIReactTable-Tfoot;
-    `
+    `,
   },
 
   TfootTr: {
     root: css`
       label: MUIReactTable-TfootTr;
-      ${MUIStyles.TableRow}    
-    `
+      ${MUIStyles.TableRow}
+    `,
   },
 
   TfootTd: {
@@ -176,19 +176,19 @@ export default (theme) => ({
         label: MUIReactTable-TfootTd;
         ${MUIStyles.TableCell}
       }
-    `
+    `,
   },
 
   Pagination: {
     root: css`
       label: MUIReactTable-Pagination;
-    `
+    `,
   },
 
   Loading: {
     root: css`
       label: MUIReactTable-Loading;
-    `
+    `,
   },
 
   NoData: {
@@ -197,7 +197,7 @@ export default (theme) => ({
       .ReactTable && {
         padding: 0;
       }
-    `
+    `,
   },
 
   NoDataText: css`
@@ -213,6 +213,6 @@ export default (theme) => ({
   Resizer: {
     root: css`
       label: MUIReactTable-Resizer;
-    `
+    `,
   },
 })

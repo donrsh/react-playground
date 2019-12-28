@@ -6,12 +6,12 @@ import { Typography } from '@material-ui/core'
 
 const Styc = {
   DropTargetRoot: styled.div.attrs({
-    children: 'Drop here'
+    children: 'Drop here',
   })`
     width: 200px;
     height: 200px;
     border: 1px dashed grey;
-    background-color: ${({ over }) => over ? 'lightgrey' : 'white'}
+    background-color: ${({ over }) => (over ? 'lightgrey' : 'white')}
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -19,7 +19,7 @@ const Styc = {
 
   DragSourceRoot: styled.div.attrs({
     draggable: true,
-    children: 'Drag Me!'
+    children: 'Drag Me!',
   })`
     width: 100px;
     height: 100px;
@@ -27,26 +27,26 @@ const Styc = {
     margin-right: 30px;
     display: inline-flex;
     align-items: center;
-    justify-content: center
-  `
+    justify-content: center;
+  `,
 }
 
 class NativeAPI extends React.Component {
   state = {
     over: false,
-    dropCount: 0
+    dropCount: 0,
   }
 
-  onDrag = (e) => {
+  onDrag = e => {
     // console.log('onDrag', e.target)
   }
 
-  onDragStart = (e) => {
+  onDragStart = e => {
     // console.log('onDragStart', e.target)
     e.persist()
-    e.dataTransfer.dropEffect = "link"
-    e.dataTransfer.setData("text/plain", "abcde")
-    e.dataTransfer.setData("text/plain", "qqqqq")
+    e.dataTransfer.dropEffect = 'link'
+    e.dataTransfer.setData('text/plain', 'abcde')
+    e.dataTransfer.setData('text/plain', 'qqqqq')
 
     /*  
     const img = new Image()
@@ -54,38 +54,39 @@ class NativeAPI extends React.Component {
     img.style = 'width:10px;height:10px;'
     e.dataTransfer.setDragImage(img, 0, 0)
     */
-
   }
 
-  onDragEnd = (e) => {
+  onDragEnd = e => {
     // console.log('onDragEnd', e.target)
   }
 
-  onDragEnter = (e) => {
+  onDragEnter = e => {
     // console.log('onDragEnter', e.target)
     this.setState(() => ({ over: true }))
   }
 
-  onDragLeave = (e) => {
+  onDragLeave = e => {
     // console.log('onDragLeave', e.target)
     this.setState(() => ({ over: false }))
   }
 
-  onDragOver = (e) => {
+  onDragOver = e => {
     // console.log('onDragOver', e.target)
     e.stopPropagation()
     e.preventDefault()
     // e.persist()
-    e.dataTransfer.dropEffect = "copy"
+    e.dataTransfer.dropEffect = 'copy'
   }
 
-  onDrop = (e) => {
+  onDrop = e => {
     e.preventDefault()
     // console.log('onDrop', e.dataTransfer)
-    this.setState(R.evolve({
-      over: R.F,
-      dropCount: R.add(1)
-    }))
+    this.setState(
+      R.evolve({
+        over: R.F,
+        dropCount: R.add(1),
+      }),
+    )
 
     window.alert('dropped!')
   }
@@ -95,9 +96,7 @@ class NativeAPI extends React.Component {
 
     return (
       <div style={{ marginTop: 100 }}>
-        <Typography variant='headline'
-          style={{ marginBottom: 20 }}
-        >
+        <Typography variant="headline" style={{ marginBottom: 20 }}>
           Native API
         </Typography>
 
@@ -115,9 +114,7 @@ class NativeAPI extends React.Component {
           onDrop={this.onDrop}
         />
 
-        <Typography variant='subheading'
-          style={{ marginTop: 20 }}
-        >
+        <Typography variant="subheading" style={{ marginTop: 20 }}>
           Drop count: {this.state.dropCount}
         </Typography>
       </div>

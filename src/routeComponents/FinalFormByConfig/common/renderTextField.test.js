@@ -4,10 +4,7 @@ import { fireEvent, waitForElement } from 'react-testing-library'
 
 import { renderInForm, createElGetter } from './testHelpers'
 
-import {
-  getInputId,
-  renderFFMUIComponent
-} from './renderFFMUIComponent'
+import { getInputId, renderFFMUIComponent } from './renderFFMUIComponent'
 
 const formName = 'testForm'
 
@@ -16,19 +13,15 @@ describe('TextField', () => {
     type: 'text',
     name: 'text-basic',
     form: formName,
-    label: 'Text Basic'
+    label: 'Text Basic',
   }
 
-  const getSubmitBtn = (baseElement) => 
-    baseElement.querySelector(
-      `button[type=submit]`
-    )
+  const getSubmitBtn = baseElement =>
+    baseElement.querySelector(`button[type=submit]`)
 
   it('basic', () => {
     const fieldConfig = fieldBaseConfig
-    const { baseElement } = renderInForm(
-      renderFFMUIComponent(fieldConfig)
-    )
+    const { baseElement } = renderInForm(renderFFMUIComponent(fieldConfig))
     const inputId = getInputId(fieldConfig)
 
     const { getInput, getLabel } = createElGetter(baseElement)
@@ -49,10 +42,8 @@ describe('TextField', () => {
   it(`"placeholder" config works`, () => {
     const placeholder = `${Math.random()}`
     const fieldConfig = { ...fieldBaseConfig, placeholder }
-    
-    const { baseElement } = renderInForm(
-      renderFFMUIComponent(fieldConfig)
-    )
+
+    const { baseElement } = renderInForm(renderFFMUIComponent(fieldConfig))
 
     const { getInput } = createElGetter(baseElement)
     const inputEl = getInput(fieldConfig)
@@ -62,21 +53,17 @@ describe('TextField', () => {
 
   it(`"disabled" config works`, () => {
     const fieldConfig = { ...fieldBaseConfig, disabled: true }
-    const { baseElement } = renderInForm(
-      renderFFMUIComponent(fieldConfig)
-    )
+    const { baseElement } = renderInForm(renderFFMUIComponent(fieldConfig))
 
     const { getInput } = createElGetter(baseElement)
-    const inputEl = getInput(fieldBaseConfig)    
+    const inputEl = getInput(fieldBaseConfig)
 
     expect(inputEl).toBeDisabled()
   })
 
   it(`"labelStandalone" config works`, () => {
     const fieldConfig = { ...fieldBaseConfig, labelStandalone: true }
-    const { baseElement } = renderInForm(
-      renderFFMUIComponent(fieldConfig)
-    )
+    const { baseElement } = renderInForm(renderFFMUIComponent(fieldConfig))
 
     const { getLabel } = createElGetter(baseElement)
     const labelEl = getLabel(fieldConfig)
@@ -90,15 +77,13 @@ describe('TextField', () => {
 
     const fieldConfig = {
       ...fieldBaseConfig,
-      validate: value => value ? undefined : requiredMessage,
+      validate: value => (value ? undefined : requiredMessage),
     }
 
-    const { baseElement } = renderInForm(
-      renderFFMUIComponent(fieldConfig)
-    )
+    const { baseElement } = renderInForm(renderFFMUIComponent(fieldConfig))
 
     const { getInput, getFormHelperText } = createElGetter(baseElement)
-    const inputEl = getInput(fieldConfig)    
+    const inputEl = getInput(fieldConfig)
     const getHelperTextElThunk = () => getFormHelperText(fieldConfig)
 
     /* untouched field should not show error */
@@ -114,7 +99,7 @@ describe('TextField', () => {
 
     /* type something to the input */
     fireEvent.change(inputEl, {
-      target: { value: 'abcde' }
+      target: { value: 'abcde' },
     })
 
     /* now the error should disappear */
@@ -124,17 +109,19 @@ describe('TextField', () => {
   it(`record-level validate do make error HelperText appear`, async () => {
     const helperTextTestId = `${Math.random()}`
     const requiredMessage = `${Math.random()}`
-    
+
     const formConfig = {
-      validate: values => !values[fieldBaseConfig.name] ?
-        { [fieldBaseConfig.name]: requiredMessage } : {}
+      validate: values =>
+        !values[fieldBaseConfig.name]
+          ? { [fieldBaseConfig.name]: requiredMessage }
+          : {},
     }
 
     const fieldConfig = fieldBaseConfig
 
     const { baseElement } = renderInForm(
       renderFFMUIComponent(fieldConfig),
-      formConfig
+      formConfig,
     )
 
     const { getInput, getFormHelperText } = createElGetter(baseElement)
@@ -151,7 +138,7 @@ describe('TextField', () => {
 
     /* type something to the input */
     fireEvent.change(inputEl, {
-      target: { value: 'abcde' }
+      target: { value: 'abcde' },
     })
 
     /* now the error should disappear */

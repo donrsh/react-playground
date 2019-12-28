@@ -15,16 +15,16 @@ const MUITextFieldBaseProps = {
   fullWidth: true,
   InputLabelProps: { shrink: true },
   style: {
-    marginBottom: 20
+    marginBottom: 20,
   },
 }
 
- const form = {
+const form = {
   name: 'CustomValidationEngine',
 
   // debug: createFormLogger('CustomValidationEngine'),
 
-  mutators: { 
+  mutators: {
     setFieldData,
 
     /* 
@@ -60,7 +60,7 @@ export const firstNameField = {
     TextField: {
       ...MUITextFieldBaseProps,
     },
-  }
+  },
 }
 
 export const lastNameField = {
@@ -74,7 +74,7 @@ export const lastNameField = {
     TextField: {
       ...MUITextFieldBaseProps,
     },
-  }
+  },
 }
 
 export const emailField = {
@@ -87,5 +87,5 @@ export const emailField = {
     TextField: {
       ...MUITextFieldBaseProps,
     },
-  }
+  },
 }

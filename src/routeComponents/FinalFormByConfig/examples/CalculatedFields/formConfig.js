@@ -19,29 +19,31 @@ const calculator = createDecorator(
     updates: {
       // ...update maximum to the result of this function
       maximum: (minimumValue, allValues) =>
-        Math.max(minimumValue || 0, allValues.maximum || 0)
-    }
+        Math.max(minimumValue || 0, allValues.maximum || 0),
+    },
   },
   {
     field: 'maximum', // when maximum changes...
     updates: {
       // update minimum to the result of this function
       minimum: (maximumValue, allValues) =>
-        Math.min(maximumValue || 0, allValues.minimum || 0)
-    }
+        Math.min(maximumValue || 0, allValues.minimum || 0),
+    },
   },
   {
     field: /day\[\d\]/, // when a field matching this pattern changes...
     updates: {
       // ...update the total to the result of this function
       total: (ignoredValue, allValues) => {
-        const sum = (allValues.day || [])
-          .reduce((sum, value) => sum + Number(value || 0), 0)
+        const sum = (allValues.day || []).reduce(
+          (sum, value) => sum + Number(value || 0),
+          0,
+        )
 
         return RA.isNaN(sum) ? `` : sum
-      }
-    }
-  }
+      },
+    },
+  },
 )
 
 const form = {
@@ -52,10 +54,10 @@ const form = {
   decorators: [calculator],
 
   mutators: {
-    ...arrayMutators
+    ...arrayMutators,
   },
 
-  validate: (values) => {
+  validate: values => {
     const dayError = []
     dayError[ARRAY_ERROR] = 'wrong'
 
@@ -74,7 +76,7 @@ export const CalculatedFieldsForm = form
 const TextFieldBaseProps = {
   fullWidth: true,
   style: {
-    marginBottom: 5
+    marginBottom: 5,
   },
 }
 
@@ -86,16 +88,13 @@ export const minimumField = {
   labelStandalone: true,
   // disabled: true,
   // debug: true,
-  validate: pipeValidatorsAndGetHead(
-    isRequired,
-    isNumber
-  ),
+  validate: pipeValidatorsAndGetHead(isRequired, isNumber),
   MUIProps: {
     TextField: {
       ...TextFieldBaseProps,
       placeholder: 'Minimum',
     },
-  }
+  },
 }
 
 export const maximumField = {
@@ -106,16 +105,13 @@ export const maximumField = {
   labelStandalone: true,
   // disabled: true,
   // debug: true,
-  validate: pipeValidatorsAndGetHead(
-    isRequired,
-    isNumber
-  ),
+  validate: pipeValidatorsAndGetHead(isRequired, isNumber),
   MUIProps: {
     TextField: {
       ...TextFieldBaseProps,
       placeholder: 'Maximum',
     },
-  }
+  },
 }
 
 export const dayField = {
@@ -130,16 +126,13 @@ export const dayField = {
       label: 'Monday',
       labelStandalone: true,
       // debug: true,
-      validate: pipeValidatorsAndGetHead(
-        isRequired,
-        isNumber
-      ),
+      validate: pipeValidatorsAndGetHead(isRequired, isNumber),
       MUIProps: {
         TextField: {
           ...TextFieldBaseProps,
           placeholder: 'Monday',
         },
-      }
+      },
     },
     Tuesday: {
       name: 'day[1]',
@@ -147,16 +140,13 @@ export const dayField = {
       label: 'Tuesday',
       labelStandalone: true,
       // debug: true,
-      validate: pipeValidatorsAndGetHead(
-        isRequired,
-        isNumber
-      ),
+      validate: pipeValidatorsAndGetHead(isRequired, isNumber),
       MUIProps: {
         TextField: {
           ...TextFieldBaseProps,
           placeholder: 'Tuesday',
         },
-      }
+      },
     },
     Wednesday: {
       name: 'day[2]',
@@ -164,16 +154,13 @@ export const dayField = {
       label: 'Wednesday',
       labelStandalone: true,
       // debug: true,
-      validate: pipeValidatorsAndGetHead(
-        isRequired,
-        isNumber
-      ),
+      validate: pipeValidatorsAndGetHead(isRequired, isNumber),
       MUIProps: {
         TextField: {
           ...TextFieldBaseProps,
           placeholder: 'Wednesday',
         },
-      }
+      },
     },
     Thursday: {
       name: 'day[3]',
@@ -181,16 +168,13 @@ export const dayField = {
       label: 'Thursday',
       labelStandalone: true,
       // debug: true,
-      validate: pipeValidatorsAndGetHead(
-        isRequired,
-        isNumber
-      ),
+      validate: pipeValidatorsAndGetHead(isRequired, isNumber),
       MUIProps: {
         TextField: {
           ...TextFieldBaseProps,
           placeholder: 'Thursday',
         },
-      }
+      },
     },
     Friday: {
       name: 'day[4]',
@@ -198,18 +182,15 @@ export const dayField = {
       label: 'Friday',
       labelStandalone: true,
       // debug: true,
-      validate: pipeValidatorsAndGetHead(
-        isRequired,
-        isNumber
-      ),
+      validate: pipeValidatorsAndGetHead(isRequired, isNumber),
       MUIProps: {
         TextField: {
           ...TextFieldBaseProps,
           placeholder: 'Friday',
         },
-      }
-    }
-  }
+      },
+    },
+  },
 }
 
 export const totalField = {
@@ -223,7 +204,7 @@ export const totalField = {
   // debug: true,
   MUIProps: {
     TextField: {
-      ...TextFieldBaseProps
+      ...TextFieldBaseProps,
     },
-  }
+  },
 }

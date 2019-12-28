@@ -12,14 +12,14 @@ import ParseAndFormat from './examples/ParseAndFormat'
 import CustomValidationEngine from './examples/CustomValidationEngine'
 
 class FinalFormByConfig extends React.Component {
-  render () {
+  render() {
     return (
       <React.Fragment>
-        <ArrayFields defaultOpen/>
+        <ArrayFields defaultOpen />
         <SimpleExample />
         <CustomValidationEngine />
-        <ParseAndFormat/>
-        <WizardForm/>
+        <ParseAndFormat />
+        <WizardForm />
         <CalculatedFields />
         <SubmissionErrors />
         <HybridSyncAsyncRecordLevelValidation />

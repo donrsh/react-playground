@@ -1,91 +1,88 @@
-import React from "react";
+import React from 'react'
 import * as R from 'ramda'
 import { Typography } from '@material-ui/core'
 
 // Import React Table
-import ReactTable from "react-table";
+import ReactTable from 'react-table'
 import 'react-table/react-table.css'
 
-import { makeData } from "../common/utils";
+import { makeData } from '../common/utils'
 
 import MUIReactTable from '../common/MUIReactTable'
 
 const columns = [
   {
-    Header: "Name",
+    Header: 'Name',
     columns: [
       {
-        Header: "First Name",
-        accessor: "firstName",
-        PivotValue: ({ value }) =>
-          <span style={{ color: "darkred" }}>
-            {value}
-          </span>
+        Header: 'First Name',
+        accessor: 'firstName',
+        PivotValue: ({ value }) => (
+          <span style={{ color: 'darkred' }}>{value}</span>
+        ),
       },
       {
-        Header: "Last Name",
-        id: "lastName",
+        Header: 'Last Name',
+        id: 'lastName',
         accessor: d => d.lastName,
-        PivotValue: ({ value }) =>
-          <span style={{ color: "darkblue" }}>
-            {value}
-          </span>,
-        Footer: () =>
-          <div style={{ textAlign: "center" }}>
+        PivotValue: ({ value }) => (
+          <span style={{ color: 'darkblue' }}>{value}</span>
+        ),
+        Footer: () => (
+          <div style={{ textAlign: 'center' }}>
             <strong>Pivot Column Footer</strong>
           </div>
-      }
-    ]
+        ),
+      },
+    ],
   },
   {
-    Header: "Info",
+    Header: 'Info',
     columns: [
       {
-        Header: "Age",
-        accessor: "age",
+        Header: 'Age',
+        accessor: 'age',
         aggregate: vals => {
-          return Math.round(R.mean(vals));
+          return Math.round(R.mean(vals))
         },
-        Aggregated: row =>
-          <span>
-            {row.value} (avg)
-          </span>
+        Aggregated: row => <span>{row.value} (avg)</span>,
       },
       {
-        Header: "Visits",
-        accessor: "visits",
+        Header: 'Visits',
+        accessor: 'visits',
         aggregate: vals => R.sum(vals),
-        filterable: false
-      }
-    ]
+        filterable: false,
+      },
+    ],
   },
   {
     pivot: true,
-    Header: () =>
-      <strong>Overridden Pivot Column Header Group</strong>
+    Header: () => <strong>Overridden Pivot Column Header Group</strong>,
   },
   {
-    expander: true
-  }
+    expander: true,
+  },
 ]
 
 export default class PivotOptions extends React.Component {
   constructor() {
-    super();
+    super()
     this.state = {
-      data: makeData()
-    };
+      data: makeData(),
+    }
   }
 
   render() {
-    const { data } = this.state;
+    const { data } = this.state
     return (
       <div>
         <Typography variant="h4" style={{ margin: 20, textAlign: 'center' }}>
           Pivoting Options
           <br />
           <Typography variant="body1">
-            <a href="https://react-table.js.org/#/story/pivoting-options" target="_blank"
+            <a
+              href="https://react-table.js.org/#/story/pivoting-options"
+              target="_blank"
               rel="noopener noreferrer"
             >
               See here
@@ -94,78 +91,77 @@ export default class PivotOptions extends React.Component {
         </Typography>
 
         <MUIReactTable>
-          {
-            ({ ReactTableProps, subcomponentClasses, fontClass }) => (
-              <ReactTable {...ReactTableProps}
-                data={data}
-                columns={columns}
-                pivotBy={["firstName", "lastName"]}
-                collapseOnSortingChange={false}
-                filterable
-                defaultSorted={[
-                  { id: "firstName", desc: false },
-                  { id: "lastName", desc: true }
-                ]}
-                ExpanderComponent={({ isExpanded, ...rest }) =>
-                  isExpanded ? <span> &#10136; </span> : <span> &#10137; </span>}
-                SubComponent={row => {
-                  return (
-                    <div style={{ padding: "20px" }}>
-                      <em>
-                        You can put any component you want here, even another React
-                        Table!
-                      </em>
-                      <br />
-                      <br />
-                      <ReactTable
-                        data={data}
-                        columns={[
-                          {
-                            Header: "Name",
-                            columns: [
-                              {
-                                Header: "First Name",
-                                accessor: "firstName"
-                              },
-                              {
-                                Header: "Last Name",
-                                id: "lastName"
-                              }
-                            ]
-                          },
-                          {
-                            Header: "Info",
-                            columns: [
-                              {
-                                Header: "Age",
-                                accessor: "age"
-                              },
-                              {
-                                Header: "Visits",
-                                accessor: "visits"
-                              }
-                            ]
-                          }
-                        ]}
-                        defaultPageSize={3}
-                        showPagination={false}
-                        SubComponent={row => {
-                          return (
-                            <div style={{ padding: "20px" }}>Sub Component!</div>
-                          );
-                        }}
-                      />
-                    </div>
-                  );
-                }}
-                defaultPageSize={10}
-                className={`-striped -highlight ${fontClass}`}
-              />
-            )
-          }
+          {({ ReactTableProps, subcomponentClasses, fontClass }) => (
+            <ReactTable
+              {...ReactTableProps}
+              data={data}
+              columns={columns}
+              pivotBy={['firstName', 'lastName']}
+              collapseOnSortingChange={false}
+              filterable
+              defaultSorted={[
+                { id: 'firstName', desc: false },
+                { id: 'lastName', desc: true },
+              ]}
+              ExpanderComponent={({ isExpanded, ...rest }) =>
+                isExpanded ? <span> &#10136; </span> : <span> &#10137; </span>
+              }
+              SubComponent={row => {
+                return (
+                  <div style={{ padding: '20px' }}>
+                    <em>
+                      You can put any component you want here, even another
+                      React Table!
+                    </em>
+                    <br />
+                    <br />
+                    <ReactTable
+                      data={data}
+                      columns={[
+                        {
+                          Header: 'Name',
+                          columns: [
+                            {
+                              Header: 'First Name',
+                              accessor: 'firstName',
+                            },
+                            {
+                              Header: 'Last Name',
+                              id: 'lastName',
+                            },
+                          ],
+                        },
+                        {
+                          Header: 'Info',
+                          columns: [
+                            {
+                              Header: 'Age',
+                              accessor: 'age',
+                            },
+                            {
+                              Header: 'Visits',
+                              accessor: 'visits',
+                            },
+                          ],
+                        },
+                      ]}
+                      defaultPageSize={3}
+                      showPagination={false}
+                      SubComponent={row => {
+                        return (
+                          <div style={{ padding: '20px' }}>Sub Component!</div>
+                        )
+                      }}
+                    />
+                  </div>
+                )
+              }}
+              defaultPageSize={10}
+              className={`-striped -highlight ${fontClass}`}
+            />
+          )}
         </MUIReactTable>
       </div>
-    );
+    )
   }
 }
-

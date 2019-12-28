@@ -9,7 +9,7 @@ class OnBlurValidation extends React.Component {
     validatingFields: [],
   }
 
-  get validating () {
+  get validating() {
     return this.state.validatingFields.length > 0
   }
 
@@ -25,25 +25,29 @@ class OnBlurValidation extends React.Component {
         const value = getIn(values, field)
         let isSync = false
         const setError = error => {
-          setFieldData(field, { 
+          setFieldData(field, {
             validating: false,
-            error
+            error,
           })
 
           isSync = true
-          this.setState(R.evolve({
-            withError: R.assoc(field, !!error),
-            validatingFields: R.without(field)
-          }))
+          this.setState(
+            R.evolve({
+              withError: R.assoc(field, !!error),
+              validatingFields: R.without(field),
+            }),
+          )
         }
-        
+
         rule(value, setError)
 
         if (!isSync) {
           setFieldData(field, { validating: true })
-          this.setState(R.evolve({
-            validatingFields: R.append(field)
-          }))
+          this.setState(
+            R.evolve({
+              validatingFields: R.append(field),
+            }),
+          )
         }
       }
     }
@@ -52,10 +56,10 @@ class OnBlurValidation extends React.Component {
   render() {
     const { withError } = this.state
     const hasErrors = Object.keys(withError).some(key => withError[key])
-    
-    return this.props.render({ 
-      hasErrors, 
-      validating: this.validating
+
+    return this.props.render({
+      hasErrors,
+      validating: this.validating,
     })
   }
 }

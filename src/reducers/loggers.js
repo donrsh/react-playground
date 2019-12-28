@@ -7,24 +7,27 @@ import loggerReducer from './logger'
 import { createSingleLogger } from 'reduxStates/logger'
 
 export default rr(
-  handleActions({
-    [actions.addALogger] (state, action) {
-      const { key } = action.payload
+  handleActions(
+    {
+      [actions.addALogger](state, action) {
+        const { key } = action.payload
 
-      return {
-        ...state,
-        [key]: createSingleLogger()
-      }
+        return {
+          ...state,
+          [key]: createSingleLogger(),
+        }
+      },
+
+      [actions.deleteALogger](state, action) {
+        const { key } = action.payload
+
+        return {
+          ...state,
+          [key]: undefined,
+        }
+      },
     },
-
-    [actions.deleteALogger] (state, action) {
-      const { key } = action.payload
-
-      return {
-        ...state,
-        [key]: undefined
-      }
-    }
-  }, {}),
-  byKeyHor('loggerId')(loggerReducer)
+    {},
+  ),
+  byKeyHor('loggerId')(loggerReducer),
 )

@@ -9,19 +9,15 @@ import {
   getInputId,
   renderFFMUIFormLabel,
   renderFFMUIComponent,
-  renderFFMUIHelperText
+  renderFFMUIHelperText,
 } from './renderFFMUIComponent'
 
 const MUILabelTextElSelector = `[class*=MuiFormControlLabel-label]`
 const idForSelectedValues = `${Math.random()}`
-const getSubmitBtn = (baseElement) =>
-  baseElement.querySelector(
-    `button[type=submit]`
-  )
-const getSelectedValuesEl = (baseElement) =>
-  baseElement.querySelector(
-    `[id="${idForSelectedValues}"]`
-  )
+const getSubmitBtn = baseElement =>
+  baseElement.querySelector(`button[type=submit]`)
+const getSelectedValuesEl = baseElement =>
+  baseElement.querySelector(`[id="${idForSelectedValues}"]`)
 
 const formName = 'test-form'
 
@@ -35,9 +31,7 @@ describe('Checkbox (Standalone)', () => {
 
   it('basic', () => {
     const fieldConfig = fieldBaseConfig
-    const { baseElement } = renderInForm(
-      renderFFMUIComponent(fieldBaseConfig)
-    )
+    const { baseElement } = renderInForm(renderFFMUIComponent(fieldBaseConfig))
     const inputId = getInputId(fieldConfig)
 
     const { getInput, getLabel } = createElGetter(baseElement)
@@ -54,7 +48,7 @@ describe('Checkbox (Standalone)', () => {
     /* input should have id */
     expect(inputEl).toHaveAttribute('id', inputId)
     /* label should have `for` attr for input */
-    expect (labelEl).toHaveAttribute('for', inputId)
+    expect(labelEl).toHaveAttribute('for', inputId)
 
     /* toggle functionality works */
     inputEl.click()
@@ -66,7 +60,7 @@ describe('Checkbox (Standalone)', () => {
   it(`"disabled" config works`, () => {
     const fieldConfig = { ...fieldBaseConfig, disabled: true }
     const { baseElement, getByTestId } = renderInForm(
-      renderFFMUIComponent(fieldConfig)
+      renderFFMUIComponent(fieldConfig),
     )
 
     const { getInput, getLabel } = createElGetter(baseElement)
@@ -79,17 +73,14 @@ describe('Checkbox (Standalone)', () => {
 describe('Checkbox (As Group)', () => {
   const invalidFieldMessage = `${Math.random()}`
   const submitErrorMessage = `${Math.random()}`
-  
+
   const fieldBaseConfig = {
     form: formName,
     name: 'sauces',
     type: 'selectionGroup',
     label: 'Sauces',
     validate: value => {
-      if (
-        !value ||
-        Array.isArray(value) && value.length < 2
-      ) {
+      if (!value || (Array.isArray(value) && value.length < 2)) {
         return invalidFieldMessage
       }
     },
@@ -125,15 +116,16 @@ describe('Checkbox (As Group)', () => {
         isOption: true,
         label: 'Guacamole',
         value: 'guacamole',
-      }
-    }
+      },
+    },
   }
   const { ketchup, mustard, mayonnaise, guacamole } = fieldBaseConfig.options
 
   const formConfig = {
-    onSubmit: (values) => 
-      R.contains(ketchup.value, values[fieldBaseConfig.name]) ? 
-      { [fieldBaseConfig.name]: submitErrorMessage } : {}
+    onSubmit: values =>
+      R.contains(ketchup.value, values[fieldBaseConfig.name])
+        ? { [fieldBaseConfig.name]: submitErrorMessage }
+        : {},
   }
 
   let fieldLabelEl, inputEls, helperTextEl, selectedValuesEl, submitBtn
@@ -142,13 +134,11 @@ describe('Checkbox (As Group)', () => {
       ({ values }) => (
         <>
           {renderFFMUIFormLabel(fieldBaseConfig)}
-          {
-            R.pipe(
-              Object.values,
-              R.map(field => ({ ...field, key: field.value })),
-              R.map(renderFFMUIComponent)
-            )(fieldBaseConfig.options)
-          }
+          {R.pipe(
+            Object.values,
+            R.map(field => ({ ...field, key: field.value })),
+            R.map(renderFFMUIComponent),
+          )(fieldBaseConfig.options)}
           {renderFFMUIHelperText(fieldBaseConfig)}
 
           <div id={idForSelectedValues}>
@@ -156,20 +146,22 @@ describe('Checkbox (As Group)', () => {
           </div>
         </>
       ),
-      formConfig
+      formConfig,
     )
 
     selectedValuesEl = getSelectedValuesEl(baseElement)
     submitBtn = getSubmitBtn(baseElement)
 
-    const { getInput, getLabel, getFormHelperText } = createElGetter(baseElement)
+    const { getInput, getLabel, getFormHelperText } = createElGetter(
+      baseElement,
+    )
 
     fieldLabelEl = getLabel(fieldBaseConfig)
     inputEls = {
       ketchup: getInput(ketchup),
       mustard: getInput(mustard),
       mayonnaise: getInput(mayonnaise),
-      guacamole: getInput(guacamole)
+      guacamole: getInput(guacamole),
     }
     helperTextEl = getFormHelperText(fieldBaseConfig)
   })
@@ -220,5 +212,4 @@ describe('Checkbox (As Group)', () => {
     /* then the error should disapper */
     expect(helperTextEl).toBeEmpty()
   })
-
 })

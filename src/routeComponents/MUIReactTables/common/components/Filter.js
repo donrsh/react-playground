@@ -1,9 +1,7 @@
 import * as React from 'react'
 import * as R from 'ramda'
 
-import {
-  TextField
-} from '@material-ui/core'
+import { TextField } from '@material-ui/core'
 import FilterListIcon from '@material-ui/icons/FilterList'
 
 export default function Filter(props) {
@@ -13,11 +11,11 @@ export default function Filter(props) {
   return (
     <TextField
       InputProps={{
-        startAdornment: <FilterListIcon />
+        startAdornment: <FilterListIcon />,
       }}
       {...MUIProps}
       value={filterValue}
-      onChange={(e) => onChange(e.target.value)}
+      onChange={e => onChange(e.target.value)}
     />
   )
 }

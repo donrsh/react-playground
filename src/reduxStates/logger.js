@@ -1,4 +1,4 @@
 export const createSingleLogger = () => ({
   logs: [],
-  lastLogged: null
+  lastLogged: null,
 })

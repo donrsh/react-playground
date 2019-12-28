@@ -15,7 +15,7 @@ const MUITextFieldBaseProps = {
   fullWidth: true,
   InputLabelProps: { shrink: true },
   style: {
-    marginBottom: 20
+    marginBottom: 20,
   },
 }
 
@@ -27,10 +27,10 @@ const form = {
   validate: values => {
     const errors = {}
     if (!values.username) {
-      errors.username = "Required"
+      errors.username = 'Required'
     }
     if (!values.password) {
-      errors.password = "Required"
+      errors.password = 'Required'
     }
 
     return Object.keys(errors).length ? errors : undefined
@@ -38,13 +38,13 @@ const form = {
 
   onSubmit: async values => {
     await sleep(1000)
-    if (values.username !== "erikras") {
-      return { username: "Unknown username" }
+    if (values.username !== 'erikras') {
+      return { username: 'Unknown username' }
     }
-    if (values.password !== "finalformrocks") {
-      return { [FORM_ERROR]: "Login Failed" }
+    if (values.password !== 'finalformrocks') {
+      return { [FORM_ERROR]: 'Login Failed' }
     }
-    window.alert("LOGIN SUCCESS!")
+    window.alert('LOGIN SUCCESS!')
   },
 }
 
@@ -62,7 +62,7 @@ export const userNameField = {
       ...MUITextFieldBaseProps,
       placeholder: 'Username',
     },
-  }
+  },
 }
 
 export const passwordField = {
@@ -75,5 +75,5 @@ export const passwordField = {
       ...MUITextFieldBaseProps,
       placeholder: 'Password',
     },
-  }
+  },
 }

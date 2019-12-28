@@ -6,8 +6,12 @@ import { FieldArray } from 'react-final-form-arrays'
 import { ARRAY_ERROR } from 'final-form'
 
 import {
-  MenuItem, FormHelperText, Typography, CircularProgress,
-  FormLabel, InputAdornment
+  MenuItem,
+  FormHelperText,
+  Typography,
+  CircularProgress,
+  FormLabel,
+  InputAdornment,
 } from '@material-ui/core'
 
 import FFFormControl from 'components/FinalFormMUI/FormControl'
@@ -20,39 +24,35 @@ import { isMoreThanNChars, isLessThanNChars } from '../helpers/fieldValidators'
 
 export const MUIComponentDataAttribute = 'data-mui-component'
 
-export const getInputId = (fieldConfig) => {
+export const getInputId = fieldConfig => {
   const { form, name, isOption, type } = fieldConfig
 
   let inputId = `${form}(${name})`
-  if (
-    (type === 'checkbox' && isOption) ||
-    type === 'radio'
-  ) {
+  if ((type === 'checkbox' && isOption) || type === 'radio') {
     inputId = `${form}(${name}:${fieldConfig.value})`
   }
 
   return inputId
 }
 
-export const getDataFieldAttribute = (fieldConfig) => {
+export const getDataFieldAttribute = fieldConfig => {
   const { name, type, isOption, value } = fieldConfig
 
-  return (
-    (type === 'checkbox' && isOption) ||
-    type === 'radio'
-  ) ? `${name}:${value}` : name
+  return (type === 'checkbox' && isOption) || type === 'radio'
+    ? `${name}:${value}`
+    : name
 }
 
 export const formSubComponentNames = {
   ValidateIndicator: 'ValidateIndicator',
-  SubmitErrorHelperText: 'SubmitErrorHelperText'
+  SubmitErrorHelperText: 'SubmitErrorHelperText',
 }
 
 /* 
   See final-form FieldProps:
   https://github.com/final-form/react-final-form#fieldprops
 */
-const getFFFieldProps = (fieldConfig) => {
+const getFFFieldProps = fieldConfig => {
   const { key } = fieldConfig
 
   return {
@@ -70,24 +70,25 @@ const getFFFieldProps = (fieldConfig) => {
       'formatOnBlur',
       'isEqual',
       'parse',
-      'subscription'
+      'subscription',
     ])(fieldConfig),
   }
 }
 
-const getMUIProps = (
-  fieldConfig, fieldRenderProps
-) => {
+const getMUIProps = (fieldConfig, fieldRenderProps) => {
   const {
     MUIProps = {},
     type,
-    form, name,
+    form,
+    name,
     labelStandalone,
-    placeholder
+    placeholder,
   } = fieldConfig
 
   const validating = R.pathOr(
-    false, ['meta', 'data', 'validating'], fieldRenderProps
+    false,
+    ['meta', 'data', 'validating'],
+    fieldRenderProps,
   )
 
   const inputId = getInputId(fieldConfig)
@@ -100,94 +101,91 @@ const getMUIProps = (
       Root: {
         disabled: fieldConfig.disabled,
         'data-form': form,
-        'data-field': name
-      }
-    }
+        'data-field': name,
+      },
+    },
   }
 
   switch (type) {
     case 'text':
     case 'password':
     case 'select':
-      return R.applyTo(base)(R.pipe(
-        R.assocPath(
-          ['MUIProps', 'TextField', 'FormHelperTextProps', MUIComponentDataAttribute],
-          'FormHelperText'
-        ),
-        R.assocPath(
-          ['MUIProps', 'TextField', 'helperText'],
-          getHelperTextContent(fieldConfig, fieldRenderProps)
-        ),
-        R.assocPath(
-          ['MUIProps', 'TextField', 'InputProps', 'id'],
-          inputId
-        ),
-        R.over(
-          R.lensPath(['MUIProps', 'TextField', 'InputLabelProps']),
-          R.merge({
-            htmlFor: inputId,
-            'data-field': getDataFieldAttribute(fieldConfig)
-          })
-        ),
-        R.when(
-          () => labelStandalone,
+      return R.applyTo(base)(
+        R.pipe(
           R.assocPath(
-            ['MUIProps', 'TextField', 'InputLabelProps', 'component'],
-            () => null
+            [
+              'MUIProps',
+              'TextField',
+              'FormHelperTextProps',
+              MUIComponentDataAttribute,
+            ],
+            'FormHelperText',
           ),
-        ),
-        R.when(
-          () => Boolean(placeholder),
           R.assocPath(
-            ['MUIProps', 'TextField', 'placeholder'],
-            placeholder
+            ['MUIProps', 'TextField', 'helperText'],
+            getHelperTextContent(fieldConfig, fieldRenderProps),
           ),
-        ),
-        R.when(
-          () => validating,
-          R.pipe(
+          R.assocPath(['MUIProps', 'TextField', 'InputProps', 'id'], inputId),
+          R.over(
+            R.lensPath(['MUIProps', 'TextField', 'InputLabelProps']),
+            R.merge({
+              htmlFor: inputId,
+              'data-field': getDataFieldAttribute(fieldConfig),
+            }),
+          ),
+          R.when(
+            () => labelStandalone,
             R.assocPath(
-              ['MUIProps', 'TextField', 'InputProps', 'endAdornment'],
-              <InputAdornment>
-                <CircularProgress size={18} />
-              </InputAdornment>
+              ['MUIProps', 'TextField', 'InputLabelProps', 'component'],
+              () => null,
             ),
-            R.assocPath(
-              ['MUIProps', 'TextField', 'disabled'], true
-            )
-          )
-        )
-      ))
+          ),
+          R.when(
+            () => Boolean(placeholder),
+            R.assocPath(['MUIProps', 'TextField', 'placeholder'], placeholder),
+          ),
+          R.when(
+            () => validating,
+            R.pipe(
+              R.assocPath(
+                ['MUIProps', 'TextField', 'InputProps', 'endAdornment'],
+                <InputAdornment>
+                  <CircularProgress size={18} />
+                </InputAdornment>,
+              ),
+              R.assocPath(['MUIProps', 'TextField', 'disabled'], true),
+            ),
+          ),
+        ),
+      )
 
     case 'checkbox':
-      return R.applyTo(base)(R.pipe(
-        R.over(
-          R.lensPath(['MUIProps', 'FormControlLabel']),
-          R.merge({
-            htmlFor: inputId,
-            'data-field': getDataFieldAttribute(fieldConfig)
-          })
+      return R.applyTo(base)(
+        R.pipe(
+          R.over(
+            R.lensPath(['MUIProps', 'FormControlLabel']),
+            R.merge({
+              htmlFor: inputId,
+              'data-field': getDataFieldAttribute(fieldConfig),
+            }),
+          ),
+          R.assocPath(['MUIProps', 'Checkbox', 'id'], inputId),
         ),
-        R.assocPath(
-          ['MUIProps', 'Checkbox', 'id'],
-          inputId
-        ),
-      ))
+      )
 
     case 'radio':
-      return R.applyTo(base)(R.pipe(
-        R.over(
-          R.lensPath(['MUIProps', 'FormControlLabel']),
-          R.merge({
-            htmlFor: inputId,
-            'data-field': getDataFieldAttribute(fieldConfig)
-          })
+      return R.applyTo(base)(
+        R.pipe(
+          R.over(
+            R.lensPath(['MUIProps', 'FormControlLabel']),
+            R.merge({
+              htmlFor: inputId,
+              'data-field': getDataFieldAttribute(fieldConfig),
+            }),
+          ),
+          R.assocPath(['MUIProps', 'Radio', 'id'], inputId),
         ),
-        R.assocPath(
-          ['MUIProps', 'Radio', 'id'],
-          inputId
-        ),
-      ))
+      )
 
     default:
       return base
@@ -199,16 +197,17 @@ const getHelperTextContent = (fieldConfig, fieldRenderProps) => {
   const {
     input: { value },
     meta: {
-      error, touched, submitError, dirtySinceLastSubmit,
-      data: { error: dataError, validating } = {}
+      error,
+      touched,
+      submitError,
+      dirtySinceLastSubmit,
+      data: { error: dataError, validating } = {},
     },
   } = fieldRenderProps
 
   /* priority-1: data error */
   if (validating === false && dataError) {
-    return typeof dataError === 'string' ?
-      dataError :
-      (dataError.msg || '')
+    return typeof dataError === 'string' ? dataError : dataError.msg || ''
   }
 
   /* priority-2: submit error */
@@ -219,9 +218,7 @@ const getHelperTextContent = (fieldConfig, fieldRenderProps) => {
   /* priority-3: error */
   if (Boolean(touched && error)) {
     if (!R.contains(error.validatedBy, [isMoreThanNChars, isLessThanNChars])) {
-      return typeof error === 'string' ?
-        error :
-        (error.msg || 'unknow error')
+      return typeof error === 'string' ? error : error.msg || 'unknow error'
     }
   }
 
@@ -234,7 +231,8 @@ const getHelperTextContent = (fieldConfig, fieldRenderProps) => {
       <span style={{ float: 'right' }}>
         {minLengthValid && `${minLength} /`}
         <b style={{ textDecoration: 'underline', whiteSpace: 'pre' }}>
-          {' '}{`${value}`.length}{' '}
+          {' '}
+          {`${value}`.length}{' '}
         </b>
         {maxLengthValid && `/ ${maxLength}`}
       </span>
@@ -247,27 +245,23 @@ const getHelperTextContent = (fieldConfig, fieldRenderProps) => {
 
 const getArrayFieldHelperTextContent = (fieldConfig, fieldArrayRenderProps) => {
   const {
-    error, submitError,
-    touched, dirtySinceLastSubmit
+    error,
+    submitError,
+    touched,
+    dirtySinceLastSubmit,
   } = fieldArrayRenderProps.meta
 
   /* submitError first */
-  let arrayFieldSubmitError = R.propOr(
-    undefined, ARRAY_ERROR, submitError
-  )
-  if (!dirtySinceLastSubmit &&
-    arrayFieldSubmitError
-  ) {
-    return typeof arrayFieldSubmitError === 'string' ?
-      arrayFieldSubmitError :
-      (arrayFieldSubmitError.msg || 'unknow submit error')
+  let arrayFieldSubmitError = R.propOr(undefined, ARRAY_ERROR, submitError)
+  if (!dirtySinceLastSubmit && arrayFieldSubmitError) {
+    return typeof arrayFieldSubmitError === 'string'
+      ? arrayFieldSubmitError
+      : arrayFieldSubmitError.msg || 'unknow submit error'
   }
 
   /* then validate error */
   if (touched && error && RA.isNotArray(error)) {
-    return typeof error === 'string' ?
-      error :
-      (error.msg || 'unknow error')
+    return typeof error === 'string' ? error : error.msg || 'unknow error'
   }
 
   return null
@@ -275,24 +269,20 @@ const getArrayFieldHelperTextContent = (fieldConfig, fieldArrayRenderProps) => {
 
 export const renderFFMUIHelperText = (
   fieldConfig,
-  FormHelperTextProps = {}
+  FormHelperTextProps = {},
 ) => {
   const { type } = fieldConfig
 
   if (type === 'array') {
-    return renderFFMUIHelperTextOfFieldArray(
-      fieldConfig, FormHelperTextProps
-    )
+    return renderFFMUIHelperTextOfFieldArray(fieldConfig, FormHelperTextProps)
   } else {
-    return renderFFMUIHelperTextOfField(
-      fieldConfig, FormHelperTextProps
-    )
+    return renderFFMUIHelperTextOfField(fieldConfig, FormHelperTextProps)
   }
 }
 
 const renderFFMUIHelperTextOfField = (
   fieldConfig,
-  FormHelperTextProps = {}
+  FormHelperTextProps = {},
 ) => {
   return (
     <Field
@@ -304,19 +294,13 @@ const renderFFMUIHelperTextOfField = (
         >
           <FFFormHelperText
             {...fieldRenderProps}
-            {...R.pick(
-              ['type', 'label', 'form', 'debug'],
-              fieldConfig
-            )}
+            {...R.pick(['type', 'label', 'form', 'debug'], fieldConfig)}
             MUIProps={{
               FormHelperText: {
                 ...FormHelperTextProps,
-                [MUIComponentDataAttribute]: "FormHelperText",
-                children: getHelperTextContent(
-                  fieldConfig,
-                  fieldRenderProps
-                )
-              }
+                [MUIComponentDataAttribute]: 'FormHelperText',
+                children: getHelperTextContent(fieldConfig, fieldRenderProps),
+              },
             }}
           />
         </FFFormControl>
@@ -327,7 +311,7 @@ const renderFFMUIHelperTextOfField = (
 
 const renderFFMUIHelperTextOfFieldArray = (
   fieldConfig,
-  FormHelperTextProps = {}
+  FormHelperTextProps = {},
 ) => {
   const { form, name, debug } = fieldConfig
 
@@ -335,7 +319,7 @@ const renderFFMUIHelperTextOfFieldArray = (
     <FieldArray
       name={fieldConfig.name}
       isEqual={fieldConfig.isEqual || R.equals}
-      render={(fieldArrayRenderProps) => {
+      render={fieldArrayRenderProps => {
         if (debug) {
           console.group(`🏁 [${form}]${name} @ArrayFieldMUIHelperText`)
           console.log('meta', fieldArrayRenderProps.meta)
@@ -349,19 +333,16 @@ const renderFFMUIHelperTextOfFieldArray = (
             fieldArrayRenderProps={fieldArrayRenderProps}
             children={
               <FFFormHelperText
-                {...R.pick(
-                  ['type', 'label', 'form', 'debug'],
-                  fieldConfig
-                )}
+                {...R.pick(['type', 'label', 'form', 'debug'], fieldConfig)}
                 MUIProps={{
                   FormHelperText: {
                     ...FormHelperTextProps,
-                    [MUIComponentDataAttribute]: "FormHelperText",
+                    [MUIComponentDataAttribute]: 'FormHelperText',
                     children: getArrayFieldHelperTextContent(
                       fieldConfig,
-                      fieldArrayRenderProps
-                    )
-                  }
+                      fieldArrayRenderProps,
+                    ),
+                  },
                 }}
               />
             }
@@ -372,23 +353,13 @@ const renderFFMUIHelperTextOfFieldArray = (
   )
 }
 
-export const renderFFMUIFormLabel = (
-  fieldConfig,
-  FormLabelProps = {}
-) => {
-  return fieldConfig.type === 'array' ?
-    renderFFMUIFormLabelOfFieldArray(
-      fieldConfig, FormLabelProps
-    ) :
-    renderFFMUIFormLabelOfField(
-      fieldConfig, FormLabelProps
-    )
+export const renderFFMUIFormLabel = (fieldConfig, FormLabelProps = {}) => {
+  return fieldConfig.type === 'array'
+    ? renderFFMUIFormLabelOfFieldArray(fieldConfig, FormLabelProps)
+    : renderFFMUIFormLabelOfField(fieldConfig, FormLabelProps)
 }
 
-const renderFFMUIFormLabelOfField = (
-  fieldConfig,
-  FormLabelProps = {}
-) => {
+const renderFFMUIFormLabelOfField = (fieldConfig, FormLabelProps = {}) => {
   const inputId = getInputId(fieldConfig)
 
   return (
@@ -411,15 +382,12 @@ const renderFFMUIFormLabelOfField = (
   )
 }
 
-const renderFFMUIFormLabelOfFieldArray = (
-  fieldConfig,
-  FormLabelProps = {}
-) => {
+const renderFFMUIFormLabelOfFieldArray = (fieldConfig, FormLabelProps = {}) => {
   return (
     <FieldArray
       name={fieldConfig.name}
       isEqual={fieldConfig.isEqual || R.equals}
-      render={(fieldArrayRenderProps) => (
+      render={fieldArrayRenderProps => (
         <FFFormControl
           fieldConfig={fieldConfig}
           fieldArrayRenderProps={fieldArrayRenderProps}
@@ -436,7 +404,7 @@ const renderFFMUIFormLabelOfFieldArray = (
   )
 }
 
-export const renderFFMUIComponent = (fieldConfig) => {
+export const renderFFMUIComponent = fieldConfig => {
   const { type } = fieldConfig
 
   switch (type) {
@@ -446,9 +414,7 @@ export const renderFFMUIComponent = (fieldConfig) => {
         <Field
           {...getFFFieldProps(fieldConfig)}
           render={fieldRenderProps => (
-            <FFMUITextField
-              {...getMUIProps(fieldConfig, fieldRenderProps)}
-            />
+            <FFMUITextField {...getMUIProps(fieldConfig, fieldRenderProps)} />
           )}
         />
       )
@@ -457,18 +423,24 @@ export const renderFFMUIComponent = (fieldConfig) => {
     case 'select': {
       const { options = [], getOptionProps } = fieldConfig
 
-      const native = R.pathOr(
-        false,
-        ['MUIProps', 'TextField', 'SelectProps', 'native']
-      )(fieldConfig)
+      const native = R.pathOr(false, [
+        'MUIProps',
+        'TextField',
+        'SelectProps',
+        'native',
+      ])(fieldConfig)
 
-      const multiple = R.pathOr(
-        false,
-        ['MUIProps', 'TextField', 'SelectProps', 'multiple']
-      )(fieldConfig)
+      const multiple = R.pathOr(false, [
+        'MUIProps',
+        'TextField',
+        'SelectProps',
+        'multiple',
+      ])(fieldConfig)
 
       if (native && multiple) {
-        throw new Error(`You cannot set both "multiple" and "native" to be true for rendering MUI Select.`)
+        throw new Error(
+          `You cannot set both "multiple" and "native" to be true for rendering MUI Select.`,
+        )
       }
 
       const OptionComponent = native ? 'option' : MenuItem
@@ -479,9 +451,9 @@ export const renderFFMUIComponent = (fieldConfig) => {
           render={fieldRenderProps => (
             <FFMUITextField
               {...getMUIProps(fieldConfig, fieldRenderProps)}
-              children={options.map(option =>
+              children={options.map(option => (
                 <OptionComponent {...getOptionProps(option)} />
-              )}
+              ))}
             />
           )}
         />
@@ -493,9 +465,7 @@ export const renderFFMUIComponent = (fieldConfig) => {
         <Field
           {...getFFFieldProps(fieldConfig)}
           render={fieldRenderProps => (
-            <FFMUICheckbox
-              {...getMUIProps(fieldConfig, fieldRenderProps)}
-            />
+            <FFMUICheckbox {...getMUIProps(fieldConfig, fieldRenderProps)} />
           )}
         />
       )
@@ -506,9 +476,7 @@ export const renderFFMUIComponent = (fieldConfig) => {
         <Field
           {...getFFFieldProps(fieldConfig)}
           render={fieldRenderProps => (
-            <FFMUIRadio
-              {...getMUIProps(fieldConfig, fieldRenderProps)}
-            />
+            <FFMUIRadio {...getMUIProps(fieldConfig, fieldRenderProps)} />
           )}
         />
       )
@@ -520,23 +488,26 @@ export const renderFFMUIComponent = (fieldConfig) => {
 }
 
 const DefaultFFFormSubComponents = {
-  ValidateIndicator: (formRenderProps) => {
-    return formRenderProps.validating && (
-      <Typography variant="body2" color="primary"
-        component="span"
-        style={{
-          display: 'inline-flex',
-          alignItems: 'center'
-        }}
-        {...{
-          [MUIComponentDataAttribute]: formSubComponentNames.ValidateIndicator
-        }}
-      >
-        <CircularProgress size={16}
-          style={{ marginRight: 8 }}
-        />
-        <span>validating ...</span>
-      </Typography>
+  ValidateIndicator: formRenderProps => {
+    return (
+      formRenderProps.validating && (
+        <Typography
+          variant="body2"
+          color="primary"
+          component="span"
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+          }}
+          {...{
+            [MUIComponentDataAttribute]:
+              formSubComponentNames.ValidateIndicator,
+          }}
+        >
+          <CircularProgress size={16} style={{ marginRight: 8 }} />
+          <span>validating ...</span>
+        </Typography>
+      )
     )
   },
 
@@ -546,22 +517,20 @@ const DefaultFFFormSubComponents = {
         error
         children={submitError}
         {...{
-          [MUIComponentDataAttribute]: formSubComponentNames.SubmitErrorHelperText
+          [MUIComponentDataAttribute]:
+            formSubComponentNames.SubmitErrorHelperText,
         }}
       />
     ) : null
   },
 }
 
-export const createFFFormSubComponents = (formConfig) => ({
+export const createFFFormSubComponents = formConfig => ({
   ValidateIndicator: ({ component }) => {
     return (
       <FormSpy
         // subscription={{ validating: true }}
-        component={
-          component ||
-          DefaultFFFormSubComponents.ValidateIndicator
-        }
+        component={component || DefaultFFFormSubComponents.ValidateIndicator}
       />
     )
   },
@@ -571,13 +540,12 @@ export const createFFFormSubComponents = (formConfig) => ({
       <FormSpy
         subscription={{
           submitError: true,
-          submitErrors: true
+          submitErrors: true,
         }}
         component={
-          component ||
-          DefaultFFFormSubComponents.SubmitErrorHelperText
+          component || DefaultFFFormSubComponents.SubmitErrorHelperText
         }
       />
     )
-  }
+  },
 })

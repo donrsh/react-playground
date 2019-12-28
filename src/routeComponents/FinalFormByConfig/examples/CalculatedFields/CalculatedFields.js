@@ -8,13 +8,15 @@ import * as R from 'ramda'
 import * as RA from 'ramda-adjunct'
 
 import {
-  Button, Collapse, Grid, CircularProgress,
-  Divider, FormHelperText
+  Button,
+  Collapse,
+  Grid,
+  CircularProgress,
+  Divider,
+  FormHelperText,
 } from '@material-ui/core'
 
-import {
-  ArrowDropDown, ArrowDropUp
-} from '@material-ui/icons'
+import { ArrowDropDown, ArrowDropUp } from '@material-ui/icons'
 
 import { fromRenderProps } from 'HOCs/fromRenderProps'
 import { withTogglers } from 'HOCs/withTogglers'
@@ -29,7 +31,7 @@ import {
   minimumField,
   maximumField,
   dayField,
-  totalField
+  totalField,
 } from './formConfig'
 
 const daySubfields = dayField.subFields
@@ -38,18 +40,16 @@ class ExampleComponent extends React.Component {
   componentDidMount() {
     const v = `update${CalculatedFieldsForm.name}`
 
-    window[v] = (nextValues) => {
-
+    window[v] = nextValues => {
       R.pipe(
         Object.entries,
-        R.forEach(x =>
-          this.props[CalculatedFieldsForm.name].form.change(...x)
-        )
+        R.forEach(x => this.props[CalculatedFieldsForm.name].form.change(...x)),
       )(nextValues)
-
     }
 
-    console.info(`🔮 You can access change form function via global variable: ${v}`)
+    console.info(
+      `🔮 You can access change form function via global variable: ${v}`,
+    )
 
     this.releaseFormVariable = () => {
       window[v] = undefined
@@ -60,13 +60,15 @@ class ExampleComponent extends React.Component {
     this.releaseFormVariable()
   }
 
-  renderFieldInGrid = (fieldConfig) => (
+  renderFieldInGrid = fieldConfig => (
     <Grid container>
       <Grid item xs={3}>
-        <div style={{
-          position: 'relative',
-          top: 21
-        }}>
+        <div
+          style={{
+            position: 'relative',
+            top: 21,
+          }}
+        >
           {renderFFMUIFormLabel(fieldConfig)}
         </div>
       </Grid>
@@ -84,32 +86,31 @@ class ExampleComponent extends React.Component {
     const { collapseToggler } = this.props
 
     const {
-      handleSubmit, submitting, pristine, form,
-      values, touched
+      handleSubmit,
+      submitting,
+      pristine,
+      form,
+      values,
+      touched,
     } = this.props[CalculatedFieldsForm.name]
 
     return (
       <Styles>
         <h1 onClick={() => collapseToggler.toggle()}>
           🏁 Calculated Fields
-          {
-            collapseToggler.isOpen ?
-              <ArrowDropUp /> :
-              <ArrowDropDown />
-          }
+          {collapseToggler.isOpen ? <ArrowDropUp /> : <ArrowDropDown />}
         </h1>
 
         <Collapse in={collapseToggler.isOpen}>
-          <a href="https://codesandbox.io/s/oq52p6v96y">
-            See source
-          </a>
+          <a href="https://codesandbox.io/s/oq52p6v96y">See source</a>
 
           <p>
             {`Change the minimum and maximum values with the arrow keys and notice that the other updates so that minimum is always <= maximum.`}
           </p>
 
           <p>
-            As you enter numbers for each day of the week, the total is calulated in realtime.
+            As you enter numbers for each day of the week, the total is
+            calulated in realtime.
           </p>
 
           <form onSubmit={handleSubmit}>
@@ -128,8 +129,7 @@ class ExampleComponent extends React.Component {
             <Divider />
 
             <div style={{ height: 50 }}>
-              {
-                R.any(Boolean, R.values(touched)) &&
+              {R.any(Boolean, R.values(touched)) &&
                 (() => {
                   const { minimum, maximum, total } = values
 
@@ -158,8 +158,7 @@ class ExampleComponent extends React.Component {
                       )
                     }
                   }
-                })()
-              }
+                })()}
             </div>
 
             <div className="buttons">
@@ -170,13 +169,9 @@ class ExampleComponent extends React.Component {
                 variant="contained"
                 style={{ marginRight: 8 }}
               >
-                {
-                  submitting && (
-                    <CircularProgress size={16}
-                      style={{ marginRight: 8 }}
-                    />
-                  )
-                }
+                {submitting && (
+                  <CircularProgress size={16} style={{ marginRight: 8 }} />
+                )}
                 Submit
               </Button>
               <Button
@@ -186,7 +181,7 @@ class ExampleComponent extends React.Component {
                 variant="contained"
               >
                 Reset
-            </Button>
+              </Button>
             </div>
             <pre>{JSON.stringify(values, 0, 2)}</pre>
           </form>
@@ -197,20 +192,13 @@ class ExampleComponent extends React.Component {
 }
 
 const enhancer = compose(
-  withTogglers(({ defaultOpen }) => [
-    { name: 'collapse', defaultOpen }
-  ]),
+  withTogglers(({ defaultOpen }) => [{ name: 'collapse', defaultOpen }]),
   fromRenderProps(
-    ({ children }) => (
-      <Form
-        {...CalculatedFieldsForm}
-        children={children}
-      />
-    ),
-    (formRenderProps) => ({
-      [CalculatedFieldsForm.name]: formRenderProps
+    ({ children }) => <Form {...CalculatedFieldsForm} children={children} />,
+    formRenderProps => ({
+      [CalculatedFieldsForm.name]: formRenderProps,
     }),
-  )
+  ),
 )
 
 export default enhancer(ExampleComponent)

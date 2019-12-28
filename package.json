@@ -65,6 +65,7 @@
   "devDependencies": {
     "@storybook/react": "^5.0.5",
     "gh-pages": "^2.0.1",
+    "prettier": "^1.19.1",
     "storybook-readme": "^5.0.1"
   }
 }

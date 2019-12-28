@@ -11,41 +11,44 @@ class MUIReactTable extends React.Component {
 
   getReactTableProps = () => {
     const {
-      TheadGroupTr, TheadGroupTh,
-      TheadTr, TheadTh,
-      TheadFilterTr, TheadFilterTh,
-      Tr, Th, Td,
-      TfootTr, TfootTd,
-      NoData, NoDataText
+      TheadGroupTr,
+      TheadGroupTh,
+      TheadTr,
+      TheadTh,
+      TheadFilterTr,
+      TheadFilterTh,
+      Tr,
+      Th,
+      Td,
+      TfootTr,
+      TfootTd,
+      NoData,
+      NoDataText,
     } = this.subcomponentClasses
 
     return {
       loadingText: <CircularProgress />,
-      noDataText: (
-        <Typography className={NoDataText}>
-          No rows found
-        </Typography>
-      ),
+      noDataText: <Typography className={NoDataText}>No rows found</Typography>,
       PaginationComponent: tableComponents.Pagination,
       FilterComponent: tableComponents.Filter,
 
       getTheadGroupTrProps: () => ({
-        className: TheadGroupTr.root
+        className: TheadGroupTr.root,
       }),
       getTheadGroupThProps: () => ({
-        className: TheadGroupTh.root
+        className: TheadGroupTh.root,
       }),
       getTheadTrProps: () => ({
-        className: TheadTr.root
+        className: TheadTr.root,
       }),
       getTheadThProps: () => ({
-        className: TheadTh.root
+        className: TheadTh.root,
       }),
       getTheadFilterTrProps: () => ({
-        className: TheadFilterTr.root
+        className: TheadFilterTr.root,
       }),
       getTheadFilterThProps: () => ({
-        className: TheadFilterTh.root
+        className: TheadFilterTh.root,
       }),
       getTrProps: () => ({ className: Tr.root }),
       getThProps: () => ({ className: Th.root }),
@@ -61,13 +64,15 @@ class MUIReactTable extends React.Component {
     const { children } = this.props
 
     if (typeof children !== 'function') {
-      throw new Error(`Children of MUIReactTable should be a function returning ReactTable element.`)
+      throw new Error(
+        `Children of MUIReactTable should be a function returning ReactTable element.`,
+      )
     }
 
     const renderedChildren = children({
       ReactTableProps: this.getReactTableProps(),
       subcomponentClasses,
-      fontClass: subcomponentClasses.Font
+      fontClass: subcomponentClasses.Font,
     })
 
     return renderedChildren

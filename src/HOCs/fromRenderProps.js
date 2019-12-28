@@ -12,7 +12,7 @@ import { setDisplayName, wrapDisplayName } from 'recompose'
 export const fromRenderProps = (
   RenderPropsComponent,
   propsMapper,
-  renderPropName = 'children'
+  renderPropName = 'children',
 ) => BaseComponent => {
   const baseFactory = React.createFactory(BaseComponent)
   const renderPropsFactory = React.createFactory(RenderPropsComponent)
@@ -26,7 +26,7 @@ export const fromRenderProps = (
 
   if (process.env.NODE_ENV !== 'production') {
     return setDisplayName(wrapDisplayName(BaseComponent, 'fromRenderProps'))(
-      FromRenderProps
+      FromRenderProps,
     )
   }
 

@@ -21,28 +21,24 @@ const MUILabelTextElSelector = `[class*=MuiFormControlLabel-label]`
 const idForAddEmployeeBtn = `${Math.random()}`
 const idForAddCustomerBtn = `${Math.random()}`
 const entryAttrName = `is-entry`
-const getEmployeeInputEntryEls = (baseElement) =>
+const getEmployeeInputEntryEls = baseElement =>
   baseElement.querySelectorAll(`[data-${entryAttrName}=true]`)
-const getAddEmployeeBtn = (baseElement) =>
-  baseElement.querySelector(
-    `button[id="${idForAddEmployeeBtn}"]`
-  )
-const getSubmitBtn = (baseElement) =>
-  baseElement.querySelector(
-    `button[type=submit]`
-  )
+const getAddEmployeeBtn = baseElement =>
+  baseElement.querySelector(`button[id="${idForAddEmployeeBtn}"]`)
+const getSubmitBtn = baseElement =>
+  baseElement.querySelector(`button[type=submit]`)
 const getSubElsOfEmployeeInputEntry = R.pipe(
   getEmployeeInputEntryEls,
   R.map(baseEl => ({
     label: baseEl.querySelector('label'),
     input: baseEl.querySelector('input'),
-    helperText: baseEl.querySelector(`[${MUIComponentDataAttribute}="FormHelperText"]`)
-  }))
+    helperText: baseEl.querySelector(
+      `[${MUIComponentDataAttribute}="FormHelperText"]`,
+    ),
+  })),
 )
-const getFormStateEl = (baseElement) =>
-  baseElement.querySelector(
-    `[id=formStateEl]`
-  )
+const getFormStateEl = baseElement =>
+  baseElement.querySelector(`[id=formStateEl]`)
 
 const formName = 'test-form-of-field-array'
 
@@ -51,7 +47,7 @@ describe('FieldArray', () => {
     tooFewEmployees: `${Math.random()}`,
     nameIsRequired: `${Math.random()}`,
     noJohn: `${Math.random()}`,
-    forKellyAndMaryHateEachOther: `${Math.random()}`
+    forKellyAndMaryHateEachOther: `${Math.random()}`,
   }
 
   const employeesField = {
@@ -72,7 +68,7 @@ describe('FieldArray', () => {
         type: 'text',
         label: 'name',
       },
-    }
+    },
   }
 
   const formConfig = {
@@ -82,22 +78,19 @@ describe('FieldArray', () => {
       [employeesField.name]: [{}],
     },
 
-    validate: (values) => {
+    validate: values => {
       let employeesError = []
 
-      R.addIndex(R.forEach)(
-        (employee, idx) => {
-          const name = R.propOr(undefined, 'name', employee)
-          if (!name) {
-            employeesError = R.assocPath(
-              [idx, 'name'],
-              errorMsgs.nameIsRequired,
-              employeesError
-            )
-          }
+      R.addIndex(R.forEach)((employee, idx) => {
+        const name = R.propOr(undefined, 'name', employee)
+        if (!name) {
+          employeesError = R.assocPath(
+            [idx, 'name'],
+            errorMsgs.nameIsRequired,
+            employeesError,
+          )
         }
-      )(values[employeesField.name] || [])
-
+      })(values[employeesField.name] || [])
 
       if (employeesError.length > 0) {
         return { [employeesField.name]: employeesError }
@@ -107,8 +100,9 @@ describe('FieldArray', () => {
     },
 
     onSubmit: values => {
-      const allNames = values[employeesField.name]
-        .map(R.prop(employeesField.subField.name.name))
+      const allNames = values[employeesField.name].map(
+        R.prop(employeesField.subField.name.name),
+      )
 
       const errorToBe = []
 
@@ -119,7 +113,7 @@ describe('FieldArray', () => {
       let indexOfJohn = R.findIndex(R.equals('John'), allNames)
       if (indexOfJohn >= 0) {
         errorToBe[indexOfJohn] = {
-          [employeesField.subField.name.name]: errorMsgs.noJohn
+          [employeesField.subField.name.name]: errorMsgs.noJohn,
         }
       }
 
@@ -127,64 +121,52 @@ describe('FieldArray', () => {
         Rule No2. - No employ named `Kelly` and `Mary` in the list
         This error is placed to the the array field
       */
-      if (
-        R.contains('Kelly', allNames) &&
-        R.contains('Mary', allNames)
-      ) {
+      if (R.contains('Kelly', allNames) && R.contains('Mary', allNames)) {
         errorToBe[ARRAY_ERROR] = errorMsgs.forKellyAndMaryHateEachOther
       }
 
       if (errorToBe.length > 0 || errorToBe[ARRAY_ERROR]) {
         return {
-          [employeesField.name]: errorToBe
+          [employeesField.name]: errorToBe,
         }
       }
-    }
+    },
   }
 
   it('basic', async () => {
     const { baseElement } = renderInForm(
-      (
-        <>
-          {renderFFMUIHelperText(employeesField)}
+      <>
+        {renderFFMUIHelperText(employeesField)}
 
-          <FieldArray
-            name={employeesField.name}
-            validate={employeesField.validate}
-            children={({
-              fields
-            }) => (
-                <>
-                  <button id={idForAddEmployeeBtn}
-                    onClick={() => fields.push()}
-                  />
+        <FieldArray
+          name={employeesField.name}
+          validate={employeesField.validate}
+          children={({ fields }) => (
+            <>
+              <button id={idForAddEmployeeBtn} onClick={() => fields.push()} />
 
-                  {
-                    fields.map((name, i) =>
-                      <div
-                        {...{ [`data-${entryAttrName}`]: true }}
-                        key={name}
-                      >
-                        {
-                          R.pipe(
-                            R.evolve({
-                              name: x => `${name}.${x}`
-                            }),
-                            renderFFMUIComponent
-                          )(employeesField.subField.name)
-                        }
-                      </div>
-                    )
-                  }
-                </>
-              )}
-          />
+              {fields.map((name, i) => (
+                <div {...{ [`data-${entryAttrName}`]: true }} key={name}>
+                  {R.pipe(
+                    R.evolve({
+                      name: x => `${name}.${x}`,
+                    }),
+                    renderFFMUIComponent,
+                  )(employeesField.subField.name)}
+                </div>
+              ))}
+            </>
+          )}
+        />
 
-          {renderFFMUIFormLabel(employeesField)}
-        </>
-      ), formConfig)
+        {renderFFMUIFormLabel(employeesField)}
+      </>,
+      formConfig,
+    )
 
-    const { getInput, getLabel, getFormHelperText } = createElGetter(baseElement)
+    const { getInput, getLabel, getFormHelperText } = createElGetter(
+      baseElement,
+    )
 
     const fieldLabelEl = getLabel(employeesField)
     const helperTextEl = getFormHelperText(employeesField)
@@ -211,13 +193,13 @@ describe('FieldArray', () => {
 
     // validator in employeesField should work
     // `tooFewEmployees` error should appear
-    expect(getFormHelperText(employeesField))
-      .toContainHTML(errorMsgs.tooFewEmployees)
+    expect(getFormHelperText(employeesField)).toContainHTML(
+      errorMsgs.tooFewEmployees,
+    )
     // validator in formConfig should work
     // `nameIsRequired` error should appear
     updateEntryEls()
-    expect(entrySubEls[0].helperText)
-      .toContainHTML(errorMsgs.nameIsRequired)
+    expect(entrySubEls[0].helperText).toContainHTML(errorMsgs.nameIsRequired)
 
     /* add 2 employees */
     fireEvent.click(addEmployeeBtn)
@@ -231,13 +213,13 @@ describe('FieldArray', () => {
 
     /* change the name of employees */
     fireEvent.change(entrySubEls[0].input, {
-      target: { value: 'John' }
+      target: { value: 'John' },
     })
     fireEvent.change(entrySubEls[1].input, {
-      target: { value: 'Kelly' }
+      target: { value: 'Kelly' },
     })
     fireEvent.change(entrySubEls[2].input, {
-      target: { value: 'Mary' }
+      target: { value: 'Mary' },
     })
 
     await sleep(50)
@@ -254,14 +236,14 @@ describe('FieldArray', () => {
 
     // onSubmit should work
     updateEntryEls()
-    expect(entrySubEls[0].helperText)
-      .toContainHTML(errorMsgs.noJohn)
-    expect(getFormHelperText(employeesField))
-      .toContainHTML(errorMsgs.forKellyAndMaryHateEachOther)
+    expect(entrySubEls[0].helperText).toContainHTML(errorMsgs.noJohn)
+    expect(getFormHelperText(employeesField)).toContainHTML(
+      errorMsgs.forKellyAndMaryHateEachOther,
+    )
 
     /* change the name of first employee */
     fireEvent.change(entrySubEls[0].input, {
-      target: { value: 'Johnx' }
+      target: { value: 'Johnx' },
     })
 
     await sleep(50)

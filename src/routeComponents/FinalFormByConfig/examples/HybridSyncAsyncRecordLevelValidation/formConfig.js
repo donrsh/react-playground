@@ -13,41 +13,41 @@ const MUITextFieldBaseProps = {
   fullWidth: true,
   InputLabelProps: { shrink: true },
   style: {
-    marginBottom: 20
+    marginBottom: 20,
   },
 }
 
 const verifyUsername = async values => {
-  await sleep(1000);
+  await sleep(1000)
   if (
-    ~["john", "paul", "george", "ringo"].indexOf(
-      values.username && values.username.toLowerCase()
+    ~['john', 'paul', 'george', 'ringo'].indexOf(
+      values.username && values.username.toLowerCase(),
     )
   ) {
-    return { username: "Username taken!" }
+    return { username: 'Username taken!' }
   }
 }
 
- const form = {
+const form = {
   name: 'HybridSyncAsyncRecordLevelValidation',
 
   // debug: createFormLogger('HybridSyncAsyncRecordLevelValidation'),
 
   validate: values => {
-    const errors = {};
+    const errors = {}
     if (!values.username) {
-      errors.username = "Required";
+      errors.username = 'Required'
     }
     if (!values.password) {
-      errors.password = "Required";
+      errors.password = 'Required'
     }
     if (!values.confirm) {
-      errors.confirm = "Required";
+      errors.confirm = 'Required'
     } else if (values.confirm !== values.password) {
-      errors.confirm = "Does not match";
+      errors.confirm = 'Does not match'
     }
 
-    return Object.keys(errors).length ? errors : verifyUsername(values);
+    return Object.keys(errors).length ? errors : verifyUsername(values)
   },
 
   onSubmit: async values => {
@@ -71,7 +71,7 @@ export const userNameField = {
       ...MUITextFieldBaseProps,
       placeholder: 'Username',
     },
-  }
+  },
 }
 
 export const passwordField = {
@@ -84,7 +84,7 @@ export const passwordField = {
       ...MUITextFieldBaseProps,
       placeholder: 'Password',
     },
-  }
+  },
 }
 
 export const confirmField = {
@@ -97,5 +97,5 @@ export const confirmField = {
       ...MUITextFieldBaseProps,
       placeholder: 'Confirm',
     },
-  }
+  },
 }

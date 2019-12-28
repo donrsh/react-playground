@@ -10,26 +10,22 @@ import {
   formSubComponentNames,
   renderFFMUIComponent,
   createFFFormSubComponents,
-  MUIComponentDataAttribute
+  MUIComponentDataAttribute,
 } from './renderFFMUIComponent'
 
-const getSubmitBtn = (baseElement) =>
-  baseElement.querySelector(
-    `button[type=submit]`
-  )
+const getSubmitBtn = baseElement =>
+  baseElement.querySelector(`button[type=submit]`)
 
 const formName = 'test-form-for-form-subcomponents'
-const invalidName = "INVALID_NAME"
+const invalidName = 'INVALID_NAME'
 const usernameInvalidMsg = `${Math.random()}`
 
 describe(`${formSubComponentNames.ValidateIndicator}`, () => {
   it('basic', async () => {
     const verifyUsername = async values => {
-      await sleep(500);
+      await sleep(500)
       if (
-        ~[invalidName].indexOf(
-          values.username && values.username.toLowerCase()
-        )
+        ~[invalidName].indexOf(values.username && values.username.toLowerCase())
       ) {
         return { username: usernameInvalidMsg }
       }
@@ -40,13 +36,11 @@ describe(`${formSubComponentNames.ValidateIndicator}`, () => {
       validate: values => {
         const errors = {}
         if (!values.username) {
-          errors.username = "Required"
+          errors.username = 'Required'
         }
 
-        return Object.keys(errors).length ?
-          errors :
-          verifyUsername(values)
-      }
+        return Object.keys(errors).length ? errors : verifyUsername(values)
+      },
     }
 
     const userNameField = {
@@ -63,7 +57,7 @@ describe(`${formSubComponentNames.ValidateIndicator}`, () => {
         {renderFFMUIComponent(userNameField)}
         <ValidateIndicator />,
       </>,
-      formConfig
+      formConfig,
     )
 
     const submitBtn = getSubmitBtn(baseElement)
@@ -71,7 +65,7 @@ describe(`${formSubComponentNames.ValidateIndicator}`, () => {
     const usernameInputEl = getInput(userNameField)
     const getValidateIndicator = () =>
       baseElement.querySelector(
-        `[${MUIComponentDataAttribute}="${formSubComponentNames.ValidateIndicator}"]`
+        `[${MUIComponentDataAttribute}="${formSubComponentNames.ValidateIndicator}"]`,
       )
 
     // In the beginning, the validate indicator should not appear
@@ -79,7 +73,7 @@ describe(`${formSubComponentNames.ValidateIndicator}`, () => {
 
     // change the username input to trigger form validate
     fireEvent.change(usernameInputEl, {
-      target: { value: 'abcde' }
+      target: { value: 'abcde' },
     })
 
     // now validate indicator should appear
@@ -95,7 +89,7 @@ describe(`${formSubComponentNames.ValidateIndicator}`, () => {
 describe(`${formSubComponentNames.SubmitErrorHelperText}`, () => {
   it('basic', async () => {
     const verifyUsername = async values => {
-      await sleep(300);
+      await sleep(300)
       if (values.username === invalidName) {
         return { [FORM_ERROR]: usernameInvalidMsg }
       }
@@ -103,7 +97,7 @@ describe(`${formSubComponentNames.SubmitErrorHelperText}`, () => {
 
     const formConfig = {
       name: formName,
-      onSubmit: verifyUsername
+      onSubmit: verifyUsername,
     }
 
     const userNameField = {
@@ -120,7 +114,7 @@ describe(`${formSubComponentNames.SubmitErrorHelperText}`, () => {
         {renderFFMUIComponent(userNameField)}
         <SubmitErrorHelperText />
       </>,
-      formConfig
+      formConfig,
     )
 
     const submitBtn = getSubmitBtn(baseElement)
@@ -128,12 +122,12 @@ describe(`${formSubComponentNames.SubmitErrorHelperText}`, () => {
     const usernameInputEl = getInput(userNameField)
     const getSubmitErrorHelperText = () =>
       baseElement.querySelector(
-        `[${MUIComponentDataAttribute}="${formSubComponentNames.SubmitErrorHelperText}"]`
+        `[${MUIComponentDataAttribute}="${formSubComponentNames.SubmitErrorHelperText}"]`,
       )
 
     // change the username input to trigger form validate
     fireEvent.change(usernameInputEl, {
-      target: { value: invalidName }
+      target: { value: invalidName },
     })
 
     // click the submit button

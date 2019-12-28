@@ -9,19 +9,15 @@ import {
   getInputId,
   renderFFMUIFormLabel,
   renderFFMUIComponent,
-  renderFFMUIHelperText
+  renderFFMUIHelperText,
 } from './renderFFMUIComponent'
 
 const MUILabelTextElSelector = `[class*=MuiFormControlLabel-label]`
 const idForRadioValue = `${Math.random()}`
-const getSubmitBtn = (baseElement) =>
-  baseElement.querySelector(
-    `button[type=submit]`
-  )
-const getRadioValueEl = (baseElement) =>
-  baseElement.querySelector(
-    `[id="${idForRadioValue}"]`
-  )
+const getSubmitBtn = baseElement =>
+  baseElement.querySelector(`button[type=submit]`)
+const getRadioValueEl = baseElement =>
+  baseElement.querySelector(`[id="${idForRadioValue}"]`)
 
 const formName = 'test-form'
 
@@ -34,8 +30,8 @@ describe('Radio', () => {
     name: 'stooge',
     type: 'radioGroup',
     label: 'Best Stooge',
-    validate: value => value === 'moe' ? fieldInvalidMessage : undefined,
-    
+    validate: value => (value === 'moe' ? fieldInvalidMessage : undefined),
+
     options: {
       larry: {
         form: formName,
@@ -43,7 +39,7 @@ describe('Radio', () => {
         type: 'radio',
         label: 'Larry',
         value: 'larry',
-        disabled: true
+        disabled: true,
       },
       moe: {
         form: formName,
@@ -59,35 +55,34 @@ describe('Radio', () => {
         label: 'Curly',
         value: 'curly',
       },
-    }
+    },
   }
 
   it('basic', async () => {
     const fieldConfig = fieldBaseConfig
-    const { baseElement } = renderInForm(
-      formRenderProps => (
-        <>
-          {renderFFMUIFormLabel(fieldConfig)}
+    const { baseElement } = renderInForm(formRenderProps => (
+      <>
+        {renderFFMUIFormLabel(fieldConfig)}
 
-          {
-            R.pipe(
-              R.values,
-              R.map(field => ({...field, key: field.value})),
-              R.map(renderFFMUIComponent)
-            )(fieldConfig.options)
-          }
+        {R.pipe(
+          R.values,
+          R.map(field => ({ ...field, key: field.value })),
+          R.map(renderFFMUIComponent),
+        )(fieldConfig.options)}
 
-          {renderFFMUIHelperText(fieldConfig)}
+        {renderFFMUIHelperText(fieldConfig)}
 
-          <div id={idForRadioValue}>
-            {formRenderProps.values[fieldConfig.name]}
-          </div>
-        </>
+        <div id={idForRadioValue}>
+          {formRenderProps.values[fieldConfig.name]}
+        </div>
+      </>
     ))
 
     const { larry, moe, curly } = fieldConfig.options
 
-    const { getInput, getLabel, getFormHelperText } = createElGetter(baseElement)
+    const { getInput, getLabel, getFormHelperText } = createElGetter(
+      baseElement,
+    )
 
     const fieldLabelEl = getLabel(fieldConfig)
     const radioValueEl = getRadioValueEl(baseElement)
@@ -97,8 +92,8 @@ describe('Radio', () => {
       moe: getLabel(moe),
       curly: getLabel(curly),
     }
-    const optionLabelTextEls = R.map(
-      labelEl => labelEl.querySelector(MUILabelTextElSelector)
+    const optionLabelTextEls = R.map(labelEl =>
+      labelEl.querySelector(MUILabelTextElSelector),
     )(optionLabelEls)
     const optionRadioEls = {
       larry: getInput(larry),
@@ -112,12 +107,9 @@ describe('Radio', () => {
     expect(optionLabelEls.larry).toBeInTheDocument()
     expect(optionLabelEls.moe).toBeInTheDocument()
     expect(optionLabelEls.curly).toBeInTheDocument()
-    expect(optionLabelTextEls.larry)
-      .toContainHTML(larry.label)
-    expect(optionLabelTextEls.moe)
-      .toContainHTML(moe.label)
-    expect(optionLabelTextEls.curly)
-      .toContainHTML(curly.label)  
+    expect(optionLabelTextEls.larry).toContainHTML(larry.label)
+    expect(optionLabelTextEls.moe).toContainHTML(moe.label)
+    expect(optionLabelTextEls.curly).toContainHTML(curly.label)
     expect(optionRadioEls.larry).toBeInTheDocument()
     expect(optionRadioEls.moe).toBeInTheDocument()
     expect(optionRadioEls.curly).toBeInTheDocument()
@@ -144,10 +136,12 @@ describe('Radio', () => {
     const formConfig = {
       initialValues: {
         /* Set invalid initial value */
-        [fieldConfig.name]: 'moe'
+        [fieldConfig.name]: 'moe',
       },
-      validate: values => values[fieldConfig.name] === 'moe' ?
-        { [fieldConfig.name]: fieldInvalidMessage } : {}
+      validate: values =>
+        values[fieldConfig.name] === 'moe'
+          ? { [fieldConfig.name]: fieldInvalidMessage }
+          : {},
     }
 
     const { baseElement } = renderInForm(
@@ -155,13 +149,11 @@ describe('Radio', () => {
         <React.Fragment>
           {renderFFMUIFormLabel(fieldConfig)}
 
-          {
-            R.pipe(
-              R.values,
-              R.map(field => ({ ...field, key: field.value })),
-              R.map(renderFFMUIComponent)
-            )(fieldConfig.options)
-          }
+          {R.pipe(
+            R.values,
+            R.map(field => ({ ...field, key: field.value })),
+            R.map(renderFFMUIComponent),
+          )(fieldConfig.options)}
 
           {renderFFMUIHelperText(fieldConfig)}
 
@@ -170,7 +162,7 @@ describe('Radio', () => {
           </div>
         </React.Fragment>
       ),
-      formConfig
+      formConfig,
     )
 
     const { getFormHelperText, getInput } = createElGetter(baseElement)

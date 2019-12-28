@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export default styled.div`
   font-family: sans-serif;
@@ -34,7 +34,7 @@ export default styled.div`
     padding: 20px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
     border-radius: 3px;
-    
+
     pre {
       border: 1px solid #ccc;
       background: rgba(0, 0, 0, 0.1);
@@ -42,4 +42,4 @@ export default styled.div`
       padding: 20px;
     }
   }
-`;
+`

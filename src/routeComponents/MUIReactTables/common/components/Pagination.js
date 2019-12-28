@@ -7,10 +7,10 @@ import * as React from 'react'
 import { css, cx } from 'emotion'
 
 import { IconButton, TextField, Typography, MenuItem } from '@material-ui/core'
-import FirstPageIcon from '@material-ui/icons/FirstPage';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import LastPageIcon from '@material-ui/icons/LastPage';
+import FirstPageIcon from '@material-ui/icons/FirstPage'
+import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft'
+import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight'
+import LastPageIcon from '@material-ui/icons/LastPage'
 
 const cls = {
   Pagination: css`
@@ -65,7 +65,7 @@ const cls = {
       width: 60px;
       margin-left: 8px;
     }
-  `
+  `,
 }
 
 export default class Pagination extends React.Component {
@@ -140,7 +140,7 @@ export default class Pagination extends React.Component {
               }
             }}
             inputProps={{
-              className: cls.PageNoInput
+              className: cls.PageNoInput,
             }}
           />
           <Typography variant="caption" className={cls.Caption}>
@@ -172,7 +172,7 @@ export default class Pagination extends React.Component {
           </TextField>
         </div>
       )
-    }
+    },
   }
 
   render() {
@@ -188,7 +188,10 @@ export default class Pagination extends React.Component {
     } = this.props
 
     return (
-      <div className={cx(className, cls.Pagination, '-pagination')} style={this.props.style}>
+      <div
+        className={cx(className, cls.Pagination, '-pagination')}
+        style={this.props.style}
+      >
         <div className={cls.Toolbar}>
           <Sub.PageSizeSelect />
 
@@ -229,10 +232,8 @@ export default class Pagination extends React.Component {
           >
             <LastPageIcon />
           </IconButton>
-
         </div>
       </div>
     )
   }
 }
-

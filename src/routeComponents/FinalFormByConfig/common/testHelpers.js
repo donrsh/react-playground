@@ -2,92 +2,92 @@ import * as React from 'react'
 import { Form } from 'react-final-form'
 import { render } from 'react-testing-library'
 
-import { MUIComponentDataAttribute, getInputId, getDataFieldAttribute } from './renderFFMUIComponent'
+import {
+  MUIComponentDataAttribute,
+  getInputId,
+  getDataFieldAttribute,
+} from './renderFFMUIComponent'
 
 export function renderInForm(children, formConfig = {}) {
   const defaultFormConfig = {
-    onSubmit: () => { }
+    onSubmit: () => {},
   }
 
   const resolvedFormConfig = { ...defaultFormConfig, ...formConfig }
 
   return render(
     <Form {...resolvedFormConfig}>
-      {
-        (formRenderProps) => (
-          <form onSubmit={formRenderProps.handleSubmit}>
-            {
-              typeof children === 'function' ? 
-              children(formRenderProps) :
-              children
-            }
-            <button type='submit' />
-            {
-              formConfig.show && (
-                <pre id="formStateEl">
-                  FormConfigs: {JSON.stringify(Object.keys(resolvedFormConfig), null, 2)}
-                  formRenderProps: {JSON.stringify(formRenderProps, null, 2)}
-                </pre>
-              )
-            }
-          </form>
-        )
-      }
-    </Form>
+      {formRenderProps => (
+        <form onSubmit={formRenderProps.handleSubmit}>
+          {typeof children === 'function'
+            ? children(formRenderProps)
+            : children}
+          <button type="submit" />
+          {formConfig.show && (
+            <pre id="formStateEl">
+              FormConfigs:{' '}
+              {JSON.stringify(Object.keys(resolvedFormConfig), null, 2)}
+              formRenderProps: {JSON.stringify(formRenderProps, null, 2)}
+            </pre>
+          )}
+        </form>
+      )}
+    </Form>,
   )
 }
 
-const getBaseSelector = (fieldConfig) => {
+const getBaseSelector = fieldConfig => {
   const { form, name } = fieldConfig
   return `[data-form=${form}][data-field=${name}]`
 }
 
-export const createElGetter = (baseEl) => ({
-  getInput: (fieldConfig) => {
+export const createElGetter = baseEl => ({
+  getInput: fieldConfig => {
     const { isOption, type, value } = fieldConfig
 
     const formSelector = `[data-form=${fieldConfig.form}]`
-    const valueSelector = (
-      (type === 'checkbox' && isOption) ||
-      type === 'radio'
-    ) ? `[value="${value}"]` : ''
+    const valueSelector =
+      (type === 'checkbox' && isOption) || type === 'radio'
+        ? `[value="${value}"]`
+        : ''
 
-    return baseEl.querySelector(
-      `${formSelector} input${valueSelector}`
-    )
+    return baseEl.querySelector(`${formSelector} input${valueSelector}`)
   },
 
-  getLabel: (fieldConfig) => {
+  getLabel: fieldConfig => {
     const formSelector = `[data-form=${fieldConfig.form}]`
     const baseSelector = getBaseSelector(fieldConfig)
-    const labelSelector = `label[data-field="${getDataFieldAttribute(fieldConfig)}"]`
-    
+    const labelSelector = `label[data-field="${getDataFieldAttribute(
+      fieldConfig,
+    )}"]`
+
     return baseEl.querySelector(
-      `${formSelector}${labelSelector}, ${formSelector} ${labelSelector}`
+      `${formSelector}${labelSelector}, ${formSelector} ${labelSelector}`,
     )
   },
 
-  getFormControl: (fieldConfig) => {
+  getFormControl: fieldConfig => {
     const { isOption, type, value } = fieldConfig
 
     const baseSelector = getBaseSelector(fieldConfig)
 
     return baseEl.querySelector(
-      `${baseSelector}[${MUIComponentDataAttribute}="FormControl"]`
+      `${baseSelector}[${MUIComponentDataAttribute}="FormControl"]`,
     )
   },
 
-  getFormHelperText: (fieldConfig) => {
+  getFormHelperText: fieldConfig => {
     const { isOption, type, value } = fieldConfig
 
     const baseSelector = getBaseSelector(fieldConfig)
 
     return baseEl.querySelector(
-      `${baseSelector} [${MUIComponentDataAttribute}="FormHelperText"]`
+      `${baseSelector} [${MUIComponentDataAttribute}="FormHelperText"]`,
     )
   },
 })
 
-export const sleep = ms => new Promise((ok) => {
-  setTimeout(ok, ms)
-})
+export const sleep = ms =>
+  new Promise(ok => {
+    setTimeout(ok, ms)
+  })

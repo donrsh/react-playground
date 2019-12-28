@@ -2,13 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Form } from 'react-final-form'
 
-import {
-  Button
-} from '@material-ui/core'
+import { Button } from '@material-ui/core'
 
 export default class Wizard extends React.Component {
   static propTypes = {
-    onSubmit: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired,
   }
   static Page = ({ children }) => children
 
@@ -16,26 +14,26 @@ export default class Wizard extends React.Component {
     super(props)
     this.state = {
       page: 0,
-      values: props.initialValues || {}
+      values: props.initialValues || {},
     }
   }
-  
+
   next = values =>
     this.setState(state => ({
       page: Math.min(state.page + 1, this.props.children.length - 1),
-      values
+      values,
     }))
 
   previous = () =>
     this.setState(state => ({
-      page: Math.max(state.page - 1, 0)
+      page: Math.max(state.page - 1, 0),
     }))
 
   /**
- * NOTE: Both validate and handleSubmit switching are implemented
- * here because 🏁 Redux Final Form does not accept changes to those
- * functions once the form has been defined.
- */
+   * NOTE: Both validate and handleSubmit switching are implemented
+   * here because 🏁 Redux Final Form does not accept changes to those
+   * functions once the form has been defined.
+   */
 
   validate = values => {
     const activePage = React.Children.toArray(this.props.children)[
@@ -64,26 +62,20 @@ export default class Wizard extends React.Component {
       <Form
         initialValues={values}
         validate={this.validate}
-        onSubmit={this.handleSubmit}>
+        onSubmit={this.handleSubmit}
+      >
         {({ handleSubmit, submitting, values }) => (
           <form onSubmit={handleSubmit}>
             {activePage}
             <div className="buttons">
-              {page > 0 && (
-                <Button onClick={this.previous}>
-                  « Previous
-                </Button>
-              )}
+              {page > 0 && <Button onClick={this.previous}>« Previous</Button>}
               {!isLastPage && (
                 <Button color="primary" type="submit">
                   Next »
                 </Button>
               )}
               {isLastPage && (
-                <Button color="primary" 
-                  type="submit"
-                  disabled={submitting}
-                >
+                <Button color="primary" type="submit" disabled={submitting}>
                   Submit
                 </Button>
               )}

@@ -4,7 +4,7 @@ import { Select, InputLabel, FormControl } from '@material-ui/core'
 export default class extends React.Component {
   static displayName = 'C(FinalFormMUI/TextField)'
 
-  get showError () {
+  get showError() {
     const { error, touched } = this.props.meta
     return Boolean(touched && error)
   }
@@ -15,8 +15,10 @@ export default class extends React.Component {
     console.groupEnd()
 
     const {
-      label, type, MUIProps,
-      input: { name, onChange, value, ...restInputProps }, 
+      label,
+      type,
+      MUIProps,
+      input: { name, onChange, value, ...restInputProps },
       meta,
     } = this.props
 

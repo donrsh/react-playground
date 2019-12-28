@@ -6,20 +6,14 @@ import { compose } from 'recompose'
 import { Form } from 'react-final-form'
 import * as R from 'ramda'
 
-import {
-  Button, Collapse,
-} from '@material-ui/core'
+import { Button, Collapse } from '@material-ui/core'
 
-import {
-  ArrowDropDown, ArrowDropUp
-} from '@material-ui/icons'
+import { ArrowDropDown, ArrowDropUp } from '@material-ui/icons'
 
 import { fromRenderProps } from 'HOCs/fromRenderProps'
 import { withTogglers } from 'HOCs/withTogglers'
 
-import { 
-  renderFFMUIComponent,
-} from '../../common/renderFFMUIComponent'
+import { renderFFMUIComponent } from '../../common/renderFFMUIComponent'
 
 import OnBlurValidation from './OnBlurValidation'
 
@@ -27,72 +21,66 @@ import {
   CustomValidationEngine,
   firstNameField,
   lastNameField,
-  emailField
+  emailField,
 } from './formConfig'
 
 const isBeatle = value =>
   ~['john', 'paul', 'george', 'ringo'].indexOf(value.toLowerCase())
 
 class ExampleComponent extends React.Component {
-  componentDidMount () {
+  componentDidMount() {
     const v = `update${CustomValidationEngine.name}`
-    
-    window[v] = (nextValues) => {
 
+    window[v] = nextValues => {
       R.pipe(
         Object.entries,
-        R.forEach(x => 
-          this.props[CustomValidationEngine.name].form.change(...x)
-        )
+        R.forEach(x =>
+          this.props[CustomValidationEngine.name].form.change(...x),
+        ),
       )(nextValues)
-      
     }
 
-    console.info(`🔮 You can access change form function via global variable: ${v}`)
+    console.info(
+      `🔮 You can access change form function via global variable: ${v}`,
+    )
 
     this.releaseFormVariable = () => {
-      window[v] = undefined  
+      window[v] = undefined
     }
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.releaseFormVariable()
   }
-  
+
   render() {
     // console.group('Final Form - ExampleComponent')
     // console.log(this.props)
     // console.groupEnd()
     const { collapseToggler } = this.props
 
-    const {
-      handleSubmit, submitting, pristine, form,
-      values
-    } = this.props[CustomValidationEngine.name]
+    const { handleSubmit, submitting, pristine, form, values } = this.props[
+      CustomValidationEngine.name
+    ]
 
     return (
       <Styles>
         <h1 onClick={() => collapseToggler.toggle()}>
           🏁 Custom Validation Engine
-          { 
-            collapseToggler.isOpen ?
-            <ArrowDropUp /> :
-            <ArrowDropDown />
-          }
+          {collapseToggler.isOpen ? <ArrowDropUp /> : <ArrowDropDown />}
         </h1>
 
         <Collapse in={collapseToggler.isOpen}>
-          <a href="https://codesandbox.io/s/kxxw4l0p9o">
-            See source
-          </a>
+          <a href="https://codesandbox.io/s/kxxw4l0p9o">See source</a>
           <p>
-            This example includes a special <code>OnBlurValidation</code> component
-            that manages its own set of validation rules, completely apart from 🏁
-            Final Form's validation engine. This allows the rules to be run only on
-            blur, and maintains "validating" state for asynchronous validations. The
-            function then injects the <code>hasErrors</code> state into a render
-            function to render the rest of the form, thus allowing submission to be
-            halted if errors are present.
+            This example includes a special <code>OnBlurValidation</code>{' '}
+            component that manages its own set of validation rules, completely
+            apart from 🏁 Final Form's validation engine. This allows the rules
+            to be run only on blur, and maintains "validating" state for
+            asynchronous validations. The function then injects the{' '}
+            <code>hasErrors</code> state into a render function to render the
+            rest of the form, thus allowing submission to be halted if errors
+            are present.
           </p>
           <p>
             Any first name value of <code>John</code>, <code>Paul</code>,{' '}
@@ -118,7 +106,7 @@ class ExampleComponent extends React.Component {
                 }
               },
               lastName: (value, setError) =>
-                setError(value ? undefined : 'Required')
+                setError(value ? undefined : 'Required'),
             }}
             render={({ hasErrors, validating: fieldValidating }) => (
               <form
@@ -134,7 +122,9 @@ class ExampleComponent extends React.Component {
                 <div className="buttons">
                   <Button
                     type="submit"
-                    disabled={submitting || pristine || hasErrors || fieldValidating}
+                    disabled={
+                      submitting || pristine || hasErrors || fieldValidating
+                    }
                     color="primary"
                     variant="contained"
                     style={{ marginRight: 8 }}
@@ -144,7 +134,9 @@ class ExampleComponent extends React.Component {
                   <Button
                     type="button"
                     onClick={form.reset}
-                    disabled={submitting || pristine || hasErrors || fieldValidating}
+                    disabled={
+                      submitting || pristine || hasErrors || fieldValidating
+                    }
                     variant="contained"
                   >
                     Reset
@@ -161,22 +153,13 @@ class ExampleComponent extends React.Component {
 }
 
 const enhancer = compose(
-  withTogglers(
-    ({ defaultOpen }) => [
-      { name: 'collapse', defaultOpen }
-    ]
-  ),
+  withTogglers(({ defaultOpen }) => [{ name: 'collapse', defaultOpen }]),
   fromRenderProps(
-    ({ children }) => (
-      <Form 
-        {...CustomValidationEngine}
-        children={children}
-      />
-    ),
-    (formRenderProps) => ({
-      [CustomValidationEngine.name]: formRenderProps
+    ({ children }) => <Form {...CustomValidationEngine} children={children} />,
+    formRenderProps => ({
+      [CustomValidationEngine.name]: formRenderProps,
     }),
-  )
+  ),
 )
 
 export default enhancer(ExampleComponent)

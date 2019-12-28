@@ -19,14 +19,14 @@ const form = {
   debug: createFormLogger('ArrayFields'),
 
   mutators: {
-    ...arrayMutators
+    ...arrayMutators,
   },
 
   initialValues: {
-    customers: [{ firstName: '1' }, { firstName: '2' }]
+    customers: [{ firstName: '1' }, { firstName: '2' }],
   },
 
-  validate: (values) => {
+  validate: values => {
     const errors = {}
 
     if (!values.company) {
@@ -35,7 +35,9 @@ const form = {
 
     if (!values.customers || values.customers.length < 4) {
       let arrayError = []
-      arrayError[ARRAY_ERROR] = `Should at least contain 4 customers. (by form validators)`
+      arrayError[
+        ARRAY_ERROR
+      ] = `Should at least contain 4 customers. (by form validators)`
       errors.customers = arrayError
     }
 
@@ -58,7 +60,7 @@ const form = {
       customersError[ARRAY_ERROR] = `Should at least contain 3 customers.`
     }
     if (RA.isArray(customers)) {
-      if (customers.length <=2 ) {
+      if (customers.length <= 2) {
         customersError[ARRAY_ERROR] = `Should at least contain 3 customers.`
       }
 
@@ -71,18 +73,17 @@ const form = {
           R.unless(
             () => RA.isNonEmptyString(v.lastName),
             R.assoc('lastName', 'required'),
-          )
+          ),
         )(undefined)
       })
     }
-    if (
-      RA.compact(customersError).length > 0 ||
-      customersError[ARRAY_ERROR]
-    ) { errors.customers = customersError }
+    if (RA.compact(customersError).length > 0 || customersError[ARRAY_ERROR]) {
+      errors.customers = customersError
+    }
 
     if (Object.keys(errors).length > 0) {
       return errors
-    } 
+    }
 
     window.alert(JSON.stringify(values, 0, 2))
   },
@@ -104,10 +105,10 @@ export const companyField = {
       placeholder: 'Company name',
       fullWidth: true,
       style: {
-        marginBottom: 20
+        marginBottom: 20,
       },
     },
-  }
+  },
 }
 
 const TextFieldBasePropsForSubfields = {
@@ -115,7 +116,7 @@ const TextFieldBasePropsForSubfields = {
   style: {
     width: '40%',
     paddingRight: 20,
-    marginBottom: 20
+    marginBottom: 20,
   },
 }
 
@@ -125,8 +126,8 @@ export const customersField = {
   type: 'array',
   labelStandalone: true,
   label: 'Customers',
-  validate: (values) => {
-    if(!RA.isArray(values) || R.length(values) <= 2) {
+  validate: values => {
+    if (!RA.isArray(values) || R.length(values) <= 2) {
       return `Should at least contain 3 customers. (by field validator)`
     }
   },
@@ -139,8 +140,8 @@ export const customersField = {
       label: 'First Name',
       validate: isRequired,
       MUIProps: {
-        TextField: TextFieldBasePropsForSubfields
-      }
+        TextField: TextFieldBasePropsForSubfields,
+      },
     },
     lastName: {
       form: form.name,
@@ -148,8 +149,8 @@ export const customersField = {
       type: 'text',
       label: 'Last Name',
       MUIProps: {
-        TextField: TextFieldBasePropsForSubfields
-      }
-    }
-  }
+        TextField: TextFieldBasePropsForSubfields,
+      },
+    },
+  },
 }

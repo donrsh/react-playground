@@ -12,9 +12,7 @@ export default class extends React.Component {
   // }
 
   render() {
-    const {
-      form, debug, type,
-    } = this.props
+    const { form, debug, type } = this.props
 
     if (debug) {
       if (type !== 'array') {

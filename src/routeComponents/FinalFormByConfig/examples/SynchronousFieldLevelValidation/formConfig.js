@@ -2,7 +2,7 @@ import {
   pipeValidatorsAndGetHead,
   isRequired,
   isNumber,
-  isGreaterThanOrEqualTo
+  isGreaterThanOrEqualTo,
 } from '../../helpers/fieldValidators'
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -11,11 +11,11 @@ const MUITextFieldBaseProps = {
   fullWidth: true,
   InputLabelProps: { shrink: true },
   style: {
-    marginBottom: 20
+    marginBottom: 20,
   },
 }
 
- const form = {
+const form = {
   name: 'SynchronousFieldLevelValidation',
 
   onSubmit: async values => {
@@ -39,7 +39,7 @@ export const firstNameField = {
       ...MUITextFieldBaseProps,
       placeholder: 'First Name',
     },
-  }
+  },
 }
 
 export const lastNameField = {
@@ -53,7 +53,7 @@ export const lastNameField = {
       ...MUITextFieldBaseProps,
       placeholder: 'Last Name',
     },
-  }
+  },
 }
 
 export const ageField = {
@@ -61,14 +61,11 @@ export const ageField = {
   name: 'age',
   type: 'text',
   label: 'Age',
-  validate: pipeValidatorsAndGetHead(
-    isNumber,
-    isGreaterThanOrEqualTo(18)
-  ),
+  validate: pipeValidatorsAndGetHead(isNumber, isGreaterThanOrEqualTo(18)),
   MUIProps: {
     TextField: {
       ...MUITextFieldBaseProps,
       placeholder: 'Age',
     },
-  }
+  },
 }

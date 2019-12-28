@@ -1,74 +1,72 @@
-import React from "react";
+import React from 'react'
 import * as R from 'ramda'
 import { Typography } from '@material-ui/core'
 
 // Import React Table
-import ReactTable from "react-table";
+import ReactTable from 'react-table'
 import 'react-table/react-table.css'
 
-import { makeData } from "../common/utils";
+import { makeData } from '../common/utils'
 
 import MUIReactTable from '../common/MUIReactTable'
 
 const columns = [
   {
-    Header: "Name",
+    Header: 'Name',
     columns: [
       {
-        Header: "First Name",
-        accessor: "firstName"
+        Header: 'First Name',
+        accessor: 'firstName',
       },
       {
-        Header: "Last Name",
-        id: "lastName",
-        accessor: d => d.lastName
-      }
-    ]
+        Header: 'Last Name',
+        id: 'lastName',
+        accessor: d => d.lastName,
+      },
+    ],
   },
   {
-    Header: "Info",
+    Header: 'Info',
     columns: [
       {
-        Header: "Age",
-        accessor: "age",
+        Header: 'Age',
+        accessor: 'age',
         aggregate: vals => Math.round(R.mean(vals)),
         Aggregated: row => {
-          return (
-            <span>
-              {row.value} (avg)
-            </span>
-          );
+          return <span>{row.value} (avg)</span>
         },
         filterMethod: (filter, row) =>
-          filter.value === `${row[filter.id]} (avg)`
+          filter.value === `${row[filter.id]} (avg)`,
       },
       {
-        Header: "Visits",
-        accessor: "visits",
+        Header: 'Visits',
+        accessor: 'visits',
         aggregate: vals => R.sum(vals),
-        filterable: false
-      }
-    ]
-  }
+        filterable: false,
+      },
+    ],
+  },
 ]
 
 export default class PivotAndAggregationWithSubComponents extends React.Component {
   constructor() {
-    super();
+    super()
     this.state = {
-      data: makeData()
-    };
+      data: makeData(),
+    }
   }
 
   render() {
-    const { data } = this.state;
+    const { data } = this.state
     return (
       <div>
         <Typography variant="h4" style={{ margin: 20, textAlign: 'center' }}>
           Pivot & Aggregation with Sub Components
           <br />
           <Typography variant="body1">
-            <a href="https://react-table.js.org/#/story/pivoting-aggregation-w-sub-components" target="_blank"
+            <a
+              href="https://react-table.js.org/#/story/pivoting-aggregation-w-sub-components"
+              target="_blank"
               rel="noopener noreferrer"
             >
               See here
@@ -77,44 +75,42 @@ export default class PivotAndAggregationWithSubComponents extends React.Componen
         </Typography>
 
         <MUIReactTable>
-          {
-            ({ ReactTableProps, subcomponentClasses, fontClass }) => (
-              <ReactTable {...ReactTableProps}
-                data={data}
-                columns={columns}
-                pivotBy={["firstName", "lastName"]}
-                filterable
-                SubComponent={row => {
-                  return (
-                    <div style={{ padding: "20px" }}>
-                      <em>
-                        You can put any component you want here, even another React
-                        Table!
-                      </em>
-                      <br />
-                      <br />
-                      <ReactTable
-                        data={data}
-                        columns={columns}
-                        defaultPageSize={3}
-                        showPagination={false}
-                        SubComponent={row => {
-                          return (
-                            <div style={{ padding: "20px" }}>Sub Component!</div>
-                          );
-                        }}
-                      />
-                    </div>
-                  )
-                }}
-                defaultPageSize={10}
-                className={`-striped -highlight ${fontClass}`}
-              />
-            )
-          }
+          {({ ReactTableProps, subcomponentClasses, fontClass }) => (
+            <ReactTable
+              {...ReactTableProps}
+              data={data}
+              columns={columns}
+              pivotBy={['firstName', 'lastName']}
+              filterable
+              SubComponent={row => {
+                return (
+                  <div style={{ padding: '20px' }}>
+                    <em>
+                      You can put any component you want here, even another
+                      React Table!
+                    </em>
+                    <br />
+                    <br />
+                    <ReactTable
+                      data={data}
+                      columns={columns}
+                      defaultPageSize={3}
+                      showPagination={false}
+                      SubComponent={row => {
+                        return (
+                          <div style={{ padding: '20px' }}>Sub Component!</div>
+                        )
+                      }}
+                    />
+                  </div>
+                )
+              }}
+              defaultPageSize={10}
+              className={`-striped -highlight ${fontClass}`}
+            />
+          )}
         </MUIReactTable>
       </div>
-    );
+    )
   }
 }
-

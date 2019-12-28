@@ -10,14 +10,19 @@ export default class extends React.Component {
 
   render() {
     const {
-      form, label, type, debug,
+      form,
+      label,
+      type,
+      debug,
       input: { name, onChange, checked, value, ...restInputProps },
     } = this.props
 
     if (debug) {
-      console.group(`🏁 [${form}]${name}${
-        RA.isBoolean(value) ? '' : `(${value})`
-      } @Checkbox`)
+      console.group(
+        `🏁 [${form}]${name}${
+          RA.isBoolean(value) ? '' : `(${value})`
+        } @Checkbox`,
+      )
       console.log('input', this.props.input)
       console.log('meta', this.props.meta)
       console.log('MUIProps', this.props.MUIProps)
@@ -27,17 +32,11 @@ export default class extends React.Component {
     return (
       <FormControlLabel
         label={label}
-        {...getMUIComponentProps(
-          'Root', this.props
-        )}
-        {...getMUIComponentProps(
-          'FormControlLabel', this.props
-        )}
+        {...getMUIComponentProps('Root', this.props)}
+        {...getMUIComponentProps('FormControlLabel', this.props)}
         control={
           <Checkbox
-            {...getMUIComponentProps(
-              'Checkbox', this.props
-            )}
+            {...getMUIComponentProps('Checkbox', this.props)}
             inputProps={restInputProps}
             checked={checked}
             value={`${value}`}
@@ -47,8 +46,6 @@ export default class extends React.Component {
           />
         }
       />
-
-      
     )
   }
 }

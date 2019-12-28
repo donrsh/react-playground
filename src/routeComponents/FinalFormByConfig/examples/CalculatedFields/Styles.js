@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export default styled.div`
   font-family: sans-serif;
@@ -23,7 +23,7 @@ export default styled.div`
   p {
     max-width: 500px;
     margin-left: auto;
-    margin-right: auto; 
+    margin-right: auto;
   }
 
   form {
@@ -33,7 +33,7 @@ export default styled.div`
     padding: 20px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
     border-radius: 3px;
-    
+
     hr {
       margin: 30px 0;
     }
@@ -46,4 +46,4 @@ export default styled.div`
       text-align: left;
     }
   }
-`;
+`

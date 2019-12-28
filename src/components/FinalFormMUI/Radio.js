@@ -9,7 +9,10 @@ export default class extends React.Component {
 
   render() {
     const {
-      form, label, type, debug,
+      form,
+      label,
+      type,
+      debug,
       input: { name, onChange, checked, ...restInputProps },
     } = this.props
 
@@ -24,18 +27,12 @@ export default class extends React.Component {
     return (
       <FormControlLabel
         label={label}
-        {...getMUIComponentProps(
-          'Root', this.props
-        )}
-        {...getMUIComponentProps(
-          'FormControlLabel', this.props
-        )}
+        {...getMUIComponentProps('Root', this.props)}
+        {...getMUIComponentProps('FormControlLabel', this.props)}
         control={
           <Radio
             type={type}
-            {...getMUIComponentProps(
-              'Radio', this.props
-            )}
+            {...getMUIComponentProps('Radio', this.props)}
             inputProps={restInputProps}
             checked={checked}
             name={name}

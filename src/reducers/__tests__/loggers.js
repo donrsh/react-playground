@@ -12,11 +12,10 @@ describe(filePath, () => {
     const newLog = 'BAS!!!'
     const nextState = loggersReducers(
       exampleLoggersState,
-      loggerActions.pushLogger(loggerId, newLog)
+      loggerActions.pushLogger(loggerId, newLog),
     )
 
     const logs = nextState[loggerId].logs
-    expect(logs[logs.length - 1])
-      .toBe(newLog)
+    expect(logs[logs.length - 1]).toBe(newLog)
   })
 })

@@ -1,15 +1,13 @@
 import * as React from 'react'
 import * as RA from 'ramda-adjunct'
 
-import {
-  InputAdornment
-} from '@material-ui/core'
+import { InputAdornment } from '@material-ui/core'
 
 import {
   pipeValidatorsAndGetHead,
   isRequired,
   isRequiredForMultipleSelect,
-  isMoreThanNChars
+  isMoreThanNChars,
 } from '../../helpers/fieldValidators'
 
 const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
@@ -18,7 +16,7 @@ const MUITextFieldBaseProps = {
   fullWidth: true,
   InputLabelProps: { shrink: true },
   style: {
-    marginBottom: 20
+    marginBottom: 20,
   },
 }
 
@@ -36,10 +34,10 @@ export const simpleExampleForm = {
     stooge: 'moe',
     employed: false,
     // favoriteColor: '#00ff00',
-    toppings: []
+    toppings: [],
   },
 
-  nonAPI: 123
+  nonAPI: 123,
 }
 
 export const firstNameField = {
@@ -50,14 +48,12 @@ export const firstNameField = {
   placeholder: 'First Name',
   // disabled: true,
   // debug: true,
-  validate: pipeValidatorsAndGetHead(
-    isRequired,
-  ),
+  validate: pipeValidatorsAndGetHead(isRequired),
   MUIProps: {
     TextField: {
       ...MUITextFieldBaseProps,
     },
-  }
+  },
 }
 
 export const lastNameField = {
@@ -67,26 +63,23 @@ export const lastNameField = {
   label: 'Last Name',
   placeholder: 'Last Name',
   MUIProps: {
-    TextField: MUITextFieldBaseProps
-  }
+    TextField: MUITextFieldBaseProps,
+  },
 }
 
 export const passwordField = {
   form: simpleExampleForm.name,
   name: 'password',
-  validate: pipeValidatorsAndGetHead(
-    isRequired,
-    isMoreThanNChars(8)
-  ),
+  validate: pipeValidatorsAndGetHead(isRequired, isMoreThanNChars(8)),
   minLength: 8,
   type: 'password',
   label: 'Password',
   MUIProps: {
     TextField: {
       placeholder: 'password',
-      ...MUITextFieldBaseProps
+      ...MUITextFieldBaseProps,
     },
-  }
+  },
 }
 
 export const employedField = {
@@ -98,9 +91,9 @@ export const employedField = {
   // debug: true,
   MUIProps: {
     FormControlLabel: {
-      labelPlacement: 'start'
-    }
-  }
+      labelPlacement: 'start',
+    },
+  },
 }
 
 export const favoriteColorField = {
@@ -108,27 +101,25 @@ export const favoriteColorField = {
   name: 'favoriteColor',
   type: 'select',
   label: 'Favorite Color',
-  validate: pipeValidatorsAndGetHead(
-    isRequired,
-  ),
+  validate: pipeValidatorsAndGetHead(isRequired),
   // disabled: true,
   // debug: true,
   options: [
-    { value: "#ff0000", display: "❤️ Red" },
-    { value: "#00ff00", display: "💚 Green" },
-    { value: "#0000ff", display: "💙 Blue" },
+    { value: '#ff0000', display: '❤️ Red' },
+    { value: '#00ff00', display: '💚 Green' },
+    { value: '#0000ff', display: '💙 Blue' },
   ],
   getOptionProps: ({ value, display }) => ({
     key: value,
     value,
-    children: display
+    children: display,
   }),
   MUIProps: {
     TextField: {
       ...MUITextFieldBaseProps,
       select: true,
       SelectProps: {
-        native: false
+        native: false,
       },
       InputProps: {
         startAdornment: (
@@ -136,9 +127,9 @@ export const favoriteColorField = {
             Color
           </InputAdornment>
         ),
-      }
-    }
-  }
+      },
+    },
+  },
 }
 
 export const toppingsField = {
@@ -146,23 +137,21 @@ export const toppingsField = {
   name: 'toppings',
   type: 'select',
   label: 'Toppings',
-  validate: pipeValidatorsAndGetHead(
-    isRequiredForMultipleSelect,
-  ),
+  validate: pipeValidatorsAndGetHead(isRequiredForMultipleSelect),
   // disabled: true,
   // debug: true,
   options: [
-    { value: "chicken", display: "🐓 Chicken" },
-    { value: "ham", display: "🐷 Ham" },
-    { value: "mushrooms", display: "🍄 Mushrooms" },
-    { value: "cheese", display: "🧀 Cheese" },
-    { value: "tuna", display: "🐟 Tuna" },
-    { value: "pineapple", display: "🍍 Pineapple" }
+    { value: 'chicken', display: '🐓 Chicken' },
+    { value: 'ham', display: '🐷 Ham' },
+    { value: 'mushrooms', display: '🍄 Mushrooms' },
+    { value: 'cheese', display: '🧀 Cheese' },
+    { value: 'tuna', display: '🐟 Tuna' },
+    { value: 'pineapple', display: '🍍 Pineapple' },
   ],
   getOptionProps: ({ value, display }) => ({
     key: value,
     value,
-    children: display
+    children: display,
   }),
   MUIProps: {
     TextField: {
@@ -172,8 +161,8 @@ export const toppingsField = {
         multiple: true,
         // native: true
       },
-    }
-  }
+    },
+  },
 }
 
 export const saucesField = {
@@ -186,10 +175,10 @@ export const saucesField = {
     (value, allValues, props, name) => {
       if (RA.isArray(value) && value.length > 2) {
         return {
-          msg: `Neh, I don't think more than 2 sauces would be a good idea...`
+          msg: `Neh, I don't think more than 2 sauces would be a good idea...`,
         }
       }
-    }
+    },
   ),
   // debug: true,
   subFields: {
@@ -211,7 +200,7 @@ export const saucesField = {
       isOption: true,
       label: 'Mustard',
       value: 'mustard',
-      MUIProps: {}
+      MUIProps: {},
     },
     mayonnaise: {
       form: simpleExampleForm.name,
@@ -220,7 +209,7 @@ export const saucesField = {
       isOption: true,
       label: 'Mayonnaise',
       value: 'mayonnaise',
-      MUIProps: {}
+      MUIProps: {},
     },
     guacamole: {
       form: simpleExampleForm.name,
@@ -229,9 +218,9 @@ export const saucesField = {
       isOption: true,
       label: 'Guacamole',
       value: 'guacamole',
-      MUIProps: {}
-    }
-  }
+      MUIProps: {},
+    },
+  },
 }
 
 export const stoogeField = {
@@ -240,15 +229,13 @@ export const stoogeField = {
   type: 'radioGroup',
   label: 'Best Stooge',
   // debug: true,
-  validate: pipeValidatorsAndGetHead(
-    (value, allValues, props, name) => {
-      if (value === 'moe') {
-        return {
-          msg: `Moe? Are you sure?`
-        }
+  validate: pipeValidatorsAndGetHead((value, allValues, props, name) => {
+    if (value === 'moe') {
+      return {
+        msg: `Moe? Are you sure?`,
       }
     }
-  ),
+  }),
   subFields: {
     larry: {
       form: simpleExampleForm.name,
@@ -256,7 +243,7 @@ export const stoogeField = {
       type: 'radio',
       label: 'Larry',
       value: 'larry',
-      MUIProps: {}
+      MUIProps: {},
     },
     moe: {
       form: simpleExampleForm.name,
@@ -276,7 +263,7 @@ export const stoogeField = {
       // disabled: true,
       // debug: true,
     },
-  }
+  },
 }
 
 export const notesField = {
@@ -293,5 +280,5 @@ export const notesField = {
       rows: 2,
       placeholder: 'Write some things...',
     },
-  }
+  },
 }

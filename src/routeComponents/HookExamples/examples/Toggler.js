@@ -2,31 +2,45 @@ import * as React from 'react'
 import { useState } from 'react'
 
 import {
-  Typography, Switch, Button, Divider,
-  Table, TableHead, TableBody, TableRow, TableCell
+  Typography,
+  Switch,
+  Button,
+  Divider,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
 } from '@material-ui/core'
 
 const useToggler = ({
   isOpen: initialIsOpen = false,
-  subState: initialSubState = null
+  subState: initialSubState = null,
 } = {}) => {
   const [{ isOpen, subState }, setToggler] = useState({
-    isOpen: initialIsOpen, subState: initialSubState
+    isOpen: initialIsOpen,
+    subState: initialSubState,
   })
 
   return {
     isOpen,
     subState,
-    open: (subState) => setToggler({
-      isOpen: true, subState
-    }),
-    close: (subState) => setToggler({
-      isOpen: false, subState
-    }),
-    toggle: (subState) => setToggler({
-      isOpen: !isOpen, subState
-    }),
-    setToggler
+    open: subState =>
+      setToggler({
+        isOpen: true,
+        subState,
+      }),
+    close: subState =>
+      setToggler({
+        isOpen: false,
+        subState,
+      }),
+    toggle: subState =>
+      setToggler({
+        isOpen: !isOpen,
+        subState,
+      }),
+    setToggler,
   }
 }
 
@@ -36,24 +50,22 @@ function TogglerExample() {
 
   return (
     <div style={{ margin: '20px auto', width: 800 }}>
-      <Typography variant='h5' style={{ marginBottom: 20 }}>
+      <Typography variant="h5" style={{ marginBottom: 20 }}>
         Toggler
       </Typography>
 
       <Table style={{ tableLayout: 'fixed' }}>
         <TableHead>
           <TableRow>
-            <TableCell style={{ width: '25%' }} >name</TableCell>
-            <TableCell style={{ width: '25%' }} >sub state</TableCell>
-            <TableCell style={{ width: '50%' }} ></TableCell>
+            <TableCell style={{ width: '25%' }}>name</TableCell>
+            <TableCell style={{ width: '25%' }}>sub state</TableCell>
+            <TableCell style={{ width: '50%' }}></TableCell>
           </TableRow>
         </TableHead>
 
         <TableBody>
           <TableRow>
-            <TableCell>
-              Basic
-            </TableCell>
+            <TableCell>Basic</TableCell>
             <TableCell>
               <pre>{Toggler1.subState}</pre>
             </TableCell>
@@ -62,14 +74,10 @@ function TogglerExample() {
                 checked={Toggler1.isOpen}
                 onChange={e => Toggler1.toggle()}
               />
-              <Button
-                onClick={e => Toggler1.open()} color="primary"
-              >
+              <Button onClick={e => Toggler1.open()} color="primary">
                 open
               </Button>
-              <Button
-                onClick={e => Toggler1.close()} color="primary"
-              >
+              <Button onClick={e => Toggler1.close()} color="primary">
                 close
               </Button>
             </TableCell>
@@ -78,8 +86,9 @@ function TogglerExample() {
           <TableRow>
             <TableCell>
               With sub state
-              <Divider style={{ margin: '5px 0' }}/>
-              This toggler has a counter substate. While toggled/opened/closed, the counter would increase.
+              <Divider style={{ margin: '5px 0' }} />
+              This toggler has a counter substate. While toggled/opened/closed,
+              the counter would increase.
             </TableCell>
             <TableCell>
               <pre>{Toggler2.subState}</pre>
@@ -90,12 +99,14 @@ function TogglerExample() {
                 onChange={e => Toggler2.toggle(Toggler2.subState + 1)}
               />
               <Button
-                onClick={e => Toggler2.open(Toggler2.subState + 1)} color="primary"
+                onClick={e => Toggler2.open(Toggler2.subState + 1)}
+                color="primary"
               >
                 open + 1
               </Button>
               <Button
-                onClick={e => Toggler2.close(Toggler2.subState + 1)} color="primary"
+                onClick={e => Toggler2.close(Toggler2.subState + 1)}
+                color="primary"
               >
                 close + 1
               </Button>
@@ -103,7 +114,6 @@ function TogglerExample() {
           </TableRow>
         </TableBody>
       </Table>
-
     </div>
   )
 }

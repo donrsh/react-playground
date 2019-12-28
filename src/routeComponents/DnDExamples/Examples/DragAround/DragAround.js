@@ -6,10 +6,7 @@ import { useState, useRef } from 'react'
 
 import { Typography } from '@material-ui/core'
 
-const getPxNum = R.pipe(
-  R.replace('px', ''),
-  Number
-)
+const getPxNum = R.pipe(R.replace('px', ''), Number)
 
 const getPxStr = n => `${n}px`
 
@@ -21,19 +18,19 @@ const Styc = {
   `,
 
   Draggable: styled.div.attrs({
-    children: 'Drag Me Around!'
+    children: 'Drag Me Around!',
   })`
     position: absolute;
     left: calc(50% - 100px);
     top: calc(150px - 25px);
     width: 200px;
     height: 50px;
-    cursor: ${({ dragging }) => dragging ? 'grabbing' : 'grab'};
+    cursor: ${({ dragging }) => (dragging ? 'grabbing' : 'grab')};
     background-color: aquamarine;
     display: inline-flex;
     align-items: center;
-    justify-content: center
-  `
+    justify-content: center;
+  `,
 }
 
 function DragAroundViaDragEvents() {
@@ -41,17 +38,17 @@ function DragAroundViaDragEvents() {
   const startEvent = useRef()
   const draggableEl = useRef()
 
-  const onDragStart = (e) => {
+  const onDragStart = e => {
     setDragging(true)
 
     e.persist()
     startEvent.current = e
-    e.dataTransfer.dropEffect = "none"
-    e.dataTransfer.effectAllowed = "none"
-    e.dataTransfer.setData("text/plain", "") // must setData!
+    e.dataTransfer.dropEffect = 'none'
+    e.dataTransfer.effectAllowed = 'none'
+    e.dataTransfer.setData('text/plain', '') // must setData!
   }
 
-  const onDragEnd = (e) => {
+  const onDragEnd = e => {
     e.preventDefault()
 
     const [dx, dy] = [
@@ -61,7 +58,7 @@ function DragAroundViaDragEvents() {
 
     const [startLeft, startTop] = [
       getPxNum(getComputedStyle(draggableEl.current).left),
-      getPxNum(getComputedStyle(draggableEl.current).top)
+      getPxNum(getComputedStyle(draggableEl.current).top),
     ]
 
     draggableEl.current.style.left = getPxStr(startLeft + dx)
@@ -73,9 +70,7 @@ function DragAroundViaDragEvents() {
 
   return (
     <div style={{ marginTop: 100 }}>
-      <Typography variant='headline'
-        style={{ marginBottom: 20 }}
-      >
+      <Typography variant="headline" style={{ marginBottom: 20 }}>
         Drag Around (via <code>onDragStart, onDragEnd</code>)
       </Typography>
 
@@ -96,7 +91,7 @@ function DragAroundViaMouseEvents() {
   const [dragging, setDragging] = useState(false)
   const startEvent = useRef()
   const draggableEl = useRef()
-  const { current: onMousemove } = useRef((e) => {
+  const { current: onMousemove } = useRef(e => {
     if (!startEvent.current) return
 
     const [dx, dy] = [
@@ -106,7 +101,7 @@ function DragAroundViaMouseEvents() {
 
     const [startLeft, startTop] = [
       getPxNum(getComputedStyle(draggableEl.current).left),
-      getPxNum(getComputedStyle(draggableEl.current).top)
+      getPxNum(getComputedStyle(draggableEl.current).top),
     ]
 
     draggableEl.current.style.left = getPxStr(startLeft + dx)
@@ -115,7 +110,7 @@ function DragAroundViaMouseEvents() {
     startEvent.current = e
   })
 
-  const { current: onMouseup } = useRef((e) => {
+  const { current: onMouseup } = useRef(e => {
     setDragging(false)
     document.removeEventListener('mousemove', onMousemove)
     document.removeEventListener('mousemove', onMouseup)
@@ -123,7 +118,7 @@ function DragAroundViaMouseEvents() {
     startEvent.current = null
   })
 
-  const onMouseDown = (e) => {
+  const onMouseDown = e => {
     setDragging(true)
     document.addEventListener('mousemove', onMousemove)
     document.addEventListener('mouseup', onMouseup)
@@ -134,9 +129,7 @@ function DragAroundViaMouseEvents() {
 
   return (
     <div style={{ marginTop: 100 }}>
-      <Typography variant='headline'
-        style={{ marginBottom: 20 }}
-      >
+      <Typography variant="headline" style={{ marginBottom: 20 }}>
         Drag Around (via mouse events)
       </Typography>
 

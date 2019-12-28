@@ -11,29 +11,29 @@ const MUITextFieldBaseProps = {
   fullWidth: true,
   InputLabelProps: { shrink: true },
   style: {
-    marginBottom: 20
+    marginBottom: 20,
   },
 }
 
- const form = {
+const form = {
   name: 'SynchronousRecordLevelValidation',
 
   validate: values => {
-    const errors = {};
+    const errors = {}
     if (!values.firstName) {
-      errors.firstName = "Required";
+      errors.firstName = 'Required'
     }
     if (!values.lastName) {
-      errors.lastName = "Required";
+      errors.lastName = 'Required'
     }
     if (!values.age) {
-      errors.age = "Required";
+      errors.age = 'Required'
     } else if (isNaN(values.age)) {
-      errors.age = "Must be a number";
+      errors.age = 'Must be a number'
     } else if (values.age < 18) {
-      errors.age = "No kids allowed";
+      errors.age = 'No kids allowed'
     }
-    return errors;
+    return errors
   },
 
   onSubmit: async values => {
@@ -56,7 +56,7 @@ export const firstNameField = {
       ...MUITextFieldBaseProps,
       placeholder: 'First Name',
     },
-  }
+  },
 }
 
 export const lastNameField = {
@@ -69,7 +69,7 @@ export const lastNameField = {
       ...MUITextFieldBaseProps,
       placeholder: 'Last Name',
     },
-  }
+  },
 }
 
 export const ageField = {
@@ -82,5 +82,5 @@ export const ageField = {
       ...MUITextFieldBaseProps,
       placeholder: 'Age',
     },
-  }
+  },
 }

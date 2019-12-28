@@ -4,9 +4,9 @@ import { css } from 'emotion'
 import styled from 'styled-components'
 import { transparentize } from 'polished'
 
-import { Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core'
 
-const useGeometryOf = (elRef) => {
+const useGeometryOf = elRef => {
   const [geometry, setGeometry] = useState(null)
 
   useEffect(() => {
@@ -34,10 +34,12 @@ const childDivColor = 'purple'
 const absChildColor = 'lightseagreen'
 
 const cls = {
-  Title: css`&& {
-    margin-bottom: 20px;
-    text-align: center;
-  }`,
+  Title: css`
+    && {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+  `,
 
   Root: css`
     border: 5px solid ${rootDivColor};
@@ -74,27 +76,25 @@ const Styc = {
       padding: 4px;
       border-radius: 3px;
     }
-  `
+  `,
 }
 
 const Sub = {
   Geometry: ({
-    geometry: {
-      x, y, width, height, top, right, bottom, left
-    },
-    color
+    geometry: { x, y, width, height, top, right, bottom, left },
+    color,
   }) => (
-      <Styc.GeometryRoot color={color}>
-        <code>x: {x}</code>
-        <code>y: {y}</code>
-        <code>width: {width}</code>
-        <code>height: {height}</code>
-        <code>top: {top}</code>
-        <code>right: {right}</code>
-        <code>bottom: {bottom}</code>
-        <code>left: {left}</code>
-      </Styc.GeometryRoot>
-    )
+    <Styc.GeometryRoot color={color}>
+      <code>x: {x}</code>
+      <code>y: {y}</code>
+      <code>width: {width}</code>
+      <code>height: {height}</code>
+      <code>top: {top}</code>
+      <code>right: {right}</code>
+      <code>bottom: {bottom}</code>
+      <code>left: {left}</code>
+    </Styc.GeometryRoot>
+  ),
 }
 
 function GeometryExample() {
@@ -109,13 +109,19 @@ function GeometryExample() {
   return (
     <>
       <Typography variant="h4" className={cls.Title}>
-        Resize to see the geometry of elements.<br />
+        Resize to see the geometry of elements.
+        <br />
       </Typography>
 
       <Typography variant="h5" className={cls.Title}>
-        <span style={{ color: rootDivColor }}>root div (width = 100%)</span><br />
-        <span style={{ color: childDivColor }}>child div (width = 60%)</span><br />
-        <span style={{ color: absChildColor }}>absolute-positioned child div (width = 30%)</span><br />
+        <span style={{ color: rootDivColor }}>root div (width = 100%)</span>
+        <br />
+        <span style={{ color: childDivColor }}>child div (width = 60%)</span>
+        <br />
+        <span style={{ color: absChildColor }}>
+          absolute-positioned child div (width = 30%)
+        </span>
+        <br />
       </Typography>
 
       <div
@@ -124,28 +130,16 @@ function GeometryExample() {
         className={cls.Root}
       >
         {geometryOfRootEl && (
-          <Sub.Geometry
-            geometry={geometryOfRootEl}
-            color={rootDivColor}
-          />
+          <Sub.Geometry geometry={geometryOfRootEl} color={rootDivColor} />
         )}
 
-        <div
-          ref={childEl}
-          className={cls.Child}
-        >
+        <div ref={childEl} className={cls.Child}>
           {geometryOfChildEl && (
-            <Sub.Geometry
-              geometry={geometryOfChildEl}
-              color={childDivColor}
-            />
+            <Sub.Geometry geometry={geometryOfChildEl} color={childDivColor} />
           )}
         </div>
 
-        <div
-          ref={absChildEl}
-          className={cls.AbsoluteChild}
-        >
+        <div ref={absChildEl} className={cls.AbsoluteChild}>
           {geometryOfAbsChildEl && (
             <Sub.Geometry
               geometry={geometryOfAbsChildEl}

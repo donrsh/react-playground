@@ -6,20 +6,29 @@ import { getMUIComponentProps } from './helpers/getMUIComponentProps'
 export default class extends React.Component {
   static displayName = 'C(FinalFormMUI/TextField)'
 
-  get showError () {
-    const { 
-      error, submitError, touched, dirtySinceLastSubmit,
-      data: { error: dataError, validating }
+  get showError() {
+    const {
+      error,
+      submitError,
+      touched,
+      dirtySinceLastSubmit,
+      data: { error: dataError, validating },
     } = this.props.meta
-    return Boolean(validating === false && dataError) ||
-      Boolean(touched && error) || 
+    return (
+      Boolean(validating === false && dataError) ||
+      Boolean(touched && error) ||
       Boolean(!dirtySinceLastSubmit && submitError)
+    )
   }
 
   render() {
     const {
-      form, label, type, debug, children,
-      input: { name, onChange, value, ...restInputProps }
+      form,
+      label,
+      type,
+      debug,
+      children,
+      input: { name, onChange, value, ...restInputProps },
     } = this.props
 
     if (debug) {
@@ -39,7 +48,7 @@ export default class extends React.Component {
         inputProps={{
           ...restInputProps,
           'data-form': form,
-          'data-field': name
+          'data-field': name,
         }}
         value={value}
         name={name}
